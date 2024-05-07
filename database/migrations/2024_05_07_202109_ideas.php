@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('antecedente')->max(3000);
             //$table->string('condiciones_actuales');
             $table->string('propuesta')->max(3000);
-            $table->unsignedBigInteger('estatus');
+            $table->unsignedBigInteger('estatus')->default(1);
             $table->foreign('estatus')->references('id')->on('estado_ideas')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
-            table->foreign('user_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('usuarios')->onDelete('cascade');
             //$table->string('equipo_id')->nullable();
 
             $table->timestamps();

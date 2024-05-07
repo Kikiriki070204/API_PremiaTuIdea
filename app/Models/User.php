@@ -12,6 +12,7 @@ use App\Models\Rol;
 use App\Models\Departamento;
 use App\Models\Area;
 use App\Models\Locacion;
+use App\Models\Idea;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -64,7 +65,11 @@ class User extends Authenticatable implements JWTSubject
      {
          return [];
      }
- 
+     
+     public function idea()
+     {
+        return $this->hasMany(Idea::class,'user_id');
+     }
 
 
 
