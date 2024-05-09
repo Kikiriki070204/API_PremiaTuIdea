@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('auth')->group(function () {
     Route::get('hola', [AuthController::class, 'hola']);
-    Route::post('register', [AuthController::class, 'registro'])->name('register');
+    Route::put('register', [AuthController::class, 'registro'])->name('register');
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::put('password', [AuthController::class, 'password'])->name('password');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');

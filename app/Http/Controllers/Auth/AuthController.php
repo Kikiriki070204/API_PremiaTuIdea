@@ -96,7 +96,7 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $user = User::where('ibm', $request->ibm)->where('password', '=', null)->first();
+        $user = User::where('ibm', $request->ibm)->first();
 
         if (!$user) {
             return response()->json([
@@ -104,11 +104,15 @@ class AuthController extends Controller
             ], 404);
         }
 
+        return response()->json([
+            "msg" => "Usuario no encontrado o Usuario ya registrado"
+        ], 404);
+
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
         return response()->json([
-            "msg" => "Usuario registrado correctamente"
+            "msg" => "Contrasena y correo registrados correctamente"
         ], 200);
     }
 
