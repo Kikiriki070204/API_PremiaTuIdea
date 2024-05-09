@@ -104,16 +104,17 @@ class AuthController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            "msg" => "Usuario no encontrado o Usuario ya registrado"
-        ], 404);
+        if($user->password != null)
+        {
+            return response()->json([
+                "msg" => "Usuario no encontrado o Usuario ya registrado"
+            ], 422);
+        }
 
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
-        return response()->json([
-            "msg" => "Contrasena y correo registrados correctamente"
-        ], 200);
+        return $user;
     }
 
     public function logout()
