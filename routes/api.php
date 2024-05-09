@@ -19,5 +19,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('login',[AuthController::class,'login'])->name('login');
-Route::put('password',[AuthController::class,'password'])->name('password');
+
+Route::prefix('auth')->group(function () {
+    Route::get('hola', [AuthController::class, 'hola']);
+    Route::post('register', [AuthController::class, 'registro'])->name('register');
+    Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::put('password', [AuthController::class, 'password'])->name('password');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('verifyToken', [AuthController::class, 'verifyToken']);
+    Route::get('prueba', [AuthController::class, 'prueba']);
+});

@@ -9,8 +9,11 @@
 
 <body>
     <div class="container">
-        <h1>Hola</h1>
-        <p>Estimado(a) {{ $user->nombre }}</p>
+        <h1>Hola :.:</h1>
+        <p>Estimado(a) {{ e($user->nombre ?? 'usuario') }}</p>
+    </div>
+    <div class="container">
+        <img src="/Images/logo.png" alt="Imagen de aceptación">
     </div>
 </body>
 

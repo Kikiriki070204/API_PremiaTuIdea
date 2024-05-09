@@ -18,14 +18,12 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'registro', 'password', 'hola']]);
+        $this->middleware('auth:api', ['except' => ['login', 'registro', 'password']]);
     }
 
-    public function hola()
+    public function me()
     {
-        return response()->json([
-            "msg" => "Hola mundo"
-        ], 200);
+        return response()->json(auth()->user());
     }
 
     public function password(Request $request)
