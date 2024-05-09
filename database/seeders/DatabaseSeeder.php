@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
        $usuarios = [
         [
             'nombre' => 'Kiara Admin',
-            'ibm' => 11233
+            'ibm' => 11233,
+            'password'=> Hash::make('kikiriki')
         ],
     ];
 
