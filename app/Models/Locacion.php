@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Area;
-use App\Models\Locacion;
 use App\Models\User;
 
 class Locacion extends Model
@@ -17,7 +16,8 @@ class Locacion extends Model
         'area_id'
     ];
 
-    public function area(){
+    public function area()
+    {
         return $this->belongsTo(Area::class, 'area_id');
     }
 
