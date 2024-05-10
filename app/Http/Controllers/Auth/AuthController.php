@@ -104,8 +104,7 @@ class AuthController extends Controller
             ], 404);
         }
 
-        if($user->password != null)
-        {
+        if ($user->password != null) {
             return response()->json([
                 "msg" => "Usuario no encontrado o Usuario ya registrado"
             ], 422);
@@ -131,10 +130,12 @@ class AuthController extends Controller
 
     protected function respondWithToken($token)
     {
+        $user = auth('api')->user();
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * (60 * 24)
+            'expires_in' => auth('api')->factory()->getTTL() * (60 * 24),
+            'user' => $user
         ]);
     }
 
