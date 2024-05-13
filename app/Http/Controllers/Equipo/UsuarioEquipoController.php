@@ -127,4 +127,5 @@ class UsuarioEquipoController extends Controller
             "msg" => "Usuario no encontrado"
         ], 404);
     }
+    
 }

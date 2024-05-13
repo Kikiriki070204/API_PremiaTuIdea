@@ -48,7 +48,7 @@ class IdeasController extends Controller
             $validate = Validator::make(
                 $request->all(),
                 [
-                    'estatus' => 'required|integer|exists:estado_ideas,id'
+                    'estatus' => 'integer|exists:estado_ideas,id'
                 ]
             );
 
@@ -59,11 +59,40 @@ class IdeasController extends Controller
                 ], 422);
             }
 
+            if ($request->estatus == null) {
+                $ideas = Idea::where('user_id', $user->id)->get();
+                return response()->json(["ideas" => $ideas], 200);
+            }
             $ideas = Idea::where('user_id', $user->id)->where('estatus', $request->estatus)->get();
 
             return response()->json(["ideas" => $ideas], 200);
         }
         return response()->json(["msg" => "Usuario no Encontrado"], 401);
+    }
+
+    public function ideasAll(Request $request)
+    {
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'estatus' => 'integer|exists:estado_ideas,id'
+            ]
+        );
+
+        if ($validate->fails()) {
+            return response()->json([
+                "errors" => $validate->errors(),
+                "msg" => "Errores de validación"
+            ], 422);
+        }
+
+        if ($request->estatus == null) {
+            $ideas = Idea::all();
+            return response()->json(["ideas" => $ideas], 200);
+        }
+        $ideas = Idea::where('estatus', $request->estatus)->get();
+
+        return response()->json(["ideas" => $ideas], 200);
     }
 
     public function create(Request $request)
@@ -161,6 +190,7 @@ class IdeasController extends Controller
 
         if ($idea) {
             $idea->estatus = 4;
+            $idea->save();
             return response()->json(["msg" => "Idea eliminada correctamente"], 200);
         }
         return response()->json(["msg" => "Idea no encontrada"], 404);

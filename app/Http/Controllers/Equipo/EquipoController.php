@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Equipo;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Equipo;
+use App\Models\Usuario_Equipo;
 use Illuminate\Support\Facades\Validator;
 
 class EquipoController extends Controller
@@ -50,6 +51,12 @@ class EquipoController extends Controller
         $equipo->id_idea = $request->id_idea;
         $equipo->nombre = $request->nombre;
         $equipo->save();
+
+        $userTeam = new Usuario_Equipo();
+        $userTeam->id_usuario = auth()->user()->id;
+        $userTeam->id_equipo = $equipo->id;
+        $userTeam->save();
+
         return response()->json([
             "msg" => "Equipo creado correctamente"
         ], 201);

@@ -61,6 +61,15 @@ class AuthController extends Controller
 
     public function login()
     {
+
+        $user = User::where('ibm', request('ibm'))->first();
+
+        if ($user->is_active == false) {
+            return response()->json([
+                "msg" => "Usuario no activo"
+            ], 401);
+        }
+
         $credentials = request(['ibm', 'password']);
 
         if (!$token = Auth::guard('api')->attempt($credentials)) {

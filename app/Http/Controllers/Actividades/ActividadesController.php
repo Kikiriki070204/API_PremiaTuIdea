@@ -41,7 +41,6 @@ class ActividadesController extends Controller
             [
                 'id_idea' => 'required|integer|exists:ideas,id',
                 'responsable' => 'required|integer|exists:usuarios,id',
-                'fecha_inicio' => 'required|date',
             ]
         );
 
@@ -55,7 +54,6 @@ class ActividadesController extends Controller
         $actividad = new Actividades();
         $actividad->id_idea = $request->id_idea;
         $actividad->responsable = $request->responsable;
-        $actividad->fecha_inicio = $request->fecha_inicio;
         $actividad->save();
         return response()->json([
             "msg" => "Actividad creada correctamente"
@@ -127,8 +125,15 @@ class ActividadesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Actividades $actividades)
+    public function destroy($id)
     {
-        //
+        $actividad = Actividades::where('id', $id)->first();
+
+        if ($actividad) {
+            $actividad->id_estado_actividad = 3;
+            $actividad->save();
+            return response()->json(["msg" => "Actividad eliminada correctamente"], 200);
+        }
+        return response()->json(["msg" => "Actividad no encontrada"], 404);
     }
 }
