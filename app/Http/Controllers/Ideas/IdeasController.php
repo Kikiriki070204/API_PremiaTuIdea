@@ -40,7 +40,7 @@ class IdeasController extends Controller
         return response()->json(["msg" => "Usuario no Encontrado"], 401);
     }
 
-    public function userideasall(Request $request)
+    public function userIdeasAll(Request $request)
     {
         $user = auth('api')->user();
 
@@ -48,7 +48,7 @@ class IdeasController extends Controller
             $validate = Validator::make(
                 $request->all(),
                 [
-                    'estatus' => 'integer|exists:estado_ideas,id'
+                    'estatus' => 'nullable|exists:estado_ideas,id'
                 ]
             );
 
@@ -59,10 +59,13 @@ class IdeasController extends Controller
                 ], 422);
             }
 
+
             if ($request->estatus == null) {
                 $ideas = Idea::where('user_id', $user->id)->get();
-                return response()->json(["ideas" => $ideas], 200);
+
+                return response()->json(["ideas" => $ideas, "estatus"], 200);
             }
+
             $ideas = Idea::where('user_id', $user->id)->where('estatus', $request->estatus)->get();
 
             return response()->json(["ideas" => $ideas], 200);
@@ -75,7 +78,7 @@ class IdeasController extends Controller
         $validate = Validator::make(
             $request->all(),
             [
-                'estatus' => 'integer|exists:estado_ideas,id'
+                'estatus' => 'nullable|exists:estado_ideas,id'
             ]
         );
 
@@ -88,8 +91,10 @@ class IdeasController extends Controller
 
         if ($request->estatus == null) {
             $ideas = Idea::all();
+
             return response()->json(["ideas" => $ideas], 200);
         }
+
         $ideas = Idea::where('estatus', $request->estatus)->get();
 
         return response()->json(["ideas" => $ideas], 200);

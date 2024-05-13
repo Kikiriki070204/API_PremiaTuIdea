@@ -39,7 +39,7 @@ Route::prefix('ideas')->group(function () {
     Route::get('list', [IdeasController::class, 'index']);
     Route::post('create', [IdeasController::class, 'create']);
     Route::get('userIdeas', [IdeasController::class, 'userIdeas']);
-    Route::post('userideasall', [IdeasController::class, 'userideasall']);
+    Route::get('userideasall', [IdeasController::class, 'userIdeasAll']);
     Route::get('ideasAll', [IdeasController::class, 'ideasAll']);
     Route::get('show/{id}', [IdeasController::class, 'show']);
     Route::put('update', [IdeasController::class, 'update']);
