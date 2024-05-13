@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Estado_Actividad;
 
-class EsatdoActividadesSeeder extends Seeder
+class EstadoActividadesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +16,6 @@ class EsatdoActividadesSeeder extends Seeder
         $estados = [
             ['nombre' => 'Revision'],
             ['nombre' => 'Aceptada'],
-            ['nombre' => 'Implementada'],
             ['nombre' => 'Rechazada'],
         ];
 

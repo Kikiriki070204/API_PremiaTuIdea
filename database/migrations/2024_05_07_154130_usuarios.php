@@ -26,6 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('rol_id')->default(3);
             $table->foreign('rol_id')->references('id')->on('roles')->onDelete('cascade');
             $table->unsignedBigInteger('puntos')->default(0);
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

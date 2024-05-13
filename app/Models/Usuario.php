@@ -39,9 +39,19 @@ class Usuario extends Authenticable implements JWTSubject
         return $this->belongsTo(Area::class, 'area_id');
     }
 
+    public function actividades()
+    {
+        return $this->hasMany(Actividades::class, 'responsable');
+    }
+
     public function locacion()
     {
         return $this->belongsTo(Locacion::class, 'locacion_id');
+    }
+
+    public function usuariosEquipos()
+    {
+        return $this->hasMany(Usuario_Equipo::class, 'id_usuario');
     }
 
     public function getJWTIdentifier()
@@ -53,9 +63,6 @@ class Usuario extends Authenticable implements JWTSubject
     {
         return [];
     }
-
-
-
 
 
     /**

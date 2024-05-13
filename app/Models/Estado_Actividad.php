@@ -12,4 +12,10 @@ class Estado_Actividad extends Model
     protected $fillable = [
         'nombre'
     ];
+
+
+    public function actividades()
+    {
+        return $this->hasMany(Actividades::class, 'id_estado_actividad');
+    }
 }

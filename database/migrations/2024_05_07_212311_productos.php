@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->unsignedBigInteger('valor');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

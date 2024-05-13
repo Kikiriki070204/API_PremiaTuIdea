@@ -30,4 +30,14 @@ class Idea extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
+
+    public function actividades()
+    {
+        return $this->hasMany(Actividades::class,'id_idea');
+    }
+
+    public function equipos()
+    {
+        return $this->hasMany(Equipo::class,'id_idea');
+    }
 }

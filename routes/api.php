@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Ideas\IdeasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,11 @@ Route::prefix('auth')->group(function () {
     Route::post('me', [AuthController::class, 'me']);
     Route::post('verifyToken', [AuthController::class, 'verifyToken']);
     Route::get('prueba', [AuthController::class, 'prueba']);
+});
+
+Route::prefix('ideas')->group(function () {
+    Route::get('list', [IdeasController::class, 'index']);
+    Route::post('create', [IdeasController::class, 'create']);
+    Route::get('show/{id}', [IdeasController::class, 'show']);
+    Route::put('update', [IdeasController::class, 'update']);
 });
