@@ -19,6 +19,27 @@ class EquipoController extends Controller
         return response()->json(["equipos" => $equipos], 200);
     }
 
+    public function equipoIdea(Request $request)
+    {
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'id_idea' => 'required|integer|exists:ideas,id'
+            ]
+        );
+
+        if ($validate->fails()) {
+            return response()->json([
+                "errors" => $validate->errors(),
+                "msg" => "Errores de validación"
+            ], 422);
+        }
+
+        $equipo = Equipo::where('id_idea', $request->id_idea)->get();
+        $id = $equipo[0]->id;
+        return response()->json(["equipoID" => $id], 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -35,7 +56,7 @@ class EquipoController extends Controller
         $validate = Validator::make(
             $request->all(),
             [
-                'id_idea' => 'required|integer|exists:ideas,id',
+                'id_idea' => 'required|integer|exists:ideas,id|unique:equipos,id_idea',
                 'nombre' => 'required|max:255'
             ]
         );

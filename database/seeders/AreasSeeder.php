@@ -14,10 +14,10 @@ class AreasSeeder extends Seeder
     public function run(): void
     {
         $areas = [
-            'Administración',
-            'Recursos Humanos',
-            'Desarrollo',
-            'Ventas',
+            'Exhaust',
+            'Ignicion',
+            'EACV',
+            'Otros',
         ];
 
         foreach ($areas as $area) {

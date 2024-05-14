@@ -1,11 +1,16 @@
 <?php
 
 use App\Http\Controllers\Actividades\ActividadesController;
+use App\Http\Controllers\Area\AreaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\RolesController;
+use App\Http\Controllers\Departamento\DepartamentoController;
 use App\Http\Controllers\Equipo\EquipoController;
 use App\Http\Controllers\Ideas\IdeasController;
+use App\Http\Controllers\Producto\ProductoController;
+use Symfony\Component\CssSelector\Node\FunctionNode;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +56,7 @@ Route::prefix('equipos')->group(function () {
     Route::get('list', [EquipoController::class, 'index']);
     Route::post('create', [EquipoController::class, 'store']);
     Route::get('show/{id}', [EquipoController::class, 'show']);
+    Route::get('equipoIdea', [EquipoController::class, 'equipoIdea']);
     Route::put('update', [EquipoController::class, 'update']);
     Route::delete('delete/{id}', [EquipoController::class, 'destroy']);
 });
@@ -62,4 +68,40 @@ Route::prefix('actividades')->group(function () {
     Route::get('show/{id}', [ActividadesController::class, 'show']);
     Route::put('update', [ActividadesController::class, 'update']);
     Route::delete('delete/{id}', [ActividadesController::class, 'destroy']);
+});
+
+//Rutas Roles
+Route::prefix('roles')->group(function () {
+    Route::get('list', [RolesController::class, 'index']);
+    Route::post('create', [RolesController::class, 'store']);
+    Route::get('show/{id}', [RolesController::class, 'show']);
+    Route::put('update', [RolesController::class, 'update']);
+    Route::delete('delete/{id}', [RolesController::class, 'destroy']);
+});
+
+//Rutas Areas
+Route::prefix('areas')->group(function () {
+    Route::get('list', [AreaController::class, 'index']);
+    Route::post('create', [AreaController::class, 'store']);
+    Route::get('show/{id}', [AreaController::class, 'show']);
+    Route::put('update', [AreaController::class, 'update']);
+    Route::delete('delete/{id}', [AreaController::class, 'destroy']);
+});
+
+//Rutas Departamentos
+Route::prefix('departamentos')->group(function () {
+    Route::get('list', [DepartamentoController::class, 'index']);
+    Route::post('create', [DepartamentoController::class, 'store']);
+    Route::get('show/{id}', [DepartamentoController::class, 'show']);
+    Route::put('update', [DepartamentoController::class, 'update']);
+    Route::delete('delete/{id}', [DepartamentoController::class, 'destroy']);
+});
+
+//Rutas Productos
+Route::prefix('productos')->group(function () {
+    Route::get('list', [ProductoController::class, 'index']);
+    Route::post('create', [ProductoController::class, 'store']);
+    Route::get('show/{id}', [ProductoController::class, 'show']);
+    Route::put('update', [ProductoController::class, 'update']);
+    Route::delete('delete/{id}', [ProductoController::class, 'destroy']);
 });

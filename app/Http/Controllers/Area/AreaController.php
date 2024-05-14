@@ -91,6 +91,7 @@ class AreaController extends Controller
             [
                 'id' => 'required|integer|exists:areas,id',
                 'nombre' => 'required|max:255|regex:/^[a-zA-Z0-9\s]+$/u',
+                'is_active' => 'required|boolean',
             ]
         );
 
@@ -103,6 +104,7 @@ class AreaController extends Controller
 
         $area = Area::find($request->id);
         $area->nombre = $request->nombre;
+        $area->is_active = $request->is_active;
         $area->save();
         return response()->json([
             "msg" => "Área actualizada correctamente"
