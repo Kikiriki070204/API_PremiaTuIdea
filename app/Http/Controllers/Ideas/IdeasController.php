@@ -140,7 +140,7 @@ class IdeasController extends Controller
             $userTeam->id_equipo = $Equipo->id;
             $userTeam->save();
 
-            return response()->json([$idea], 201);
+            return $idea;
         }
         return response()->json(["msg" => "No estás autorizado"], 401);
     }
