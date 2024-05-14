@@ -192,9 +192,7 @@ class AuthController extends Controller
             ->where('usuarios.id', auth('api')->user()->id)
             ->first();
 
-        return response()->json([
-            'user' => $user
-        ]);
+        return $user;
     }
 
     public function prueba()
