@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\RolesController;
 use App\Http\Controllers\Departamento\DepartamentoController;
 use App\Http\Controllers\Equipo\EquipoController;
 use App\Http\Controllers\Equipo\UsuarioEquipoController;
+use App\Http\Controllers\Ideas\EstadosIdeasController;
 use App\Http\Controllers\Ideas\IdeasController;
 use App\Http\Controllers\Producto\ProductoController;
 use App\Http\Controllers\Users\UsersController;
@@ -126,4 +127,13 @@ Route::prefix('userteam')->group(function () {
     Route::get('show/{id}', [UsuarioEquipoController::class, 'show']);
     Route::put('update', [UsuarioEquipoController::class, 'update']);
     Route::delete('delete/{id}', [UsuarioEquipoController::class, 'destroy']);
+});
+
+//Rutas Estado Ideas
+Route::prefix('estadoideas')->group(function () {
+    Route::get('list', [EstadosIdeasController::class, 'index']);
+    Route::post('create', [EstadosIdeasController::class, 'store']);
+    Route::get('show/{id}', [EstadosIdeasController::class, 'show']);
+    Route::put('update', [EstadosIdeasController::class, 'update']);
+    Route::delete('delete/{id}', [EstadosIdeasController::class, 'destroy']);
 });
