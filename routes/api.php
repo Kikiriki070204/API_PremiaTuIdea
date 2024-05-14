@@ -37,6 +37,7 @@ Route::prefix('auth')->group(function () {
     Route::put('password', [AuthController::class, 'password'])->name('password');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('me', [AuthController::class, 'me']);
+    Route::get('meplus', [AuthController::class, 'meplus']);
     Route::post('verifyToken', [AuthController::class, 'verifyToken']);
     Route::get('prueba', [AuthController::class, 'prueba']);
 });

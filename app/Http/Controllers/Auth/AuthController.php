@@ -13,6 +13,7 @@ use App\Mail\aceptacion;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -167,6 +168,33 @@ class AuthController extends Controller
         }
 
         return response()->json(['valid' => true, 'rol' => $user->rol_id], 200);
+    }
+
+    public function meplus()
+    {
+        $user = DB::table('usuarios')
+            ->join('roles', 'usuarios.rol_id', '=', 'roles.id')
+            ->join('departamentos', 'usuarios.departamento_id', '=', 'departamentos.id')
+            ->join('areas', 'usuarios.area_id', '=', 'areas.id')
+            ->join('locaciones', 'usuarios.locacion_id', '=', 'locaciones.id')
+            ->select(
+                'usuarios.id',
+                'usuarios.ibm',
+                'usuarios.email',
+                'usuarios.nombre',
+                'usuarios.is_active',
+                'usuarios.puntos',
+                'roles.nombre as rol',
+                'departamentos.nombre as departamento',
+                'areas.nombre as area',
+                'locaciones.nombre as locacion'
+            )
+            ->where('usuarios.id', auth('api')->user()->id)
+            ->first();
+
+        return response()->json([
+            'user' => $user
+        ]);
     }
 
     public function prueba()
