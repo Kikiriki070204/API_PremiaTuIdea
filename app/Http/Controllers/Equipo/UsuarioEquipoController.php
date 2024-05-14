@@ -18,7 +18,7 @@ class UsuarioEquipoController extends Controller
         $usuariosEquipos = Usuario_Equipo::all();
         return response()->json(["usuariosEquipos" => $usuariosEquipos], 200);
     }
-
+  
     /**
      * Show the form for creating a new resource.
      */

@@ -8,8 +8,10 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RolesController;
 use App\Http\Controllers\Departamento\DepartamentoController;
 use App\Http\Controllers\Equipo\EquipoController;
+use App\Http\Controllers\Equipo\UsuarioEquipoController;
 use App\Http\Controllers\Ideas\IdeasController;
 use App\Http\Controllers\Producto\ProductoController;
+use App\Http\Controllers\Users\UsersController;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 
 /*
@@ -37,6 +39,16 @@ Route::prefix('auth')->group(function () {
     Route::post('me', [AuthController::class, 'me']);
     Route::post('verifyToken', [AuthController::class, 'verifyToken']);
     Route::get('prueba', [AuthController::class, 'prueba']);
+});
+
+//Rutas Usuarios
+Route::prefix('users')->group(function () {
+    Route::get('list', [UsersController::class, 'index']);
+    Route::get('colaboradores', [UsersController::class, 'colaboradores']);
+    Route::post('create', [UsersController::class, 'store']);
+    Route::get('show/{id}', [UsersController::class, 'show']);
+    Route::put('update', [UsersController::class, 'update']);
+    Route::delete('delete/{id}', [UsersController::class, 'destroy']);
 });
 
 //Rutas de ideas
@@ -104,4 +116,13 @@ Route::prefix('productos')->group(function () {
     Route::get('show/{id}', [ProductoController::class, 'show']);
     Route::put('update', [ProductoController::class, 'update']);
     Route::delete('delete/{id}', [ProductoController::class, 'destroy']);
+});
+
+//Rutas Usuarios_Equipos
+Route::prefix('userteam')->group(function () {
+    Route::get('list', [UsuarioEquipoController::class, 'index']);
+    Route::post('create', [UsuarioEquipoController::class, 'store']);
+    Route::get('show/{id}', [UsuarioEquipoController::class, 'show']);
+    Route::put('update', [UsuarioEquipoController::class, 'update']);
+    Route::delete('delete/{id}', [UsuarioEquipoController::class, 'destroy']);
 });
