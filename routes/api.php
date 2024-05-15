@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Actividades\ActividadesController;
+use App\Http\Controllers\Actividades\EstadoActividadesController;
 use App\Http\Controllers\Area\AreaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Equipo\EquipoController;
 use App\Http\Controllers\Equipo\UsuarioEquipoController;
 use App\Http\Controllers\Ideas\EstadosIdeasController;
 use App\Http\Controllers\Ideas\IdeasController;
+use App\Http\Controllers\Locancion\LocacionController;
 use App\Http\Controllers\Producto\ProductoController;
 use App\Http\Controllers\Users\UsersController;
 use Symfony\Component\CssSelector\Node\FunctionNode;
@@ -63,6 +65,7 @@ Route::prefix('ideas')->group(function () {
     Route::get('show/{id}', [IdeasController::class, 'show']);
     Route::put('update', [IdeasController::class, 'update']);
     Route::delete('delete/{id}', [IdeasController::class, 'destroy']);
+    Route::put('puntos', [IdeasController::class, 'puntos']);
 });
 
 //Rutas de equipos
@@ -137,3 +140,22 @@ Route::prefix('estadoideas')->group(function () {
     Route::put('update', [EstadosIdeasController::class, 'update']);
     Route::delete('delete/{id}', [EstadosIdeasController::class, 'destroy']);
 });
+
+//Rutas de locaciones
+Route::prefix('locaciones')->group(function () {
+    Route::get('list', [LocacionController::class, 'index']);
+    Route::post('create', [LocacionController::class, 'store']);
+    Route::get('show/{id}', [LocacionController::class, 'show']);
+    Route::put('update', [LocacionController::class, 'update']);
+    Route::delete('delete/{id}', [LocacionController::class, 'destroy']);
+});
+
+//Rutas Estado Actividades
+Route::prefix('estadoactividades')->group(function () {
+    Route::get('list', [EstadoActividadesController::class, 'index']);
+    Route::post('create', [EstadoActividadesController::class, 'store']);
+    Route::get('show/{id}', [EstadoActividadesController::class, 'show']);
+    Route::put('update', [EstadoActividadesController::class, 'update']);
+    Route::delete('delete/{id}', [EstadoActividadesController::class, 'destroy']);
+});
+

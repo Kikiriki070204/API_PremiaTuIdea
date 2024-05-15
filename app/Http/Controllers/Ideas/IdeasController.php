@@ -8,6 +8,7 @@ use App\Models\Idea;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Equipo;
 use App\Models\Usuario_Equipo;
+use App\Models\Usuario;
 
 class IdeasController extends Controller
 {
@@ -199,5 +200,34 @@ class IdeasController extends Controller
             return response()->json(["msg" => "Idea eliminada correctamente"], 200);
         }
         return response()->json(["msg" => "Idea no encontrada"], 404);
+    }
+
+    public function puntos(Request $request)
+    {
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'id' => 'required|integer|exists:ideas,id',
+                'puntos' => 'required|integer'
+            ]
+        );
+
+        if ($validate->fails()) {
+            return response()->json([
+                "errors" => $validate->errors(),
+                "msg" => "Errores de validación"
+            ], 422);
+        }
+
+        $equipo = Equipo::where('id_idea', $request->id)->first();
+        $users = Usuario_Equipo::where('id_equipo', $equipo->id)->get();
+
+        foreach ($users as $user) {
+            $usuario = Usuario::where('id', $user->id_usuario)->first();
+            $usuario->puntos += $request->puntos;
+            $usuario->save();
+        }
+
+        return response()->json(["msg" => "Puntos asignados correctamente"], 200);
     }
 }

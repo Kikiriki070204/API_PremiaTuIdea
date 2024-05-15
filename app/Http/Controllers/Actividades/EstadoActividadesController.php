@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Ideas;
+namespace App\Http\Controllers\Actividades;
 
 use App\Http\Controllers\Controller;
-use App\Models\Estado_Idea;
+use App\Models\Estado_Actividad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class EstadosIdeasController extends Controller
+class EstadoActividadesController extends Controller
 {
     public function __construct()
     {
@@ -19,7 +19,7 @@ class EstadosIdeasController extends Controller
      */
     public function index()
     {
-        $estados = Estado_Idea::all();
+        $estados = Estado_Actividad::all();
         return response()->json(["estados" => $estados], 200);
     }
 
@@ -50,12 +50,11 @@ class EstadosIdeasController extends Controller
             ], 422);
         }
 
-        $estado = new Estado_Idea();
+        $estado = new Estado_Actividad();
         $estado->nombre = $request->nombre;
         $estado->save();
-        return response()->json([
-            "msg" => "Estado creado correctamente"
-        ], 201);
+
+        return response()->json(["msg" => "Estado de Actividad creado correctamente"], 201);
     }
 
     /**
@@ -63,19 +62,17 @@ class EstadosIdeasController extends Controller
      */
     public function show($id)
     {
-        $estado = Estado_Idea::find($id);
-        if (!$estado) {
-            return response()->json([
-                "msg" => "Estado no encontrado"
-            ], 404);
+        $estado = Estado_Actividad::find($id);
+        if ($estado) {
+            return response()->json(["estado" => $estado], 200);
         }
-        return response()->json(["estado" => $estado], 200);
+        return response()->json(["msg" => "Estado de Actividad no encontrado"], 404);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Estado_Idea $estado_Idea)
+    public function edit(Estado_Actividad $estado_Actividad)
     {
         //
     }
@@ -88,7 +85,7 @@ class EstadosIdeasController extends Controller
         $validate = Validator::make(
             $request->all(),
             [
-                'id' => 'required|integer|exists:estado_ideas,id',
+                'id' => 'required|integer|exists:estado_actividades,id',
                 'nombre' => 'required|string|max:255|regex:/^[a-zA-Z\s]*$/',
                 'is_active' => 'required|boolean',
             ]
@@ -101,13 +98,15 @@ class EstadosIdeasController extends Controller
             ], 422);
         }
 
-        $estado = Estado_Idea::find($request->id);
+        $estado = Estado_Actividad::find($request->id);
+        if (!$estado) {
+            return response()->json(["msg" => "Estado de Actividad no encontrado"], 404);
+        }
+
         $estado->nombre = $request->nombre;
         $estado->is_active = $request->is_active;
         $estado->save();
-        return response()->json([
-            "msg" => "Estado actualizado correctamente"
-        ], 200);
+        return response()->json(["msg" => "Estado de Actividad actualizado correctamente"], 200);
     }
 
     /**
@@ -115,16 +114,12 @@ class EstadosIdeasController extends Controller
      */
     public function destroy($id)
     {
-        $estado = Estado_Idea::find($id);
-        if (!$estado) {
-            return response()->json([
-                "msg" => "Estado no encontrado"
-            ], 404);
+        $estado = Estado_Actividad::find($id);
+        if ($estado) {
+            $estado->is_active = false;
+            $estado->save();
+            return response()->json(["msg" => "Estado de Actividad eliminado correctamente"], 200);
         }
-        $estado->is_active = false;
-        $estado->save();
-        return response()->json([
-            "msg" => "Estado eliminado correctamente"
-        ], 200);
+        return response()->json(["msg" => "Estado de Actividad no encontrado"], 404);
     }
 }

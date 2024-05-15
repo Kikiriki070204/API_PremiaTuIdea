@@ -10,6 +10,11 @@ use App\Models\Usuario_Equipo;
 
 class UsuarioEquipoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -18,7 +23,7 @@ class UsuarioEquipoController extends Controller
         $usuariosEquipos = Usuario_Equipo::all();
         return response()->json(["usuariosEquipos" => $usuariosEquipos], 200);
     }
-  
+
     /**
      * Show the form for creating a new resource.
      */
@@ -127,5 +132,4 @@ class UsuarioEquipoController extends Controller
             "msg" => "Usuario no encontrado"
         ], 404);
     }
-    
 }
