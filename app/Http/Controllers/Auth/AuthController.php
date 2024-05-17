@@ -86,16 +86,7 @@ class AuthController extends Controller
             $request->all(),
             [
                 'ibm' => 'required|integer',
-                'email' => [
-                    'required',
-                    'email',
-                    'unique:usuarios',
-                    function ($attribute, $value, $fail) {
-                        if (!str_ends_with($value, '@borgwarner.com')) {
-                            $fail($attribute . ' debe ser un correo de dominio borgwarner.com');
-                        }
-                    },
-                ],
+                'email' => 'required|email|unique:usuarios,email',
                 'password' => 'required|min:6',
             ]
         );
@@ -170,20 +161,16 @@ class AuthController extends Controller
         return response()->json(['valid' => true, 'rol' => $user->rol_id], 200);
     }
 
+
     public function meplus()
     {
         $user = DB::table('usuarios')
             ->join('roles', 'usuarios.rol_id', '=', 'roles.id')
             ->join('departamentos', 'usuarios.departamento_id', '=', 'departamentos.id')
             ->join('areas', 'usuarios.area_id', '=', 'areas.id')
-            ->join('locaciones', 'usuarios.locacion_id', '=', 'locaciones.id')
+            ->leftJoin('locaciones', 'usuarios.locacion_id', '=', 'locaciones.id')
             ->select(
-                'usuarios.id',
-                'usuarios.ibm',
-                'usuarios.email',
-                'usuarios.nombre',
-                'usuarios.is_active',
-                'usuarios.puntos',
+                'usuarios.*',
                 'roles.nombre as rol',
                 'departamentos.nombre as departamento',
                 'areas.nombre as area',
@@ -194,6 +181,7 @@ class AuthController extends Controller
 
         return $user;
     }
+
 
     public function prueba()
     {

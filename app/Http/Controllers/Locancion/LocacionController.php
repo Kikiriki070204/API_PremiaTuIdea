@@ -23,6 +23,26 @@ class LocacionController extends Controller
         return response()->json(["locaciones" => $locaciones], 200);
     }
 
+    public function area(Request $request)
+    {
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'area_id' => 'required|integer|exists:areas,id',
+            ]
+        );
+
+        if ($validate->fails()) {
+            return response()->json([
+                "errors" => $validate->errors(),
+                "msg" => "Errores de validación"
+            ], 422);
+        }
+
+        $locaciones = Locacion::where('area_id', $request->area_id)->get();
+        return response()->json(["locaciones" => $locaciones], 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

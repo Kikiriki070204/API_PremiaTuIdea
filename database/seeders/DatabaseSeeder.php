@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Rol;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -25,16 +26,16 @@ class DatabaseSeeder extends Seeder
         //    Rol::create($rol);
         //}
 
-       $usuarios = [
-        [
-            'nombre' => 'Kiara Admin',
-            'ibm' => 11233,
-            'password'=> Hash::make('kikiriki')
-        ],
-    ];
+        /*$usuarios = [
+            [
+                'nombre' => 'Kiara Admin',
+                'ibm' => 11233,
+                'password' => Hash::make('kikiriki')
+            ],
+        ];
 
-    foreach ($usuarios as $usuario) {
-        User::create($usuario);
-    }
+        foreach ($usuarios as $usuario) {
+            User::create($usuario);
+        }*/
     }
 }

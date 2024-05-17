@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 
 class UsersController extends Controller
@@ -28,7 +29,16 @@ class UsersController extends Controller
     {
         $user = auth()->user();
 
-        $users = Usuario::where('rol_id', 3)->where('id', '!=', $user->id)->where('is_active', true)->get();
+        $users = DB::table('usuarios')
+            ->join('roles', 'usuarios.rol_id', '=', 'roles.id')
+            ->join('departamentos', 'usuarios.departamento_id', '=', 'departamentos.id')
+            ->join('areas', 'usuarios.area_id', '=', 'areas.id')
+            ->leftJoin('locaciones', 'usuarios.locacion_id', '=', 'locaciones.id')
+            ->select('usuarios.*', 'roles.nombre as rol', 'departamentos.nombre as departamento', 'areas.nombre as area', 'locaciones.nombre as locacion')
+            ->where('usuarios.is_active', true)
+            ->where('usuarios.id', '!=', $user->id)
+            ->get();
+
         return response()->json(["users" => $users], 200);
     }
 
@@ -101,7 +111,7 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
         $validate = Validator::make(
             $request->all(),

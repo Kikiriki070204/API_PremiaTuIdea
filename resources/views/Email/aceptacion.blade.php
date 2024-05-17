@@ -20,8 +20,11 @@
 
 <body>
     <div class="container">
-        <h1>Hola :.:</h1>
-        <p>Estimado(a) {{ e($user->nombre ?? 'usuario') }}</p>
+        <h1>Hola.</h1>
+        <p>Estimado(a) {{ e($user->nombre ?? 'usuario') }}, nos comunicmos para hacerle saber que su idea ha sido aceptada y proximamente implementada.</p>
+        <p>Gracias por su aporte.</p>
+        <p>Saludos cordiales.</p>
+        <p>Atentamente, el equipo de soporte.</p>
     </div>
     <div class="image-container">
         <img src="http:Images/logo.png" alt="Imagen de aceptación">

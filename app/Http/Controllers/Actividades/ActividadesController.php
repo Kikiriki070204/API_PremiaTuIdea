@@ -93,7 +93,7 @@ class ActividadesController extends Controller
                 'id_idea' => 'required|integer|exists:ideas,id',
                 'responsable' => 'required|integer|exists:usuarios,id',
                 'fecha_inicio' => 'required|date',
-                'fecha_finalizacion' => 'required|date',
+                'fecha_finalizacion' => 'nullable|date',
                 'id_estado_actividad' => 'required|integer|exists:estado_actividades,id'
             ]
         );

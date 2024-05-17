@@ -121,6 +121,7 @@ Route::prefix('productos')->group(function () {
     Route::get('show/{id}', [ProductoController::class, 'show']);
     Route::put('update', [ProductoController::class, 'update']);
     Route::delete('delete/{id}', [ProductoController::class, 'destroy']);
+    Route::put('canjear', [ProductoController::class, 'canjear']);
 });
 
 //Rutas Usuarios_Equipos

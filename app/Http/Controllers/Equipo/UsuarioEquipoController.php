@@ -40,7 +40,8 @@ class UsuarioEquipoController extends Controller
         $validate = Validator::make(
             $request->all(),
             [
-                'id_usuario' => 'required|integer|exists:usuarios,id',
+                'id_usuarios' => 'required|array',
+                'id_usuarios.*' => 'integer|exists:usuarios,id',
                 'id_equipo' => 'required|integer|exists:equipos,id',
                 'nombre' => 'max:255|nullable|regex:/^[a-zA-Z0-9\s]+$/u',
             ]
@@ -53,10 +54,12 @@ class UsuarioEquipoController extends Controller
             ], 422);
         }
 
-        $usuarioEquipo = new Usuario_Equipo();
-        $usuarioEquipo->id_usuario = $request->id_usuario;
-        $usuarioEquipo->id_equipo = $request->id_equipo;
-        $usuarioEquipo->save();
+        foreach ($request->id_usuarios as $id_usuario) {
+            $usuarioEquipo = new Usuario_Equipo();
+            $usuarioEquipo->id_usuario = $id_usuario;
+            $usuarioEquipo->id_equipo = $request->id_equipo;
+            $usuarioEquipo->save();
+        }
         if ($request->nombre) {
             $equipo = Equipo::find($request->id_equipo);
             $equipo->nombre = $request->nombre;
@@ -92,7 +95,7 @@ class UsuarioEquipoController extends Controller
         $validate = Validator::make(
             $request->all(),
             [
-                'id' => 'required|integer|exists:usuario_equipo,id',
+                'id' => 'required|integer|exists:usuarios_equipos,id',
                 'id_usuario' => 'required|integer|exists:usuarios,id',
                 'id_equipo' => 'required|integer|exists:equipos,id',
                 'is_active' => 'required|boolean',
@@ -124,6 +127,7 @@ class UsuarioEquipoController extends Controller
         $usuarioEquipo = Usuario_Equipo::find($id);
         if ($usuarioEquipo) {
             $usuarioEquipo->is_active = false;
+            $usuarioEquipo->save();
             return response()->json([
                 "msg" => "Usuario eliminado del equipo correctamente"
             ], 200);

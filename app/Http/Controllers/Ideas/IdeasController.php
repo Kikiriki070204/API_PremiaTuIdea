@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Equipo;
 use App\Models\Usuario_Equipo;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\DB;
 
 class IdeasController extends Controller
 {
@@ -148,10 +149,22 @@ class IdeasController extends Controller
 
     public function show($id)
     {
-        $idea = Idea::where('id', $id)->first();
+        //$idea = Idea::where('id', $id)->first();
+        $idea = DB::table('ideas')
+            ->join('estado_ideas', 'ideas.estatus', '=', 'estado_ideas.id')
+            ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
+            ->where('ideas.id', $id)
+            ->first();
+        $colaboradores = DB::table('usuarios_equipos')
+            ->join('equipos', 'usuarios_equipos.id_equipo', '=', 'equipos.id')
+            ->join('usuarios', 'usuarios_equipos.id_usuario', '=', 'usuarios.id')
+            ->join('ideas', 'equipos.id_idea', '=', 'ideas.id')
+            ->select('usuarios.nombre')
+            ->where('ideas.id', $idea->id)
+            ->get();
 
         if ($idea) {
-            return response()->json(["idea" => $idea], 200);
+            return response()->json(["idea" => $idea, "colaboradores" => $colaboradores], 200);
         }
         return response()->json(["msg" => "Idea no encontrada"], 404);
     }
