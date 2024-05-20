@@ -92,12 +92,22 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = Usuario::find($id);
-        if ($user) {
-            return response()->json(["user" => $user], 200);
-        } else {
-            return response()->json(["msg" => "Usuario no encontrado"], 404);
-        }
+        $user = DB::table('usuarios')
+            ->join('roles', 'usuarios.rol_id', '=', 'roles.id')
+            ->join('departamentos', 'usuarios.departamento_id', '=', 'departamentos.id')
+            ->join('areas', 'usuarios.area_id', '=', 'areas.id')
+            ->leftJoin('locaciones', 'usuarios.locacion_id', '=', 'locaciones.id')
+            ->select(
+                'usuarios.*',
+                'roles.nombre as rol',
+                'departamentos.nombre as departamento',
+                'areas.nombre as area',
+                'locaciones.nombre as locacion'
+            )
+            ->where('usuarios.id', $id)
+            ->first();
+
+        return $user;
     }
 
     /**
