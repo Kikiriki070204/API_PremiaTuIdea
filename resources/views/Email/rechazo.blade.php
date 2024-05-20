@@ -11,7 +11,6 @@
             margin: 0 auto;
             padding: 20px;
             text-align: center;
-            font-size: 1.5em;
         }
 
         .image-container {
@@ -31,8 +30,7 @@
 <body>
     <div class="container">
         <h1>Hola</h1>
-        <p>Estimado(a) {{ e($user->nombre ?? 'usuario') }}, nos comunicamos para hacerle saber que su idea ha sido aceptada y próximamente implementada.</p>
-        <p>Estamos muy contentos de poder contar con su idea y esperamos que esta sea de gran ayuda para la comunidad.</p>
+        <p>Estimado(a) {{ e($user->nombre ?? 'usuario') }}, nos comunicamos para hacerle saber que su idea ha sido rechazada.</p>
         <p>Agradecemos su aporte y esperamos seguir contando con su ayuda.</p>
         <p>Saludos cordiales.</p>
         <p>Atentamente, el equipo de Premia tu Idea.</p>

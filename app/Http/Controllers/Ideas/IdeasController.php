@@ -10,6 +10,9 @@ use App\Models\Equipo;
 use App\Models\Usuario_Equipo;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\aceptacion;
+use App\Mail\rechazo;
 
 class IdeasController extends Controller
 {
@@ -159,7 +162,7 @@ class IdeasController extends Controller
             ->join('equipos', 'usuarios_equipos.id_equipo', '=', 'equipos.id')
             ->join('usuarios', 'usuarios_equipos.id_usuario', '=', 'usuarios.id')
             ->join('ideas', 'equipos.id_idea', '=', 'ideas.id')
-            ->select('usuarios.nombre')
+            ->select('usuarios.nombre', 'usuarios.id')
             ->where('ideas.id', $idea->id)
             ->get();
 
@@ -200,6 +203,31 @@ class IdeasController extends Controller
         $idea->propuesta = $request->propuesta;
         $idea->estatus = $request->estatus;
         $idea->save();
+
+        if ($request->estatus == 2) {
+            $equipo = Equipo::where('id_idea', $idea->id)->first();
+            $users = Usuario_Equipo::where('id_equipo', $equipo->id)->get();
+            foreach ($users as $user) {
+                $usuario = Usuario::where('id', $user->id_usuario)->first();
+                if ($usuario->email == null) {
+                    //return response()->json(["msg" => "Usuario sin correo"], 404);
+                } else {
+                    Mail::to($usuario->email)->send(new aceptacion($idea));
+                }
+            }
+        } elseif ($request->estatus == 4) {
+            $equipo = Equipo::where('id_idea', $idea->id)->first();
+            $users = Usuario_Equipo::where('id_equipo', $equipo->id)->get();
+            foreach ($users as $user) {
+                $usuario = Usuario::where('id', $user->id_usuario)->first();
+                if ($usuario->email == null) {
+                    //return response()->json(["msg" => "Usuario sin correo"], 404);
+                } else {
+                    Mail::to($usuario->email)->send(new rechazo($idea));
+                }
+            }
+        }
+
         return response()->json(["msg" => "Idea actualizada correctamente"], 200);
     }
 
@@ -210,6 +238,16 @@ class IdeasController extends Controller
         if ($idea) {
             $idea->estatus = 4;
             $idea->save();
+            $equipo = Equipo::where('id_idea', $idea->id)->first();
+            $users = Usuario_Equipo::where('id_equipo', $equipo->id)->get();
+            foreach ($users as $user) {
+                $usuario = Usuario::where('id', $user->id_usuario)->first();
+                if ($usuario->email == null) {
+                    //return response()->json(["msg" => "Usuario sin correo"], 404);
+                } else {
+                    Mail::to($usuario->email)->send(new rechazo($idea));
+                }
+            }
             return response()->json(["msg" => "Idea eliminada correctamente"], 200);
         }
         return response()->json(["msg" => "Idea no encontrada"], 404);
