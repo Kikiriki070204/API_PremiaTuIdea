@@ -212,7 +212,7 @@ class IdeasController extends Controller
                 if ($usuario->email == null) {
                     //return response()->json(["msg" => "Usuario sin correo"], 404);
                 } else {
-                    Mail::to($usuario->email)->send(new aceptacion($idea));
+                    Mail::to($usuario->email)->send(new aceptacion($usuario));
                 }
             }
         } elseif ($request->estatus == 4) {
@@ -223,7 +223,7 @@ class IdeasController extends Controller
                 if ($usuario->email == null) {
                     //return response()->json(["msg" => "Usuario sin correo"], 404);
                 } else {
-                    Mail::to($usuario->email)->send(new rechazo($idea));
+                    Mail::to($usuario->email)->send(new rechazo($usuario));
                 }
             }
         }
@@ -245,7 +245,7 @@ class IdeasController extends Controller
                 if ($usuario->email == null) {
                     //return response()->json(["msg" => "Usuario sin correo"], 404);
                 } else {
-                    Mail::to($usuario->email)->send(new rechazo($idea));
+                    Mail::to($usuario->email)->send(new rechazo($usuario));
                 }
             }
             return response()->json(["msg" => "Idea eliminada correctamente"], 200);

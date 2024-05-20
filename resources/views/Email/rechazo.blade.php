@@ -11,6 +11,7 @@
             margin: 0 auto;
             padding: 20px;
             text-align: center;
+            font-size: 1.3em;
         }
 
         .image-container {
@@ -34,7 +35,6 @@
         <p>Agradecemos su aporte y esperamos seguir contando con su ayuda.</p>
         <p>Saludos cordiales.</p>
         <p>Atentamente, el equipo de Premia tu Idea.</p>
-        <br />
         <p>Para visualizar los cambios, ingrese a nuestro sistema</p>
     </div>
     <div class="image-container">

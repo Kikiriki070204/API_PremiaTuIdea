@@ -11,7 +11,7 @@
             margin: 0 auto;
             padding: 20px;
             text-align: center;
-            font-size: 1.5em;
+            font-size: 1.3em;
         }
 
         .image-container {
@@ -34,7 +34,6 @@
         <p>Estimado(a) {{ e($user->nombre ?? 'usuario') }}, nos comunicamos para hacerle saber que su idea ha sido aceptada y próximamente implementada.</p>
         <p>Estamos muy contentos de poder contar con su idea y esperamos que esta sea de gran ayuda para la comunidad.</p>
         <p>Agradecemos su aporte y esperamos seguir contando con su ayuda.</p>
-        <p>Saludos cordiales.</p>
         <p>Atentamente, el equipo de Premia tu Idea.</p>
         <br />
         <p>Para visualizar los cambios, ingrese a nuestro sistema</p>
