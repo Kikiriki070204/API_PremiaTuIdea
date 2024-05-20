@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class roles
+class administradores
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,9 @@ class roles
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth('api')->user()->rol_id == 4) {
-            return response()->json(['error' => 'No tines permiso para esta acción'], 401);
+        if (auth('api')->user()->rol_id == 1 || auth('api')->user()->rol_id == 2) {
+            return $next($request);
         }
-        return $next($request);
+        return response()->json(['error' => 'No tienes permiso para esta acción'], 401);
     }
 }
