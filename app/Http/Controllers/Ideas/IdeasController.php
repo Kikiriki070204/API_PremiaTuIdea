@@ -281,4 +281,23 @@ class IdeasController extends Controller
 
         return response()->json(["msg" => "Puntos asignados correctamente"], 200);
     }
+
+    public function titulo(Request $request)
+    {
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'titulo' => 'required|string|max:255'
+            ]
+        );
+
+        if ($validate->fails()) {
+            return response()->json($validate->errors(), 400);
+        }
+
+        $titulo = $request->get('titulo');
+        $ideas = Idea::where('titulo', 'LIKE', "%{$titulo}%")->get();
+
+        return response()->json($ideas, 200);
+    }
 }

@@ -53,6 +53,7 @@ Route::prefix('users')->group(function () {
     Route::get('show/{id}', [UsersController::class, 'show']);
     Route::put('update', [UsersController::class, 'update']);
     Route::delete('delete/{id}', [UsersController::class, 'destroy']);
+    Route::get('nombre', [UsersController::class, 'nombre']);
 });
 
 //Rutas de ideas
@@ -66,6 +67,7 @@ Route::prefix('ideas')->group(function () {
     Route::put('update', [IdeasController::class, 'update']);
     Route::delete('delete/{id}', [IdeasController::class, 'destroy']);
     Route::put('puntos', [IdeasController::class, 'puntos']);
+    Route::get('titulo', [IdeasController::class, 'titulo']);
 });
 
 //Rutas de equipos
@@ -159,4 +161,3 @@ Route::prefix('estadoactividades')->group(function () {
     Route::put('update', [EstadoActividadesController::class, 'update']);
     Route::delete('delete/{id}', [EstadoActividadesController::class, 'destroy']);
 });
-

@@ -166,4 +166,24 @@ class UsersController extends Controller
             return response()->json(["msg" => "Usuario no encontrado"], 404);
         }
     }
+
+    public function nombre(Request $request)
+    {
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'nombre' => 'required|string|max:255|regex:/^[a-zA-Z\s]*$/',
+            ]
+        );
+
+        if ($validate->fails()) {
+            return response()->json([
+                "errors" => $validate->errors(),
+                "msg" => "Errores de validación"
+            ], 422);
+        }
+
+        $users = Usuario::where('nombre', 'like', '%' . $request->nombre . '%')->get();
+        return response()->json(["users" => $users], 200);
+    }
 }
