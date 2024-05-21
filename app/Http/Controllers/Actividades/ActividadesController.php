@@ -20,13 +20,30 @@ class ActividadesController extends Controller
      */
     public function index()
     {
-        $actividades = Actividades::all();
+        $actividades = DB::table('actividades')
+            ->join('estado_actividades', 'actividades.id_estado_actividad', '=', 'estado_actividades.id')
+            ->join('usuarios', 'actividades.responsable', '=', 'usuarios.id')
+            ->select(
+                'actividades.*',
+                'estado_actividades.nombre as estado_actividad',
+                'usuarios.nombre as responsable'
+            )
+            ->get();
         return response()->json(["actividades" => $actividades], 200);
     }
 
     public function ideaActividades($id)
     {
-        $actividades = Actividades::where('id_idea', $id)->get();
+        $actividades = DB::table('actividades')
+            ->join('estado_actividades', 'actividades.id_estado_actividad', '=', 'estado_actividades.id')
+            ->join('usuarios', 'actividades.responsable', '=', 'usuarios.id')
+            ->select(
+                'actividades.*',
+                'estado_actividades.nombre as estado_actividad',
+                'usuarios.nombre as responsable'
+            )
+            ->where('actividades.id_idea', $id)
+            ->get();
         return response()->json(["actividades" => $actividades], 200);
     }
 
