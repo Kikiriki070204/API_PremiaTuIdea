@@ -193,7 +193,20 @@ class UsersController extends Controller
             ], 422);
         }
 
-        $users = Usuario::where('nombre', 'like', '%' . $request->nombre . '%')->get();
+        $users = DB::table('usuarios')
+            ->join('roles', 'usuarios.rol_id', '=', 'roles.id')
+            ->join('departamentos', 'usuarios.departamento_id', '=', 'departamentos.id')
+            ->join('areas', 'usuarios.area_id', '=', 'areas.id')
+            ->leftJoin('locaciones', 'usuarios.locacion_id', '=', 'locaciones.id')
+            ->select(
+                'usuarios.*',
+                'roles.nombre as rol',
+                'departamentos.nombre as departamento',
+                'areas.nombre as area',
+                'locaciones.nombre as locacion'
+            )
+            ->where('usuarios.nombre', 'like', '%' . $request->nombre . '%')
+            ->get();
         return response()->json(["users" => $users], 200);
     }
 }
