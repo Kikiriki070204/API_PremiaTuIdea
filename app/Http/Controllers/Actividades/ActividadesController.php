@@ -26,7 +26,7 @@ class ActividadesController extends Controller
             ->select(
                 'actividades.*',
                 'estado_actividades.nombre as estado_actividad',
-                'usuarios.nombre as responsable'
+                'usuarios.nombre as responsable_name'
             )
             ->get();
         return response()->json(["actividades" => $actividades], 200);
@@ -40,7 +40,7 @@ class ActividadesController extends Controller
             ->select(
                 'actividades.*',
                 'estado_actividades.nombre as estado_actividad',
-                'usuarios.nombre as responsable'
+                'usuarios.nombre as responsable_name'
             )
             ->where('actividades.id_idea', $id)
             ->get();
@@ -97,7 +97,7 @@ class ActividadesController extends Controller
             ->select(
                 'actividades.*',
                 'estado_actividades.nombre as estado_actividad',
-                'usuarios.nombre as responsable'
+                'usuarios.nombre as responsable_name'
             )
             ->where('actividades.id', $id)
             ->first();
