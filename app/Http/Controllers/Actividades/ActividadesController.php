@@ -23,6 +23,12 @@ class ActividadesController extends Controller
         return response()->json(["actividades" => $actividades], 200);
     }
 
+    public function ideaActividades($id)
+    {
+        $actividades = Actividades::where('id_idea', $id)->get();
+        return response()->json(["actividades" => $actividades], 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

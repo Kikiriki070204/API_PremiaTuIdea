@@ -154,6 +154,7 @@ Route::prefix('locaciones')->group(function () {
 Route::prefix('estadoactividades')->group(function () {
     Route::get('list', [EstadoActividadesController::class, 'index'])->middleware('active')->middleware('adminstradores');
     Route::post('create', [EstadoActividadesController::class, 'store'])->middleware('active')->middleware('adminstradores');
+    Route::get('ideaActividades', [EstadoActividadesController::class, 'ideaActividades'])->middleware('active')->middleware('adminstradores');
     Route::get('show/{id}', [EstadoActividadesController::class, 'show'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
     Route::put('update', [EstadoActividadesController::class, 'update'])->middleware('active')->middleware('adminstradores');
     Route::delete('delete/{id}', [EstadoActividadesController::class, 'destroy'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
