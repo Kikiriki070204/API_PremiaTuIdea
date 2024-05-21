@@ -45,13 +45,13 @@ Route::prefix('auth')->group(function () {
 
 //Rutas Usuarios
 Route::prefix('users')->group(function () {
-    Route::get('list', [UsersController::class, 'index'])->middleware('active')->middleware('adminstradores');
-    Route::get('colaboradores', [UsersController::class, 'colaboradores'])->middleware('active')->middleware('roles');
-    Route::post('create', [UsersController::class, 'store'])->middleware('active')->middleware('adminstradores');
-    Route::get('show/{id}', [UsersController::class, 'show'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
-    Route::put('update', [UsersController::class, 'update'])->middleware('active')->middleware('adminstradores');
-    Route::delete('delete/{id}', [UsersController::class, 'destroy'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
-    Route::get('nombre', [UsersController::class, 'nombre'])->middleware('active')->middleware('adminstradores');
+    Route::get('list', [UsersController::class, 'index']);
+    Route::get('colaboradores', [UsersController::class, 'colaboradores']);
+    Route::post('create', [UsersController::class, 'store']);
+    Route::get('show/{id}', [UsersController::class, 'show']);
+    Route::put('update', [UsersController::class, 'update']);
+    Route::delete('delete/{id}', [UsersController::class, 'destroy']);
+    Route::get('nombre', [UsersController::class, 'nombre']);
 });
 
 //Rutas de ideas
