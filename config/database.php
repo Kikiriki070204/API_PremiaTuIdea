@@ -95,7 +95,7 @@ return [
 
         'mongodb' => [
             'driver' => 'mongodb',
-            'dsn' => env('DB_URI', 'mongodb+srv://kevin07:Burciaga07@myatlasclusteredu.n94pwul.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU'),
+            'dsn' => env('DB_URI', 'mongodb+srv://username:password@<atlas-cluster-uri>/myappdb?retryWrites=true&w=majority'),
             'database' => 'myappdb',
         ],
 
