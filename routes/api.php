@@ -50,7 +50,7 @@ Route::prefix('users')->group(function () {
     Route::get('show/{id}', [UsersController::class, 'show'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
     Route::put('update', [UsersController::class, 'update'])->middleware('active')->middleware('adminstradores');
     Route::delete('delete/{id}', [UsersController::class, 'destroy'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
-    Route::get('nombre', [UsersController::class, 'nombre'])->middleware('active')->middleware('adminstradores');
+    Route::post('nombre', [UsersController::class, 'nombre'])->middleware('active')->middleware('adminstradores');
 });
 
 //Rutas de ideas
@@ -64,7 +64,7 @@ Route::prefix('ideas')->group(function () {
     Route::put('update', [IdeasController::class, 'update'])->middleware('active')->middleware('adminstradores');
     Route::delete('delete/{id}', [IdeasController::class, 'destroy'])->where('id', '[0-9]+')->middleware('active')->middleware('adminstradores');
     Route::put('puntos', [IdeasController::class, 'puntos'])->middleware('active')->middleware('adminstradores');
-    Route::get('titulo', [IdeasController::class, 'titulo'])->middleware('active')->middleware('roles');
+    Route::post('titulo', [IdeasController::class, 'titulo'])->middleware('active')->middleware('roles');
 });
 
 //Rutas de equipos
