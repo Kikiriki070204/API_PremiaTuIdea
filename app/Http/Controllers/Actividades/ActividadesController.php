@@ -40,6 +40,7 @@ class ActividadesController extends Controller
             $request->all(),
             [
                 'id_idea' => 'required|integer|exists:ideas,id',
+                'titulo' => 'required|string',
                 'responsable' => 'required|integer|exists:usuarios,id',
             ]
         );
@@ -53,6 +54,7 @@ class ActividadesController extends Controller
 
         $actividad = new Actividades();
         $actividad->id_idea = $request->id_idea;
+        $actividad->titulo = $request->titulo;
         $actividad->responsable = $request->responsable;
         $actividad->save();
         return response()->json([
@@ -91,6 +93,7 @@ class ActividadesController extends Controller
             [
                 'id' => 'required|integer|exists:actividades,id',
                 'id_idea' => 'required|integer|exists:ideas,id',
+                'titulo' => 'required|string',
                 'responsable' => 'required|integer|exists:usuarios,id',
                 'fecha_inicio' => 'required|date',
                 'fecha_finalizacion' => 'nullable|date',
@@ -112,6 +115,7 @@ class ActividadesController extends Controller
         }
 
         $actividad->id_idea = $request->id_idea;
+        $actividad->titulo = $request->titulo;
         $actividad->responsable = $request->responsable;
         $actividad->fecha_inicio = $request->fecha_inicio;
         $actividad->fecha_finalizacion = $request->fecha_finalizacion;

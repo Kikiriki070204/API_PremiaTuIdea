@@ -12,6 +12,7 @@ class Actividades extends Model
     protected $table = 'actividades';
     protected $fillable = [
         'id_idea',
+        'titulo',
         'responsable',
         'fecha_inicio',
         'fecha_finalizacion',

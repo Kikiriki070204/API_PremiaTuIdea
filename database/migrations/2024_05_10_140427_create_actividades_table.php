@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('actividades', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_idea');
+            $table->string('titulo');
             $table->foreign('id_idea')->references('id')->on('ideas');
             $table->unsignedBigInteger('responsable');
             $table->foreign('responsable')->references('id')->on('usuarios');

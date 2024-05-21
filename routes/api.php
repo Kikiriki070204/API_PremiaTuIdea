@@ -61,10 +61,10 @@ Route::prefix('ideas')->group(function () {
     Route::get('userideasall/{estatus?}', [IdeasController::class, 'userIdeasAll'])->middleware('active')->middleware('roles')->where('estatus', '[0-9]+');
     Route::get('ideasAll/{estatus?}', [IdeasController::class, 'ideasAll'])->middleware('active')->middleware('adminstradores')->where('estatus', '[0-9]+');
     Route::get('show/{id}', [IdeasController::class, 'show'])->where('id', '[0-9]+')->middleware('active')->middleware('roles');
-    Route::put('update', [IdeasController::class, 'update']);
-    Route::delete('delete/{id}', [IdeasController::class, 'destroy'])->where('id', '[0-9]+');
-    Route::put('puntos', [IdeasController::class, 'puntos']);
-    Route::get('titulo', [IdeasController::class, 'titulo']);
+    Route::put('update', [IdeasController::class, 'update'])->middleware('active')->middleware('adminstradores');
+    Route::delete('delete/{id}', [IdeasController::class, 'destroy'])->where('id', '[0-9]+')->middleware('active')->middleware('adminstradores');
+    Route::put('puntos', [IdeasController::class, 'puntos'])->middleware('active')->middleware('adminstradores');
+    Route::get('titulo', [IdeasController::class, 'titulo'])->middleware('active')->middleware('roles');
 });
 
 //Rutas de equipos
@@ -79,38 +79,38 @@ Route::prefix('equipos')->group(function () {
 
 //Rutas de actividades
 Route::prefix('actividades')->group(function () {
-    Route::get('list', [ActividadesController::class, 'index']);
-    Route::post('create', [ActividadesController::class, 'store']);
-    Route::get('show/{id}', [ActividadesController::class, 'show']);
-    Route::put('update', [ActividadesController::class, 'update']);
-    Route::delete('delete/{id}', [ActividadesController::class, 'destroy']);
+    Route::get('list', [ActividadesController::class, 'index'])->middleware('active')->middleware('adminstradores');
+    Route::post('create', [ActividadesController::class, 'store'])->middleware('active')->middleware('adminstradores');
+    Route::get('show/{id}', [ActividadesController::class, 'show'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
+    Route::put('update', [ActividadesController::class, 'update'])->middleware('active')->middleware('adminstradores');
+    Route::delete('delete/{id}', [ActividadesController::class, 'destroy'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
 });
 
 //Rutas Roles
 Route::prefix('roles')->group(function () {
-    Route::get('list', [RolesController::class, 'index']);
-    Route::post('create', [RolesController::class, 'store']);
-    Route::get('show/{id}', [RolesController::class, 'show']);
-    Route::put('update', [RolesController::class, 'update']);
-    Route::delete('delete/{id}', [RolesController::class, 'destroy']);
+    Route::get('list', [RolesController::class, 'index'])->middleware('active')->middleware('roles');
+    Route::post('create', [RolesController::class, 'store'])->middleware('active')->middleware('adminstrador');
+    Route::get('show/{id}', [RolesController::class, 'show'])->middleware('active')->middleware('adminstrador');
+    Route::put('update', [RolesController::class, 'update'])->middleware('active')->middleware('adminstrador');
+    Route::delete('delete/{id}', [RolesController::class, 'destroy'])->middleware('active')->middleware('adminstrador');
 });
 
 //Rutas Areas
 Route::prefix('areas')->group(function () {
-    Route::get('list', [AreaController::class, 'index']);
-    Route::post('create', [AreaController::class, 'store']);
-    Route::get('show/{id}', [AreaController::class, 'show']);
-    Route::put('update', [AreaController::class, 'update']);
-    Route::delete('delete/{id}', [AreaController::class, 'destroy']);
+    Route::get('list', [AreaController::class, 'index'])->middleware('active')->middleware('roles');
+    Route::post('create', [AreaController::class, 'store'])->middleware('active')->middleware('adminstrador');
+    Route::get('show/{id}', [AreaController::class, 'show'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
+    Route::put('update', [AreaController::class, 'update'])->middleware('active')->middleware('adminstrador');
+    Route::delete('delete/{id}', [AreaController::class, 'destroy'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
 });
 
 //Rutas Departamentos
 Route::prefix('departamentos')->group(function () {
-    Route::get('list', [DepartamentoController::class, 'index']);
-    Route::post('create', [DepartamentoController::class, 'store']);
-    Route::get('show/{id}', [DepartamentoController::class, 'show']);
-    Route::put('update', [DepartamentoController::class, 'update']);
-    Route::delete('delete/{id}', [DepartamentoController::class, 'destroy']);
+    Route::get('list', [DepartamentoController::class, 'index'])->middleware('active')->middleware('roles');
+    Route::post('create', [DepartamentoController::class, 'store'])->middleware('active')->middleware('adminstradores');
+    Route::get('show/{id}', [DepartamentoController::class, 'show'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
+    Route::put('update', [DepartamentoController::class, 'update'])->middleware('active')->middleware('adminstradores');
+    Route::delete('delete/{id}', [DepartamentoController::class, 'destroy'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
 });
 
 //Rutas Productos
