@@ -34,7 +34,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Rutas de autenticación y registro
 Route::prefix('auth')->group(function () {
-    Route::get('hola', [AuthController::class, 'hola']);
     Route::put('register', [AuthController::class, 'registro'])->name('register');
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::put('password', [AuthController::class, 'password'])->name('password');
@@ -42,18 +41,17 @@ Route::prefix('auth')->group(function () {
     Route::post('me', [AuthController::class, 'me']);
     Route::get('meplus', [AuthController::class, 'meplus']);
     Route::post('verifyToken', [AuthController::class, 'verifyToken']);
-    Route::get('prueba', [AuthController::class, 'prueba']);
 });
 
 //Rutas Usuarios
 Route::prefix('users')->group(function () {
-    Route::get('list', [UsersController::class, 'index']);
-    Route::get('colaboradores', [UsersController::class, 'colaboradores']);
-    Route::post('create', [UsersController::class, 'store']);
-    Route::get('show/{id}', [UsersController::class, 'show']);
-    Route::put('update', [UsersController::class, 'update']);
-    Route::delete('delete/{id}', [UsersController::class, 'destroy']);
-    Route::get('nombre', [UsersController::class, 'nombre']);
+    Route::get('list', [UsersController::class, 'index'])->middleware('active')->middleware('adminstradores');
+    Route::get('colaboradores', [UsersController::class, 'colaboradores'])->middleware('active')->middleware('roles');
+    Route::post('create', [UsersController::class, 'store'])->middleware('active')->middleware('adminstradores');
+    Route::get('show/{id}', [UsersController::class, 'show'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
+    Route::put('update', [UsersController::class, 'update'])->middleware('active')->middleware('adminstradores');
+    Route::delete('delete/{id}', [UsersController::class, 'destroy'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
+    Route::get('nombre', [UsersController::class, 'nombre'])->middleware('active')->middleware('adminstradores');
 });
 
 //Rutas de ideas
@@ -61,11 +59,11 @@ Route::prefix('ideas')->group(function () {
     Route::get('list', [IdeasController::class, 'index']);
     Route::post('create', [IdeasController::class, 'create']);
     Route::get('userIdeas', [IdeasController::class, 'userIdeas']);
-    Route::get('userideasall', [IdeasController::class, 'userIdeasAll']);
-    Route::get('ideasAll', [IdeasController::class, 'ideasAll']);
-    Route::get('show/{id}', [IdeasController::class, 'show']);
+    Route::get('userideasall/{estatus?}', [IdeasController::class, 'userIdeasAll'])->where('estatus', '[0-9]+');
+    Route::get('ideasAll', [IdeasController::class, 'ideasAll'])->where('estatus', '[0-9]+');
+    Route::get('show/{id}', [IdeasController::class, 'show'])->where('id', '[0-9]+');
     Route::put('update', [IdeasController::class, 'update']);
-    Route::delete('delete/{id}', [IdeasController::class, 'destroy']);
+    Route::delete('delete/{id}', [IdeasController::class, 'destroy'])->where('id', '[0-9]+');
     Route::put('puntos', [IdeasController::class, 'puntos']);
     Route::get('titulo', [IdeasController::class, 'titulo']);
 });

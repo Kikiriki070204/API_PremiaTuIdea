@@ -45,13 +45,13 @@ class IdeasController extends Controller
         return response()->json(["msg" => "Usuario no Encontrado"], 401);
     }
 
-    public function userIdeasAll(Request $request)
+    public function userIdeasAll($estatus = null)
     {
         $user = auth('api')->user();
 
         if ($user) {
             $validate = Validator::make(
-                $request->all(),
+                ['estatus' => $estatus],
                 [
                     'estatus' => 'nullable|exists:estado_ideas,id'
                 ]
@@ -65,23 +65,23 @@ class IdeasController extends Controller
             }
 
 
-            if ($request->estatus == null) {
+            if ($estatus == null) {
                 $ideas = Idea::where('user_id', $user->id)->get();
 
-                return response()->json(["ideas" => $ideas, "estatus"], 200);
+                return response()->json(["ideas" => $ideas], 200);
             }
 
-            $ideas = Idea::where('user_id', $user->id)->where('estatus', $request->estatus)->get();
+            $ideas = Idea::where('user_id', $user->id)->where('estatus', $estatus)->get();
 
             return response()->json(["ideas" => $ideas], 200);
         }
         return response()->json(["msg" => "Usuario no Encontrado"], 401);
     }
 
-    public function ideasAll(Request $request)
+    public function ideasAll($estatus = null)
     {
         $validate = Validator::make(
-            $request->all(),
+            ['estatus' => $estatus],
             [
                 'estatus' => 'nullable|exists:estado_ideas,id'
             ]
@@ -94,13 +94,13 @@ class IdeasController extends Controller
             ], 422);
         }
 
-        if ($request->estatus == null) {
+        if ($estatus == null) {
             $ideas = Idea::all();
 
             return response()->json(["ideas" => $ideas], 200);
         }
 
-        $ideas = Idea::where('estatus', $request->estatus)->get();
+        $ideas = Idea::where('estatus', $estatus)->get();
 
         return response()->json(["ideas" => $ideas], 200);
     }

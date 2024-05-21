@@ -65,16 +65,27 @@ class AuthController extends Controller
 
         $user = User::where('ibm', request('ibm'))->first();
 
+        if (!$user) {
+            return response()->json([
+                "msg" => "Usuario no encontrado"
+            ], 404);
+        }
+
         if ($user->is_active == false) {
             return response()->json([
                 "msg" => "Usuario no activo"
+            ], 401);
+        }
+        if ($user->password == null || $user->email == null) {
+            return response()->json([
+                "msg" => "Usuario no registrado"
             ], 401);
         }
 
         $credentials = request(['ibm', 'password']);
 
         if (!$token = Auth::guard('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Credenciales incorrectas'], 401);
         }
 
         return $this->respondWithToken($token);
@@ -181,15 +192,5 @@ class AuthController extends Controller
             ->first();
 
         return $user;
-    }
-
-
-    public function prueba()
-    {
-        $user = auth('api')->user();
-        Mail::to($user->email)->send(new aceptacion($user));
-        return response()->json([
-            "msg" => "Correo enviado"
-        ], 200);
     }
 }
