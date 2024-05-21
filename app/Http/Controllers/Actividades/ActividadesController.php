@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Actividades;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ActividadesController extends Controller
 {
@@ -73,7 +74,16 @@ class ActividadesController extends Controller
      */
     public function show($id)
     {
-        $actividad = Actividades::where('id', $id)->first();
+        $actividad = DB::table('actividades')
+            ->join('estado_actividades', 'actividades.id_estado_actividad', '=', 'estado_actividades.id')
+            ->join('usuarios', 'actividades.responsable', '=', 'usuarios.id')
+            ->select(
+                'actividades.*',
+                'estado_actividades.nombre as estado_actividad',
+                'usuarios.nombre as responsable'
+            )
+            ->where('actividades.id', $id)
+            ->first();
 
         if ($actividad) {
             return response()->json(["actividad" => $actividad], 200);
