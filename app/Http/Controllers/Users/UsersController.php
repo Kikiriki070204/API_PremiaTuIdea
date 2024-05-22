@@ -179,6 +179,8 @@ class UsersController extends Controller
 
     public function nombre(Request $request)
     {
+        $user = auth('api')->user();
+
         $validate = Validator::make(
             $request->all(),
             [
@@ -206,6 +208,7 @@ class UsersController extends Controller
                 'locaciones.nombre as locacion'
             )
             ->where('usuarios.nombre', 'like', '%' . $request->nombre . '%')
+            ->where('usuarios.id', '!=', $user->id)
             ->get();
         return response()->json(["users" => $users], 200);
     }
