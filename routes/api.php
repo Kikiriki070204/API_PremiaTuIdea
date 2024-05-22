@@ -127,10 +127,10 @@ Route::prefix('productos')->group(function () {
 //Rutas Usuarios_Equipos
 Route::prefix('userteam')->group(function () {
     Route::get('list', [UsuarioEquipoController::class, 'index'])->middleware('active')->middleware('roles');
-    Route::post('create', [UsuarioEquipoController::class, 'store'])->middleware('active')->middleware('adminstradores');
-    Route::get('show/{id}', [UsuarioEquipoController::class, 'show'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
-    Route::put('update', [UsuarioEquipoController::class, 'update'])->middleware('active')->middleware('adminstradores');
-    Route::delete('delete/{id}', [UsuarioEquipoController::class, 'destroy'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
+    Route::post('create', [UsuarioEquipoController::class, 'store'])->middleware('active')->middleware('roles');
+    Route::get('show/{id}', [UsuarioEquipoController::class, 'show'])->middleware('active')->middleware('roles')->where('id', '[0-9]+');
+    Route::put('update', [UsuarioEquipoController::class, 'update'])->middleware('active')->middleware('roles');
+    Route::delete('delete/{id}', [UsuarioEquipoController::class, 'destroy'])->middleware('active')->middleware('roles')->where('id', '[0-9]+');
 });
 
 //Rutas Estado Ideas
