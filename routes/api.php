@@ -145,7 +145,7 @@ Route::prefix('estadoideas')->group(function () {
 //Rutas de locaciones
 Route::prefix('locaciones')->group(function () {
     Route::get('list', [LocacionController::class, 'index'])->middleware('active')->middleware('roles');
-    Route::get('area', [LocacionController::class, 'area'])->middleware('active')->middleware('roles');
+    Route::post('area', [LocacionController::class, 'area'])->middleware('active')->middleware('roles');
     Route::post('create', [LocacionController::class, 'store'])->middleware('active')->middleware('adminstrador');
     Route::get('show/{id}', [LocacionController::class, 'show'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
     Route::put('update', [LocacionController::class, 'update'])->middleware('active')->middleware('adminstrador');
