@@ -66,6 +66,7 @@ class ActividadesController extends Controller
                 'id_idea' => 'required|integer|exists:ideas,id',
                 'titulo' => 'required|string',
                 'responsable' => 'required|integer|exists:usuarios,id',
+                'fecha_inicio' => 'required|date',
             ]
         );
 
@@ -79,6 +80,7 @@ class ActividadesController extends Controller
         $actividad = new Actividades();
         $actividad->id_idea = $request->id_idea;
         $actividad->titulo = $request->titulo;
+        $actividad->fecha_inicio = $request->fecha_inicio;
         $actividad->responsable = $request->responsable;
         $actividad->save();
         return response()->json([
