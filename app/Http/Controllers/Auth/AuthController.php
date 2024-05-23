@@ -76,7 +76,7 @@ class AuthController extends Controller
                 "msg" => "Usuario no activo"
             ], 401);
         }
-        if ($user->password == null || $user->email == null) {
+        if ($user->password == null) {
             return response()->json([
                 "msg" => "Usuario no registrado"
             ], 401);

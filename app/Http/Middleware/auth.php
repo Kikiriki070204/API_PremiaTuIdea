@@ -21,7 +21,7 @@ class auth
             return response()->json(['error' => 'Usuario no encontrado'], 404);
         }
 
-        if ($user->email == null && $user->password == null) {
+        if ($user->email == null) {
             return response()->json(['error' => 'Registrese primero'], 422);
         }
 
