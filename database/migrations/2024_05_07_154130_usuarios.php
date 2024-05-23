@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('ibm')->unique();
-            $table->string('email')->unique()->nullable();
             $table->string('nombre');
             $table->unsignedBigInteger('departamento_id');
             $table->foreign('departamento_id')->references('id')->on('departamentos')->onDelete('cascade');

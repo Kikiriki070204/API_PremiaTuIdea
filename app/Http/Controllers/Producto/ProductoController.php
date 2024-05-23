@@ -7,6 +7,7 @@ use App\Models\Producto;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\UsuarioPremiosController;
 
 class ProductoController extends Controller
 {
@@ -21,16 +22,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-
-        if (!$user) {
-            return response()->json(["msg" => "No estás autorizado"], 401);
-        }
-        if ($user->rol_id == 1) {
-            $productos = Producto::all();
-        } else {
-            $productos = Producto::where('is_active', true)->where('valor', '<=', $user->puntos)->get();
-        }
+        $productos = Producto::all();
         return response()->json(["productos" => $productos], 200);
     }
 
@@ -59,6 +51,10 @@ class ProductoController extends Controller
                 $usuario = Usuario::find($user->id);
                 $usuario->puntos -= $producto->valor;
                 $usuario->save();
+
+                $usuarioPremiosController = new UsuarioPremiosController();
+                $usuarioPremiosController->store($user->id, $producto->id);
+
                 return response()->json([
                     "msg" => "Producto canjeado correctamente"
                 ], 200);

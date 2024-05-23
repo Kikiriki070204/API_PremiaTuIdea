@@ -15,7 +15,6 @@ class Usuario extends Authenticable implements JWTSubject
     protected $fillable = [
         'ibm',
         'nombre',
-        'email',
         'departamento_id',
         'area_id',
         'locacion_id',
@@ -52,6 +51,16 @@ class Usuario extends Authenticable implements JWTSubject
     public function usuariosEquipos()
     {
         return $this->hasMany(Usuario_Equipo::class, 'id_usuario');
+    }
+
+    public function usuarioPremios()
+    {
+        return $this->hasMany(UsuarioPremios::class, 'id_usuario');
+    }
+
+    public function equipos()
+    {
+        return $this->belongsToMany(Equipo::class, 'usuario_equipos', 'id_usuario', 'id_equipo');
     }
 
     public function getJWTIdentifier()

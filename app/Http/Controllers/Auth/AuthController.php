@@ -97,7 +97,6 @@ class AuthController extends Controller
             $request->all(),
             [
                 'ibm' => 'required|integer',
-                'email' => 'required|email|unique:usuarios,email',
                 'password' => 'required|min:6',
             ]
         );
@@ -122,7 +121,6 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
         return $user;

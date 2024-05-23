@@ -15,6 +15,8 @@ use App\Http\Controllers\Ideas\IdeasController;
 use App\Http\Controllers\Locancion\LocacionController;
 use App\Http\Controllers\Producto\ProductoController;
 use App\Http\Controllers\Users\UsersController;
+use App\Http\Controllers\EstadoUsuarioPremiosController;
+use App\Http\Controllers\UsuarioPremiosController;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 
 /*
@@ -159,4 +161,22 @@ Route::prefix('estadoactividades')->group(function () {
     Route::get('show/{id}', [EstadoActividadesController::class, 'show'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
     Route::put('update', [EstadoActividadesController::class, 'update'])->middleware('active')->middleware('adminstrador');
     Route::delete('delete/{id}', [EstadoActividadesController::class, 'destroy'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
+});
+
+//Rutas Usuario Premios
+Route::prefix('usuariopremios')->group(function () {
+    Route::get('list', [UsuarioPremiosController::class, 'index'])->middleware('active')->middleware('roles');
+    Route::post('create', [UsuarioPremiosController::class, 'store'])->middleware('active')->middleware('roles');
+    Route::get('show/{id}', [UsuarioPremiosController::class, 'show'])->middleware('active')->middleware('roles')->where('id', '[0-9]+');
+    Route::put('update', [UsuarioPremiosController::class, 'update'])->middleware('active')->middleware('roles');
+    Route::delete('delete/{id}', [UsuarioPremiosController::class, 'destroy'])->middleware('active')->middleware('roles')->where('id', '[0-9]+');
+});
+
+//Rutas Estado Usuario Premios
+Route::prefix('estado')->group(function () {
+    Route::get('list', [EstadoUsuarioPremiosController::class, 'index'])->middleware('active')->middleware('roles');
+    Route::post('create', [EstadoUsuarioPremiosController::class, 'store'])->middleware('active')->middleware('adminstrador');
+    Route::get('show/{id}', [EstadoUsuarioPremiosController::class, 'show'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
+    Route::put('update', [EstadoUsuarioPremiosController::class, 'update'])->middleware('active')->middleware('adminstrador');
+    Route::delete('delete/{id}', [EstadoUsuarioPremiosController::class, 'destroy'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
 });

@@ -14,4 +14,9 @@ class Producto extends Model
         'valor',
         'url',
     ];
+
+    public function usuarioPremios()
+    {
+        return $this->hasMany(UsuarioPremios::class, 'id_producto');
+    }
 }
