@@ -72,7 +72,7 @@ class IdeasController extends Controller
             }
 
 
-            if ($estatus == null) {
+            if ($estatus === null) {
                 $ideas = DB::table('ideas')
                     ->join('estado_ideas', 'ideas.estatus', '=', 'estado_ideas.id')
                     ->join('equipos', 'ideas.id', '=', 'equipos.id_idea')
@@ -113,13 +113,23 @@ class IdeasController extends Controller
             ], 422);
         }
 
-        if ($estatus == null) {
-            $ideas = Idea::all();
+        if ($estatus === null) {
+            $ideas = DB::table('ideas')
+                ->join('estado_ideas', 'ideas.estatus', '=', 'estado_ideas.id')
+                ->join('equipos', 'ideas.id', '=', 'equipos.id_idea')
+                ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
+                ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
+                ->get();
 
             return response()->json(["ideas" => $ideas], 200);
         }
-
-        $ideas = Idea::where('estatus', $estatus)->get();
+        $ideas = DB::table('ideas')
+            ->join('estado_ideas', 'ideas.estatus', '=', 'estado_ideas.id')
+            ->join('equipos', 'ideas.id', '=', 'equipos.id_idea')
+            ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
+            ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
+            ->where('ideas.estatus', $estatus)
+            ->get();
 
         return response()->json(["ideas" => $ideas], 200);
     }
