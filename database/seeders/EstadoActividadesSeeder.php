@@ -16,6 +16,7 @@ class EstadoActividadesSeeder extends Seeder
         $estados = [
             ['nombre' => 'Revision'],
             ['nombre' => 'Aceptada'],
+            ['nombre' => 'Finalizada'],
             ['nombre' => 'Rechazada'],
         ];
 

@@ -18,7 +18,7 @@ class AreasSeeder extends Seeder
             'Ignicion',
             'EACV',
             'Otros',
-        ];
+        ]; 
 
         foreach ($areas as $area) {
             Area::create([

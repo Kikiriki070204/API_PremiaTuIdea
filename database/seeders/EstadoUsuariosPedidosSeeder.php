@@ -14,9 +14,9 @@ class EstadoUsuariosPedidosSeeder extends Seeder
     public function run(): void
     {
         $estados = [
-            ['nombre' => 'En proceso'],
-            ['nombre' => 'Entregado'],
-            ['nombre' => 'Cancelado'],
+            ['estado' => 'En proceso'],
+            ['estado' => 'Entregado'],
+            ['estado' => 'Cancelado'],
         ];
 
         foreach ($estados as $estado) {

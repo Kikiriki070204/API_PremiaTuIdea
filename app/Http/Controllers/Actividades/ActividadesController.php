@@ -169,7 +169,7 @@ class ActividadesController extends Controller
         $actividad = Actividades::where('id', $id)->first();
 
         if ($actividad) {
-            $actividad->id_estado_actividad = 3;
+            $actividad->id_estado_actividad = 4;
             $actividad->save();
             return response()->json(["msg" => "Actividad eliminada correctamente"], 200);
         }

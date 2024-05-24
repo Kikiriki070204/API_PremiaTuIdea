@@ -19,7 +19,7 @@ class DepartamentosSeeder extends Seeder
             'Manufactura',
             'Calidad',
             'Compras',
-            'Finanzas',
+            'Finanzas', 
         ];
 
         foreach ($departamentos as $departamento) {
