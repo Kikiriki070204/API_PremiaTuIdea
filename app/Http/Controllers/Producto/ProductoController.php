@@ -8,6 +8,7 @@ use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\UsuarioPremiosController;
+use App\Models\UsuarioPremios;
 
 class ProductoController extends Controller
 {
@@ -52,8 +53,12 @@ class ProductoController extends Controller
                 $usuario->puntos -= $producto->valor;
                 $usuario->save();
 
-                $usuarioPremiosController = new UsuarioPremiosController();
-                $usuarioPremiosController->store($user->id, $producto->id);
+                $usuarioPremios = new UsuarioPremios();
+                $usuarioPremios->id_usuario = $user->id;
+                $usuarioPremios->id_producto = $producto->id;
+                $usuarioPremios->id_estado = 1;
+                $usuarioPremios->folio = rand(10000, 99999);
+                $usuarioPremios->save();
 
                 return response()->json([
                     "msg" => "Producto canjeado correctamente"
