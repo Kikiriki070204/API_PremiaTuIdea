@@ -119,6 +119,7 @@ class IdeasController extends Controller
                 ->join('equipos', 'ideas.id', '=', 'equipos.id_idea')
                 ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
                 ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
+                ->groupBy('ideas.id')
                 ->get();
 
             return response()->json(["ideas" => $ideas], 200);
@@ -129,6 +130,7 @@ class IdeasController extends Controller
             ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
             ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
             ->where('ideas.estatus', $estatus)
+            ->groupBy('ideas.id')
             ->get();
 
         return response()->json(["ideas" => $ideas], 200);
