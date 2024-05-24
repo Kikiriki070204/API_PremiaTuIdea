@@ -38,7 +38,14 @@ class IdeasController extends Controller
         $user = auth('api')->user();
 
         if ($user) {
-            $ideas = Idea::where('user_id', $user->id)->where('estatus', 3)->get();
+            $ideas = DB::table('ideas')
+                ->join('estado_ideas', 'ideas.estatus', '=', 'estado_ideas.id')
+                ->join('equipos', 'ideas.id', '=', 'equipos.id_idea')
+                ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
+                ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
+                ->where('usuarios_equipos.id_usuario', $user->id)
+                ->where('ideas.estatus', 3)
+                ->get();
 
             return response()->json(["ideas" => $ideas], 200);
         }
@@ -66,12 +73,24 @@ class IdeasController extends Controller
 
 
             if ($estatus == null) {
-                $ideas = Idea::where('user_id', $user->id)->get();
+                $ideas = DB::table('ideas')
+                    ->join('estado_ideas', 'ideas.estatus', '=', 'estado_ideas.id')
+                    ->join('equipos', 'ideas.id', '=', 'equipos.id_idea')
+                    ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
+                    ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
+                    ->where('usuarios_equipos.id_usuario', $user->id)
+                    ->get();
 
                 return response()->json(["ideas" => $ideas], 200);
             }
-
-            $ideas = Idea::where('user_id', $user->id)->where('estatus', $estatus)->get();
+            $ideas = DB::table('ideas')
+                ->join('estado_ideas', 'ideas.estatus', '=', 'estado_ideas.id')
+                ->join('equipos', 'ideas.id', '=', 'equipos.id_idea')
+                ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
+                ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
+                ->where('usuarios_equipos.id_usuario', $user->id)
+                ->where('ideas.estatus', $estatus)
+                ->get();
 
             return response()->json(["ideas" => $ideas], 200);
         }
