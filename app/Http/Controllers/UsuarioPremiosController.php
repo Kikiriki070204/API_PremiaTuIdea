@@ -22,7 +22,7 @@ class UsuarioPremiosController extends Controller
         $user = auth('api')->user();
 
         if ($user) {
-            if ($user->rol == 1) {
+            if ($user->rol->id == 1) {
                 $premios = DB::table('usuario_premios')
                     ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
                     ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
