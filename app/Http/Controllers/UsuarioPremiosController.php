@@ -91,7 +91,7 @@ class UsuarioPremiosController extends Controller
             ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
             ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
             ->join('estado_usuario_premios', 'usuario_premios.id_estado', '=', 'estado_usuario_premios.id')
-            ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'productos.url as url', 'estado_usuario_premios.nombre as estado')
+            ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'productos.url as url', 'estado_usuario_premios.estado as estado')
             ->where('usuario_premios.id', $id)
             ->first();
 
