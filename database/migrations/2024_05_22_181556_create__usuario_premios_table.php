@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_producto');
             $table->foreign('id_producto')->references('id')->on('productos');
             $table->unsignedBigInteger('id_estado');
-            $table->foreign('id_estado')->references('id')->on('estado_usuario_premios');
+            $table->foreign('id_estado')->references('id')->on('estado_usuario_premios')->default(1);
             $table->string('folio', 100)->unique();
             $table->timestamps();
         });
