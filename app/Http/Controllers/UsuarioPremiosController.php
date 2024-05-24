@@ -19,22 +19,22 @@ class UsuarioPremiosController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
+        $user = auth('api')->user();
 
         if ($user) {
-            if ($user->rol == 1)
+            if ($user->rol === 1)
                 $premios = DB::table('usuario_premios')
                     ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
                     ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
                     ->join('estado_usuario_premios', 'usuario_premios.id_estado', '=', 'estado_usuario_premios.id')
-                    ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'estado_usuario_premios.nombre as estado')
+                    ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'estado_usuario_premios.estado as estado')
                     ->get();
             else
                 $premios = DB::table('usuario_premios')
                     ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
                     ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
                     ->join('estado_usuario_premios', 'usuario_premios.id_estado', '=', 'estado_usuario_premios.id')
-                    ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'estado_usuario_premios.nombre as estado')
+                    ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'estado_usuario_premios.estado as estado')
                     ->where('usuario_premios.id_usuario', $user->id)
                     ->get();
             return response()->json(["premios" => $premios], 200);
