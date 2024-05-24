@@ -123,7 +123,7 @@ Route::prefix('productos')->group(function () {
     Route::get('show/{id}', [ProductoController::class, 'show'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
     Route::put('update', [ProductoController::class, 'update'])->middleware('active')->middleware('adminstradores');
     Route::delete('delete/{id}', [ProductoController::class, 'destroy'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
-    Route::put('canjear', [ProductoController::class, 'canjear'])->middleware('active')->middleware('roles');
+    Route::post('canjear', [ProductoController::class, 'canjear'])->middleware('active')->middleware('roles');
 });
 
 //Rutas Usuarios_Equipos
