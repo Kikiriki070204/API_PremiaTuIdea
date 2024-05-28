@@ -60,6 +60,7 @@ Route::prefix('ideas')->group(function () {
     Route::get('list', [IdeasController::class, 'index'])->middleware('active')->middleware('adminstradores');
     Route::post('create', [IdeasController::class, 'create'])->middleware('active')->middleware('roles');
     Route::get('userIdeas', [IdeasController::class, 'userIdeas'])->middleware('active')->middleware('roles');
+    Route::get('userIdeasImplementadas/{id}', [IdeasController::class, 'userIdeasImplementadas'])->middleware('active')->middleware('roles');
     Route::get('userideasall/{estatus?}', [IdeasController::class, 'userIdeasAll'])->middleware('active')->middleware('roles')->where('estatus', '[0-9]+');
     Route::get('ideasAll/{estatus?}', [IdeasController::class, 'ideasAll'])->middleware('active')->middleware('adminstradores')->where('estatus', '[0-9]+');
     Route::get('show/{id}', [IdeasController::class, 'show'])->where('id', '[0-9]+')->middleware('active')->middleware('roles');

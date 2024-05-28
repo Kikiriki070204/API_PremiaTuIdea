@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\aceptacion;
 use App\Mail\rechazo;
+use App\Models\User;
 
 class IdeasController extends Controller
 {
@@ -44,6 +45,26 @@ class IdeasController extends Controller
                 ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
                 ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
                 ->where('usuarios_equipos.id_usuario', $user->id)
+                ->where('ideas.estatus', 3)
+                ->get();
+
+            return response()->json(["ideas" => $ideas], 200);
+        }
+        return response()->json(["msg" => "Usuario no Encontrado"], 401);
+    }
+
+    public function userIdeasImplementadas($id)
+    {
+
+        $user = Usuario::find($id);
+
+        if ($user) {
+            $ideas = DB::table('ideas')
+                ->join('estado_ideas', 'ideas.estatus', '=', 'estado_ideas.id')
+                ->join('equipos', 'ideas.id', '=', 'equipos.id_idea')
+                ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
+                ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
+                ->where('usuarios_equipos.id_usuario',$id)
                 ->where('ideas.estatus', 3)
                 ->get();
 
