@@ -42,6 +42,24 @@ class UsersController extends Controller
         return response()->json(["users" => $users], 200);
     }
 
+    public function allUsers()
+    {
+        
+            $user = auth()->user();
+    
+            $users = DB::table('usuarios')
+                ->join('roles', 'usuarios.rol_id', '=', 'roles.id')
+                ->join('departamentos', 'usuarios.departamento_id', '=', 'departamentos.id')
+                ->join('areas', 'usuarios.area_id', '=', 'areas.id')
+                ->leftJoin('locaciones', 'usuarios.locacion_id', '=', 'locaciones.id')
+                ->select('usuarios.*', 'roles.nombre as rol', 'departamentos.nombre as departamento', 'areas.nombre as area', 'locaciones.nombre as locacion')
+                ->where('usuarios.id', '!=', $user->id)
+                ->get();
+    
+            return response()->json(["users" => $users], 200);
+        
+    }
+
     /**
      * Show the form for creating a new resource.
      */

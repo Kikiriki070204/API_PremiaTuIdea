@@ -47,6 +47,7 @@ Route::prefix('auth')->group(function () {
 //Rutas Usuarios
 Route::prefix('users')->group(function () {
     Route::get('list', [UsersController::class, 'index'])->middleware('active')->middleware('adminstradores');
+    Route::get('usuariosAll', [UsersController::class, 'allUsers'])->middleware('active')->middleware('roles');
     Route::get('colaboradores', [UsersController::class, 'colaboradores'])->middleware('active')->middleware('roles');
     Route::post('create', [UsersController::class, 'store'])->middleware('active')->middleware('adminstradores');
     Route::get('show/{id}', [UsersController::class, 'show'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
