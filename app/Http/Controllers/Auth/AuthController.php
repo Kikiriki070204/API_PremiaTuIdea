@@ -117,7 +117,7 @@ class AuthController extends Controller
 
         if ($user->password != null) {
             return response()->json([
-                "msg" => "Usuario no encontrado o Usuario ya registrado"
+                "msg" => "Usuario ya registrado"
             ], 422);
         }
 
