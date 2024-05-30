@@ -113,7 +113,7 @@ class UsersSeeder extends Seeder
                 'area_id' => 1,
                 'locacion_id' => 12,
             ],
-            [
+            /*[
                 'nombre' => 'Juan Vidaña',
                 'ibm' => null,
                 'departamento_id' => 2,
@@ -147,7 +147,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => 12,
-            ],
+            ],*/
             [
                 'nombre' => 'Juan Antonio Gaspar Martinez',
                 'ibm' => 37407258,
