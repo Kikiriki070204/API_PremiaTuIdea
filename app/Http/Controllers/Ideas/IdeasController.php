@@ -10,6 +10,7 @@ use App\Models\Equipo;
 use App\Models\Usuario_Equipo;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\DB;
+use Yaza\LaravelGoogleDriveStorage\Gdrive;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\aceptacion;
 use App\Mail\rechazo;
@@ -64,7 +65,7 @@ class IdeasController extends Controller
                 ->join('equipos', 'ideas.id', '=', 'equipos.id_idea')
                 ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
                 ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
-                ->where('usuarios_equipos.id_usuario',$id)
+                ->where('usuarios_equipos.id_usuario', $id)
                 ->where('ideas.estatus', 3)
                 ->get();
 
@@ -155,9 +156,8 @@ class IdeasController extends Controller
                 [
                     'titulo' => 'required|min:5',
                     'antecedentes' => 'required| max: 2000',
-                    //'condicion_actual'
+                    'condiciones' => 'required|file',
                     'propuesta' => 'required|max: 2000',
-                    //equipo_id
                 ]
             );
 
@@ -174,6 +174,7 @@ class IdeasController extends Controller
             $idea->titulo = $request->titulo;
             $idea->antecedente = $request->antecedentes;
             $idea->propuesta = $request->propuesta;
+            Gdrive::put('Ideas/'+$request->titulo+'.jpg', $request->file('condiciones'));
             $idea->save();
 
             $Equipo = new Equipo();
