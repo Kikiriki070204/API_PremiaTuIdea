@@ -772,6 +772,15 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
+            [
+                'nombre' => 'Bryan Francisco Canales Robledo',
+                'ibm' => 122612,
+                'departamento_id' => null,
+                'area_id' => 1,
+                'locacion_id' => null,
+                'rol_id' => 1,
+            ],
+            
         ];
 
         foreach ($usuarios as $usuario) {
