@@ -215,7 +215,7 @@ class UsersController extends Controller
 
         $users = DB::table('usuarios')
             ->join('roles', 'usuarios.rol_id', '=', 'roles.id')
-            ->join('departamentos', 'usuarios.departamento_id', '=', 'departamentos.id')
+            ->leftJoin('departamentos', 'usuarios.departamento_id', '=', 'departamentos.id')
             ->join('areas', 'usuarios.area_id', '=', 'areas.id')
             ->leftJoin('locaciones', 'usuarios.locacion_id', '=', 'locaciones.id')
             ->select(
