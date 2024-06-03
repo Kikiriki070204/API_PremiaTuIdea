@@ -1006,15 +1006,6 @@ class UsersSeeder extends Seeder
             ],
 
             [
-                'nombre' => 'Bryan Francisco Canales Robledo',
-                'ibm' => 122612,
-                'departamento_id' => null,
-                'area_id' => 1,
-                'locacion_id' => null,
-                'rol_id' => 3,
-            ],
-
-            [
                 'nombre' => 'Tania Maria Hernandez Gonzalez',
                 'ibm' => 122610,
                 'departamento_id' => null,

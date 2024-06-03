@@ -14,7 +14,7 @@ class Idea extends Model
     protected $fillable = [
         'titulo',
         'antecedentes',
-        //condiciones_actuales
+        'condiciones',
         'propuesta',
         'estatus',
         'user_id',
@@ -23,21 +23,21 @@ class Idea extends Model
 
     public function estatus()
     {
-        return $this->belongsTo(Estado_Idea::class,'estatus');
+        return $this->belongsTo(Estado_Idea::class, 'estatus');
     }
 
     public function usuario()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function actividades()
     {
-        return $this->hasMany(Actividades::class,'id_idea');
+        return $this->hasMany(Actividades::class, 'id_idea');
     }
 
     public function equipos()
     {
-        return $this->hasMany(Equipo::class,'id_idea');
+        return $this->hasMany(Equipo::class, 'id_idea');
     }
 }

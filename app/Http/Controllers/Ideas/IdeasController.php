@@ -174,7 +174,8 @@ class IdeasController extends Controller
             $idea->titulo = $request->titulo;
             $idea->antecedente = $request->antecedentes;
             $idea->propuesta = $request->propuesta;
-            Gdrive::put('Ideas/' . $request->titulo . '.jpg', $request->file('condiciones'));
+            $idea->condiciones = $request->file('condiciones')->store('ideas');
+            //Gdrive::put('Ideas/' . $request->titulo . '.jpg', $request->file('condiciones'));
             $idea->save();
 
             $Equipo = new Equipo();

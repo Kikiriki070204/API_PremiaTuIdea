@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('titulo');
             $table->string('antecedente')->max(3000);
             //$table->string('condiciones_actuales');
+            $table->binary('condiciones')->nullable();
             $table->string('propuesta')->max(3000);
             $table->unsignedBigInteger('estatus')->default(1);
             $table->foreign('estatus')->references('id')->on('estado_ideas')->onDelete('cascade');
