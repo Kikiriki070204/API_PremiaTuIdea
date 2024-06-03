@@ -239,7 +239,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Carina Acosta Ramirez',
                 'ibm' => 37400892,
@@ -248,7 +248,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Wendy Selene Rodriguez Mendoza',
                 'ibm' => 37401388,
@@ -257,7 +257,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Javier Ulises Reyes Ruvalcaba',
                 'ibm' => 37402792,
@@ -266,7 +266,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Maria Del Rocio Rivera Ortiz',
                 'ibm' => 37403157,
@@ -275,7 +275,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Jorge Ramirez Flores',
                 'ibm' => 37403236,
@@ -284,7 +284,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Manuela Muñiz Estrada',
                 'ibm' => 37403479,
@@ -293,7 +293,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Marcela Lizeth Palomo Castrellon',
                 'ibm' => 37403973,
@@ -302,7 +302,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Luis Carlos Oceguera Tovar',
                 'ibm' => 37404152,
@@ -311,7 +311,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Abelardo Gallo Ramos',
                 'ibm' => 37404206,
@@ -320,7 +320,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Irma Fabiola Garcia Andrade',
                 'ibm' => 37200480,
@@ -329,7 +329,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Jorge Luis Barraza Briones',
                 'ibm' => 37301379,
@@ -338,7 +338,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Susana Margarita Vargas Basurto',
                 'ibm' => 37301413,
@@ -347,7 +347,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Jorge Gonzalez Perez',
                 'ibm' => 37301492,
@@ -356,7 +356,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Alejandro De Haro Botello',
                 'ibm' => 37301512,
@@ -365,7 +365,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Irineo Lopez Alvarado',
                 'ibm' => 37400043,
@@ -374,7 +374,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Hector Villanueva Limones',
                 'ibm' => 37401226,
@@ -383,7 +383,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Jose Luis De La Rosa Salinas',
                 'ibm' => 37401497,
@@ -392,7 +392,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'David Velazquez Martinez',
                 'ibm' => 37401500,
@@ -401,7 +401,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Carlos Emmanuel Gonzalez Mendoza',
                 'ibm' => 37403718,
@@ -410,7 +410,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Beatriz Adriana Reyes Quevedo',
                 'ibm' => 37405002,
@@ -419,7 +419,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Ricardo Frias Quintero',
                 'ibm' => 37405669,
@@ -428,7 +428,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Manuel Espino Madrid',
                 'ibm' => 37405819,
@@ -437,7 +437,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Christian Abelardo Rodriguez Aldaco',
                 'ibm' => 37405967,
@@ -446,7 +446,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Julio Cesar Delgado Gonzalez',
                 'ibm' => 37405992,
@@ -455,7 +455,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Saul Lopez Castañeda',
                 'ibm' => 37406041,
@@ -464,7 +464,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Adriana Mendoza Ayala',
                 'ibm' => 37401548,
@@ -473,7 +473,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Myriam Jael De La Torre Villarreal',
                 'ibm' => 37400006,
@@ -483,7 +483,7 @@ class UsersSeeder extends Seeder
                 'rol_id' => 1,
             ],
 
-            
+
             [
                 'nombre' => 'Sandra Cecilia Maciel Muñoz',
                 'ibm' => 37406301,
@@ -492,7 +492,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Alma Ruth Castro Oviedo',
                 'ibm' => 37401136,
@@ -501,7 +501,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Michel Binion Lozano',
                 'ibm' => 37406624,
@@ -510,7 +510,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Ruben Alejandro Delgado Gonzalez',
                 'ibm' => 37402916,
@@ -519,7 +519,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Roque Alexander Ake Ake',
                 'ibm' => 37407044,
@@ -528,7 +528,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Angel Eduardo Cervantes Silva',
                 'ibm' => 37407089,
@@ -537,7 +537,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Jose Humberto Alanis Luna',
                 'ibm' => 37407257,
@@ -546,7 +546,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Job Astorga Garcia',
                 'ibm' => 37433105,
@@ -555,7 +555,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Abel Ramirez Diaz',
                 'ibm' => 37433194,
@@ -564,7 +564,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Sara Erika Navarro Najera',
                 'ibm' => 37433740,
@@ -573,7 +573,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Maria Luisa Diaz Valdes',
                 'ibm' => 81400320,
@@ -582,7 +582,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Dulce Gabriela Flores Vazquez',
                 'ibm' => 81400532,
@@ -591,7 +591,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Paola Vianey Uvalle Briones',
                 'ibm' => 81400660,
@@ -600,7 +600,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Alejandro Gonzalez Antunez',
                 'ibm' => 81401155,
@@ -609,7 +609,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Maria Cruz Gonzalez Gonzalez',
                 'ibm' => 81401552,
@@ -618,7 +618,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Irma Esther Caldera Morales',
                 'ibm' => 37301497,
@@ -628,7 +628,7 @@ class UsersSeeder extends Seeder
                 'rol_id' => 1,
             ],
 
-            
+
             [
                 'nombre' => 'Maria Valeria Sandoval Hernandez',
                 'ibm' => 81401874,
@@ -637,7 +637,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Gumercindo Ibarra Sariñana',
                 'ibm' => 37400171,
@@ -646,7 +646,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Cesar Alejandro Martinez Martinez',
                 'ibm' => 81402049,
@@ -655,7 +655,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-  
+
             [
                 'nombre' => 'Erik Israel Cornejo Tarango',
                 'ibm' => 81402071,
@@ -664,7 +664,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Andrea Martinez Garcia',
                 'ibm' => 81402072,
@@ -673,7 +673,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Luis Arturo Serrano Hernandez',
                 'ibm' => 37403644,
@@ -682,7 +682,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Jorge Guerrero De La Torre',
                 'ibm' => 13595,
@@ -691,7 +691,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Rogelio Espinoza Castorena',
                 'ibm' => 37301509,
@@ -700,7 +700,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Juan Alberto Alvarado Aguirre',
                 'ibm' => 37401708,
@@ -709,7 +709,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Jesus Contreras Aguirre',
                 'ibm' => 37403435,
@@ -718,7 +718,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Roberto Rodriguez Morales',
                 'ibm' => 81400148,
@@ -727,7 +727,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Angel Dorado Saldaña',
                 'ibm' => 81400147,
@@ -736,7 +736,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Ruth Gamboa Martinez',
                 'ibm' => 37406857,
@@ -745,7 +745,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Oscar Gamboa Ortiz',
                 'ibm' => 13603,
@@ -754,7 +754,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Raúl Felipe Vargas Martinez',
                 'ibm' => 37406326,
@@ -763,7 +763,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
             [
                 'nombre' => 'Salvador Esteban Ayala Hernandez',
                 'ibm' => 37402947,
@@ -780,7 +780,330 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-            
+
+            [
+                'nombre' => 'Eduardo Emmanuel Chavez Rodriguez',
+                'ibm' => 90680,
+                'departamento_id' => null,
+                'area_id' => 1,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Isaac Neftali Gonzalez Salcido',
+                'ibm' => 90705,
+                'departamento_id' => null,
+                'area_id' => 1,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+            [
+                'nombre' => 'Brenda Berenice Vielma Montiel',
+                'ibm' => 90777,
+                'departamento_id' => 4,
+                'area_id' => 3,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Karla Campiz Espitia',
+                'ibm' => 91944,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 1,
+            ],
+
+            [
+                'nombre' => 'Viridiana Lopez Ibarra',
+                'ibm' => 92905,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Marisol Flores Gonzalez',
+                'ibm' => 93054,
+                'departamento_id' => null,
+                'area_id' => 1,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Pedro Esteban Quiroz Hinojosa',
+                'ibm' => 93133,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Martha Maria Castro Carrillo',
+                'ibm' => 93914,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => 53,
+                'rol_id' => 2,
+            ],
+
+            [
+                'nombre' => 'Rogelio Vazquez Aguilera',
+                'ibm' => 94758,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Christian Andres Rodriguez Sanchez',
+                'ibm' => 100358,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Ana Lucia Salazar Lopez',
+                'ibm' => 102577,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Fernando Antonio Felix Velazquez',
+                'ibm' => 102624,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Eduardo Arturo Olivares Schiebeck',
+                'ibm' => 104430,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Yaro Alejandro Uvalle Ruiz',
+                'ibm' => 107287,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Cristian Abraham Lozano Galicia',
+                'ibm' => 108780,
+                'departamento_id' => null,
+                'area_id' => 1,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Pedro Luis Treviño Rojas',
+                'ibm' => 109632,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Gustavo Adolfo Cervantes Silva',
+                'ibm' => 112268,
+                'departamento_id' => null,
+                'area_id' => 3,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Karla Paola Nuñez Hernandez',
+                'ibm' => 114111,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Karla Alejandra Aguilar Gomez',
+                'ibm' => 117223,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Sofia Alejandra Urista Galindo',
+                'ibm' => 117465,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Sergio Alan Bolivar Escarpita',
+                'ibm' => 117652,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Miguel Angel Zuñiga Macias',
+                'ibm' => 118188,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Asuncion Yescas Yescas',
+                'ibm' => 118720,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Laura Gabriela Ibañez Guereca',
+                'ibm' => 118817,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Elena Jimenez Araluce',
+                'ibm' => 122558,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Bryan Francisco Canales Robledo',
+                'ibm' => 122612,
+                'departamento_id' => null,
+                'area_id' => 1,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Tania Maria Hernandez Gonzalez',
+                'ibm' => 122610,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Luis Ramiro Eduardo Estrada Romo',
+                'ibm' => 128676,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Manuel Rene Treviño Aranda',
+                'ibm' => 128680,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Nathalia Mora Ochoa',
+                'ibm' => 129143,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Maria del Carmen Valdez Cordova',
+                'ibm' => 129218,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Adriana Alexandra Sanchez Ortiz',
+                'ibm' => 129219,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Jose Valadez Martinez',
+                'ibm' => 129220,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Francisco de Jesus Nuñez Rodriguez',
+                'ibm' => 129631,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Marco Esteban Estrada Montelongo',
+                'ibm' => 130349,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
+            [
+                'nombre' => 'Manuel Alejandro Del Rio Perez',
+                'ibm' => 133125,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 3,
+            ],
+
         ];
 
         foreach ($usuarios as $usuario) {
