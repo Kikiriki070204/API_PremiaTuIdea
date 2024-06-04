@@ -14,7 +14,6 @@ class Idea extends Model
     protected $fillable = [
         'titulo',
         'antecedentes',
-        'condiciones',
         'propuesta',
         'estatus',
         'user_id',
@@ -39,5 +38,10 @@ class Idea extends Model
     public function equipos()
     {
         return $this->hasMany(Equipo::class, 'id_idea');
+    }
+
+    public function imagenes()
+    {
+        return $this->hasMany(IdeasImagenes::class, 'idea_id');
     }
 }

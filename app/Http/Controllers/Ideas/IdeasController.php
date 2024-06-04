@@ -10,6 +10,8 @@ use App\Models\Equipo;
 use App\Models\Usuario_Equipo;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\DB;
+use App\Models\IdeasImagenes;
+use App\Http\Controllers\Ideas\IdeasImagenesController;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\aceptacion;
@@ -174,9 +176,14 @@ class IdeasController extends Controller
             $idea->titulo = $request->titulo;
             $idea->antecedente = $request->antecedentes;
             $idea->propuesta = $request->propuesta;
-            $idea->condiciones = $request->file('condiciones')->store('ideas');
             //Gdrive::put('Ideas/' . $request->titulo . '.jpg', $request->file('condiciones'));
             $idea->save();
+
+            $imagen = new IdeasImagenes();
+            $imagen->idea_id = $idea->id;
+            $imagen->imagen = file_get_contents($request->file('condiciones')->getPathName());
+            $imagen->mime_type = $request->file('condiciones')->getMimeType();
+            $imagen->save();
 
             $Equipo = new Equipo();
             $Equipo->id_idea = $idea->id;
