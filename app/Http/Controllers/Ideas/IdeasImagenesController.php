@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\IdeasImagenes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 
 class IdeasImagenesController extends Controller
@@ -66,11 +67,10 @@ class IdeasImagenesController extends Controller
             return response()->json(['message' => 'Imagen no encontrada'], 404);
         }
 
-        return response()->make(base64_decode($image->imagen), 200, [
-            'Content-Type' => $image->mime_type,
-            'Content-Disposition' => 'inline; filename="' . $image->id . '.' . $image->mime_type . '"'
-        ]);
+        // Devolver la ruta de la imagen
+        return response()->json(['image_path' => Storage::url($image->imagen)]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
