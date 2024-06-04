@@ -23,8 +23,20 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::all();
-        return response()->json(["productos" => $productos], 200);
+
+        $user = auth('api')->user();
+
+        if (!$user) {
+            return response()->json(["msg" => "No estás autorizado"], 401);
+        }
+
+        if ($user->rol->id == 1) {
+            $productos = Producto::all();
+            return response()->json(["productos" => $productos], 200);
+        } else {
+            $productos = Producto::where('is_active', true)->get();
+            return response()->json(["productos" => $productos], 200);
+        }
     }
 
     public function canjear(Request $request)
