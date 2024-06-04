@@ -68,7 +68,7 @@ class IdeasImagenesController extends Controller
         }
 
         // Devolver la ruta de la imagen
-        return response()->json(['image_path' => Storage::url($image->imagen)]);
+        return response()->json(['image_path' => Public_path('storage/' . $image->imagen)]);
     }
 
 
