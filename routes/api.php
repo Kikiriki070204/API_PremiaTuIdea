@@ -36,8 +36,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/ideas/{filename}', function ($filename)
-{
+Route::get('/ideas/{filename}', function ($filename) {
     $path = storage_path('app/ideas/' . $filename);
 
     if (!File::exists($path)) {
@@ -48,8 +47,8 @@ Route::get('/ideas/{filename}', function ($filename)
     $type = File::mimeType($path);
 
     $response = Response::make($file, 200);
-$response = Response::make($file, 200);
-$response->header("Content-Type", $type);
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
     $response->header("Content-Type", $type);
 
     return $response;
@@ -90,6 +89,13 @@ Route::prefix('ideas')->group(function () {
     Route::delete('delete/{id}', [IdeasController::class, 'destroy'])->where('id', '[0-9]+')->middleware('active')->middleware('adminstradores');
     Route::put('puntos', [IdeasController::class, 'puntos'])->middleware('active')->middleware('adminstradores');
     Route::post('titulo', [IdeasController::class, 'titulo'])->middleware('active')->middleware('roles');
+});
+
+Route::prefix('ideasimagenes')->group(function () {
+    Route::post('create', [IdeasController::class, 'store'])->middleware('active')->middleware('roles');
+    Route::get('show/{id}', [IdeasController::class, 'show'])->middleware('active')->middleware('roles')->where('id', '[0-9]+');
+    Route::put('update', [IdeasController::class, 'update'])->middleware('active')->middleware('roles');
+    Route::delete('delete/{id}', [IdeasController::class, 'destroy'])->middleware('active')->middleware('roles')->where('id', '[0-9]+');
 });
 
 //Rutas de equipos
