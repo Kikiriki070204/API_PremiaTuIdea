@@ -158,7 +158,7 @@ class IdeasController extends Controller
                 [
                     'titulo' => 'required|min:5',
                     'antecedentes' => 'required| max: 2000',
-                    'condiciones' => 'required|file',
+                    'condiciones' => 'required|file|image|mimes:jpeg,png,jpg|max:4900',
                     'propuesta' => 'required|max: 2000',
                 ]
             );
