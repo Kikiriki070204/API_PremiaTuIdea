@@ -17,6 +17,7 @@ use App\Http\Controllers\Producto\ProductoController;
 use App\Http\Controllers\Users\UsersController;
 use App\Http\Controllers\EstadoUsuarioPremiosController;
 use App\Http\Controllers\UsuarioPremiosController;
+use App\Http\Controllers\Ideas\IdeasImagenesController;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Response;
@@ -92,10 +93,10 @@ Route::prefix('ideas')->group(function () {
 });
 
 Route::prefix('ideasimagenes')->group(function () {
-    Route::post('create', [IdeasController::class, 'store'])->middleware('active')->middleware('roles');
-    Route::get('show/{id}', [IdeasController::class, 'show'])->middleware('active')->middleware('roles')->where('id', '[0-9]+');
-    Route::put('update', [IdeasController::class, 'update'])->middleware('active')->middleware('roles');
-    Route::delete('delete/{id}', [IdeasController::class, 'destroy'])->middleware('active')->middleware('roles')->where('id', '[0-9]+');
+    Route::post('create', [IdeasImagenesController::class, 'store'])->middleware('active')->middleware('roles');
+    Route::get('show/{id}', [IdeasImagenesController::class, 'show'])->middleware('active')->middleware('roles')->where('id', '[0-9]+');
+    Route::put('update', [IdeasImagenesController::class, 'update'])->middleware('active')->middleware('roles');
+    Route::delete('delete/{id}', [IdeasImagenesController::class, 'destroy'])->middleware('active')->middleware('roles')->where('id', '[0-9]+');
 });
 
 //Rutas de equipos

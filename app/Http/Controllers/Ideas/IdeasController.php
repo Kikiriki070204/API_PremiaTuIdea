@@ -181,9 +181,12 @@ class IdeasController extends Controller
                 $idea->propuesta = $request->propuesta;
                 $idea->save();
 
+                // Guardar la imagen en el sistema de archivos
+                $path = $request->file('condiciones')->store('public/ideas');
+
                 $imagen = new IdeasImagenes();
                 $imagen->idea_id = $idea->id;
-                $imagen->imagen = file_get_contents($request->file('condiciones')->getPathName());
+                $imagen->imagen = $path; // Guardar la ruta de la imagen en lugar de la imagen en sí
                 $imagen->mime_type = $request->file('condiciones')->getMimeType();
                 $imagen->save();
 
