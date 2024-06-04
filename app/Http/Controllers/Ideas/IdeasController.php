@@ -157,9 +157,9 @@ class IdeasController extends Controller
                 $request->all(),
                 [
                     'titulo' => 'required|min:5',
-                    'antecedentes' => 'required| max: 2000',
+                    'antecedentes' => 'required| max:2000',
                     'condiciones' => 'required|file|image|mimes:jpeg,png,jpg|max:4900',
-                    'propuesta' => 'required|max: 2000',
+                    'propuesta' => 'required|max:2000',
                 ]
             );
 
@@ -170,34 +170,44 @@ class IdeasController extends Controller
                 ], 422);
             }
 
-            $idea = new Idea();
+            DB::beginTransaction();
 
-            $idea->user_id = $user->id;
-            $idea->titulo = $request->titulo;
-            $idea->antecedente = $request->antecedentes;
-            $idea->propuesta = $request->propuesta;
-            //Gdrive::put('Ideas/' . $request->titulo . '.jpg', $request->file('condiciones'));
-            $idea->save();
+            try {
+                $idea = new Idea();
 
-            $imagen = new IdeasImagenes();
-            $imagen->idea_id = $idea->id;
-            $imagen->imagen = file_get_contents($request->file('condiciones')->getPathName());
-            $imagen->mime_type = $request->file('condiciones')->getMimeType();
-            $imagen->save();
+                $idea->user_id = $user->id;
+                $idea->titulo = $request->titulo;
+                $idea->antecedente = $request->antecedentes;
+                $idea->propuesta = $request->propuesta;
+                $idea->save();
 
-            $Equipo = new Equipo();
-            $Equipo->id_idea = $idea->id;
-            $Equipo->save();
+                $imagen = new IdeasImagenes();
+                $imagen->idea_id = $idea->id;
+                $imagen->imagen = file_get_contents($request->file('condiciones')->getPathName());
+                $imagen->mime_type = $request->file('condiciones')->getMimeType();
+                $imagen->save();
 
-            $userTeam = new Usuario_Equipo();
-            $userTeam->id_usuario = $user->id;
-            $userTeam->id_equipo = $Equipo->id;
-            $userTeam->save();
+                $Equipo = new Equipo();
+                $Equipo->id_idea = $idea->id;
+                $Equipo->save();
 
-            return $idea;
+                $userTeam = new Usuario_Equipo();
+                $userTeam->id_usuario = $user->id;
+                $userTeam->id_equipo = $Equipo->id;
+                $userTeam->save();
+
+                DB::commit();
+
+                return $idea;
+            } catch (\Exception $e) {
+                DB::rollback();
+
+                return response()->json(["msg" => "Error al guardar la idea e imagen"], 500);
+            }
         }
         return response()->json(["msg" => "No estás autorizado"], 401);
     }
+
 
     public function show($id)
     {
