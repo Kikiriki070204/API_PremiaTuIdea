@@ -79,7 +79,7 @@ class UsersController extends Controller
                 'ibm' => 'required|integer',
                 'nombre' => 'required|string|max:255|regex:/^[a-zA-Z\s]*$/',
                 'rol_id' => 'required|integer|exists:roles,id',
-                'departamento_id' => 'required|integer|exists:departamentos,id',
+                'departamento_id' => 'nullable|integer',
                 'area_id' => 'required|integer|exists:areas,id',
                 'locacion_id' => 'nullable|integer|exists:locaciones,id',
             ]
@@ -92,14 +92,27 @@ class UsersController extends Controller
             ], 422);
         }
 
-        $user = new Usuario();
-        $user->ibm = $request->ibm;
-        $user->nombre = $request->nombre;
-        $user->rol_id = $request->rol_id;
-        $user->departamento_id = $request->departamento_id;
-        $user->area_id = $request->area_id;
-        $user->locacion_id = $request->locacion_id;
-        $user->save();
+        if($request->departamento_id == 0 || $request->departamento_id == null )
+        {
+            $user = new Usuario();
+            $user->ibm = $request->ibm;
+            $user->nombre = $request->nombre;
+            $user->rol_id = $request->rol_id;
+            $user->departamento_id = null;
+            $user->area_id = $request->area_id;
+            $user->locacion_id = $request->locacion_id;
+            $user->save();
+        }
+        else{
+            $user = new Usuario();
+            $user->ibm = $request->ibm;
+            $user->nombre = $request->nombre;
+            $user->rol_id = $request->rol_id;
+            $user->departamento_id = $request->departamento_id;
+            $user->area_id = $request->area_id;
+            $user->locacion_id = $request->locacion_id;
+            $user->save();
+        }
         return response()->json([
             "msg" => "Usuario creado correctamente"
         ], 201);
@@ -148,7 +161,7 @@ class UsersController extends Controller
                 'ibm' => 'required|integer',
                 'nombre' => 'required|string|max:255|regex:/^[a-zA-Z\s]*$/',
                 'rol_id' => 'required|integer|exists:roles,id',
-                'departamento_id' => 'required|integer|exists:departamentos,id',
+                'departamento_id' => 'nullable|integer|exists:departamentos,id',
                 'area_id' => 'required|integer|exists:areas,id',
                 'is_active' => 'required|boolean',
                 'locacion_id' => 'nullable|integer|exists:locaciones,id',
