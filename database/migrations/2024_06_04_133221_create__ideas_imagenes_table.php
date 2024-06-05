@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('idea_id');
             $table->foreign('idea_id')->references('id')->on('ideas')->onDelete('cascade');
-            $table->binary('imagen');
+            $table->string('imagen');
             $table->string('mime_type');
             $table->boolean('is_active')->default(true);
             $table->timestamps();

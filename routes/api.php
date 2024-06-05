@@ -21,6 +21,7 @@ use App\Http\Controllers\Ideas\IdeasImagenesController;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Response;
+use App\Models\IdeasImagenes;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +80,25 @@ Route::prefix('users')->group(function () {
 
 //Rutas de ideas
 Route::prefix('ideas')->group(function () {
+    Route::get('images/{id}', function ($filename) {
+
+        $idea = IdeasImagenes::where('idea_id', $filename)->first();
+
+        if (!$idea) {
+            return response()->json(['message' => 'Imagen no encontrada'], 404);
+        }
+
+        $filename = $idea->imagen;
+
+
+        $file = \Illuminate\Support\Facades\Storage::get($filename);
+
+        if (!$file) {
+            return response()->json(['message' => 'Imagen no encontrada', 'filename' => $filename], 404);
+        }
+
+        return response($file, 200)->header('Content-Type', 'image/jpeg');
+    });
     Route::get('list', [IdeasController::class, 'index'])->middleware('active')->middleware('adminstradores');
     Route::post('create', [IdeasController::class, 'create'])->middleware('active')->middleware('roles');
     Route::get('userIdeas', [IdeasController::class, 'userIdeas'])->middleware('active')->middleware('roles');

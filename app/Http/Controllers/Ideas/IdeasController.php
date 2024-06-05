@@ -11,6 +11,7 @@ use App\Models\Usuario_Equipo;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\DB;
 use App\Models\IdeasImagenes;
+use Illuminate\Support\Str;
 use App\Http\Controllers\Ideas\IdeasImagenesController;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
 use Illuminate\Support\Facades\Mail;
@@ -182,11 +183,15 @@ class IdeasController extends Controller
                 $idea->save();
 
                 // Guardar la imagen en el sistema de archivos
-                $path = $request->file('condiciones')->store('public/ideas');
+                $file = $request->file('condiciones');
+                $originalFilename = $request->file('condiciones')->getClientOriginalName();
+                $uniqueFilename = Str::uuid() . '.' . pathinfo($originalFilename, PATHINFO_EXTENSION);
+                $path = $file->storePubliclyAs('public/images', $uniqueFilename);
+
 
                 $imagen = new IdeasImagenes();
                 $imagen->idea_id = $idea->id;
-                $imagen->imagen = $path; // Guardar la ruta de la imagen en lugar de la imagen en sí
+                $imagen->imagen = $path;
                 $imagen->mime_type = $request->file('condiciones')->getMimeType();
                 $imagen->save();
 
