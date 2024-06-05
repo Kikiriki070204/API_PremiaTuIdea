@@ -97,7 +97,7 @@ Route::prefix('ideas')->group(function () {
             return response()->json(['message' => 'Imagen no encontrada', 'filename' => $filename], 404);
         }
 
-        return response($file, 200)->header('Content-Type', 'image/jpeg');
+        return response($file, 200)->header('Content-Type', $idea->mime_type);
     });
     Route::get('list', [IdeasController::class, 'index'])->middleware('active')->middleware('adminstradores');
     Route::post('create', [IdeasController::class, 'create'])->middleware('active')->middleware('roles');
