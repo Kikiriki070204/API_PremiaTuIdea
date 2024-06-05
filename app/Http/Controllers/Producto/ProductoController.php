@@ -156,7 +156,7 @@ class ProductoController extends Controller
             $request->all(),
             [
                 'id' => 'required|integer|exists:productos,id',
-                'nombre' => 'required|string|max:255|regex:/^[a-zA-Z\s]*$/',
+                'nombre' => 'required|string|max:255',
                 'valor' => 'required|numeric',
                 'url' => 'nullable|string|url',
                 'is_active' => 'required|boolean',
