@@ -252,7 +252,6 @@ class IdeasController extends Controller
                 'antecedentes' => 'required| max: 2000',
                 'propuesta' => 'required|max: 2000',
                 'estatus' => 'required|integer|exists:estado_ideas,id',
-                'fecha_inicio' => 'required|date',
                 'fecha_fin' => 'nullable|date',
                 'ahorro' => 'nullable|numeric',
                 'contable' => 'nullable|boolean',
@@ -277,7 +276,6 @@ class IdeasController extends Controller
         $idea->antecedente = $request->antecedentes;
         $idea->propuesta = $request->propuesta;
         $idea->estatus = $request->estatus;
-        $idea->fecha_inicio = $request->fecha_inicio;
         $idea->fecha_fin = $request->fecha_fin;
         $idea->ahorro = $request->ahorro;
         $idea->contable = $request->contable;

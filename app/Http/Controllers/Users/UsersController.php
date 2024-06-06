@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 
@@ -44,20 +45,19 @@ class UsersController extends Controller
 
     public function allUsers()
     {
-        
-            $user = auth()->user();
-    
-            $users = DB::table('usuarios')
-                ->join('roles', 'usuarios.rol_id', '=', 'roles.id')
-                ->leftJoin('departamentos', 'usuarios.departamento_id', '=', 'departamentos.id')
-                ->join('areas', 'usuarios.area_id', '=', 'areas.id')
-                ->leftJoin('locaciones', 'usuarios.locacion_id', '=', 'locaciones.id')
-                ->select('usuarios.*', 'roles.nombre as rol', 'departamentos.nombre as departamento', 'areas.nombre as area', 'locaciones.nombre as locacion')
-                ->where('usuarios.id', '!=', $user->id)
-                ->get();
-    
-            return response()->json(["users" => $users], 200);
-        
+
+        $user = auth()->user();
+
+        $users = DB::table('usuarios')
+            ->join('roles', 'usuarios.rol_id', '=', 'roles.id')
+            ->leftJoin('departamentos', 'usuarios.departamento_id', '=', 'departamentos.id')
+            ->join('areas', 'usuarios.area_id', '=', 'areas.id')
+            ->leftJoin('locaciones', 'usuarios.locacion_id', '=', 'locaciones.id')
+            ->select('usuarios.*', 'roles.nombre as rol', 'departamentos.nombre as departamento', 'areas.nombre as area', 'locaciones.nombre as locacion')
+            ->where('usuarios.id', '!=', $user->id)
+            ->get();
+
+        return response()->json(["users" => $users], 200);
     }
 
     /**
@@ -73,6 +73,12 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        $turnos = [
+            'TURNO 13 N1', 'TURNO 51', 'TURNO 8', 'TURNO 4D',
+            'TURNO 7H', 'TURNO 7T', 'TURNO 43', 'TURNO 35', 'TURNO T8', 'TURNO T9',
+            'TURNO 82', 'TURNO 93', 'TURNO 71', 'TURNO 92'
+        ];
+
         $validate = Validator::make(
             $request->all(),
             [
@@ -82,6 +88,7 @@ class UsersController extends Controller
                 'departamento_id' => 'nullable|integer',
                 'area_id' => 'required|integer|exists:areas,id',
                 'locacion_id' => 'nullable|integer|exists:locaciones,id',
+                'turno' => ['required', Rule::in($turnos)],
             ]
         );
 
@@ -92,8 +99,7 @@ class UsersController extends Controller
             ], 422);
         }
 
-        if($request->departamento_id == 0 || $request->departamento_id == null )
-        {
+        if ($request->departamento_id == 0 || $request->departamento_id == null) {
             $user = new Usuario();
             $user->ibm = $request->ibm;
             $user->nombre = $request->nombre;
@@ -102,8 +108,7 @@ class UsersController extends Controller
             $user->area_id = $request->area_id;
             $user->locacion_id = $request->locacion_id;
             $user->save();
-        }
-        else{
+        } else {
             $user = new Usuario();
             $user->ibm = $request->ibm;
             $user->nombre = $request->nombre;
@@ -111,6 +116,7 @@ class UsersController extends Controller
             $user->departamento_id = $request->departamento_id;
             $user->area_id = $request->area_id;
             $user->locacion_id = $request->locacion_id;
+            $user->turno = $request->turno;
             $user->save();
         }
         return response()->json([

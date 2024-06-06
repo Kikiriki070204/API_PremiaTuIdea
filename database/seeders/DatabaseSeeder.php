@@ -15,27 +15,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        //$roles = [
-        //    ['nombre' => 'Admin'],
-        //    ['nombre' => 'Recursos'],
-        //    ['nombre' => 'Usuarios'],
-        //    ['nombre' => 'Invitado']
-        //];
-
-        //foreach ($roles as $rol) {
-        //    Rol::create($rol);
-        //}
-
-        /*$usuarios = [
-            [
-                'nombre' => 'Kiara Admin',
-                'ibm' => 11233,
-                'password' => Hash::make('kikiriki')
-            ],
-        ];
-
-        foreach ($usuarios as $usuario) {
-            User::create($usuario);
-        }*/
+        $this->call([
+            AreasSeeder::class,
+            DepartamentosSeeder::class,
+            LocacionesSeeder::class,
+            RolesSeeder::class,
+            CamposSeeder::class,
+            EstadoIdeasSeeder::class,
+            EstadoActividadesSeeder::class,
+            EstadoUsuariosPedidosSeeder::class,
+            ProductosSeeder::class,
+            UsersSeeder::class,
+        ]);
     }
 }
