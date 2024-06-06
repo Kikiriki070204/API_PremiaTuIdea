@@ -12,6 +12,7 @@ use App\Models\Usuario;
 use Illuminate\Support\Facades\DB;
 use App\Models\IdeasImagenes;
 use Illuminate\Support\Str;
+use App\Models\Historial;
 use App\Http\Controllers\Ideas\IdeasImagenesController;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
 use Illuminate\Support\Facades\Mail;
@@ -161,6 +162,7 @@ class IdeasController extends Controller
                     'antecedentes' => 'required| max:2000',
                     'condiciones' => 'required|file|image|mimes:jpeg,png,jpg|max:4900',
                     'propuesta' => 'required|max:2000',
+                    'fecha_inicio' => 'required|date',
                 ]
             );
 
@@ -180,6 +182,7 @@ class IdeasController extends Controller
                 $idea->titulo = $request->titulo;
                 $idea->antecedente = $request->antecedentes;
                 $idea->propuesta = $request->propuesta;
+                $idea->fecha_inicio = $request->fecha_inicio;
                 $idea->save();
 
                 // Guardar la imagen en el sistema de archivos
@@ -248,7 +251,12 @@ class IdeasController extends Controller
                 'titulo' => 'required|min:5',
                 'antecedentes' => 'required| max: 2000',
                 'propuesta' => 'required|max: 2000',
-                'estatus' => 'required|integer|exists:estado_ideas,id'
+                'estatus' => 'required|integer|exists:estado_ideas,id',
+                'fecha_inicio' => 'required|date',
+                'fecha_fin' => 'nullable|date',
+                'ahorro' => 'nullable|numeric',
+                'contable' => 'nullable|boolean',
+                'campos_id' => 'nullable|integer|exists:campos,id',
             ]
         );
 
@@ -269,6 +277,11 @@ class IdeasController extends Controller
         $idea->antecedente = $request->antecedentes;
         $idea->propuesta = $request->propuesta;
         $idea->estatus = $request->estatus;
+        $idea->fecha_inicio = $request->fecha_inicio;
+        $idea->fecha_fin = $request->fecha_fin;
+        $idea->ahorro = $request->ahorro;
+        $idea->contable = $request->contable;
+        $idea->campos_id = $request->campos_id;
         $idea->save();
 
         return response()->json(["msg" => "Idea actualizada correctamente"], 200);
@@ -286,13 +299,16 @@ class IdeasController extends Controller
         return response()->json(["msg" => "Idea no encontrada"], 404);
     }
 
+
     public function puntos(Request $request)
     {
         $validate = Validator::make(
             $request->all(),
             [
-                'id' => 'required|integer|exists:ideas,id',
-                'puntos' => 'required|integer'
+                'id' => 'required|array',
+                'id.*' => 'integer|exists:usuarios,id',
+                'puntos' => 'required|array',
+                'puntos.*' => 'integer',
             ]
         );
 
@@ -303,15 +319,27 @@ class IdeasController extends Controller
             ], 422);
         }
 
-        $equipo = Equipo::where('id_idea', $request->id)->first();
-        $users = Usuario_Equipo::where('id_equipo', $equipo->id)->get();
-
-        foreach ($users as $user) {
-            $usuario = Usuario::where('id', $user->id_usuario)->first();
-            $usuario->puntos += $request->puntos;
-            $usuario->save();
+        if (count($request->id) != count($request->puntos)) {
+            return response()->json([
+                "msg" => "Los arrays de ID de usuarios y puntos deben tener la misma longitud"
+            ], 422);
         }
 
+        for ($i = 0; $i < count($request->id); $i++) {
+            $usuario = Usuario::find($request->id[$i]);
+            $usuario->puntos += $request->puntos[$i];
+            $usuario->save();
+            $historial = Historial::find($request->id[$i]);
+            if ($historial) {
+                $historial->puntos += $request->puntos[$i];
+                $historial->save();
+            } else {
+                $historial = new Historial();
+                $historial->user_id = $request->id[$i];
+                $historial->puntos = $request->puntos[$i];
+                $historial->save();
+            }
+        }
         return response()->json(["msg" => "Puntos asignados correctamente"], 200);
     }
 

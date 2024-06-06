@@ -63,6 +63,11 @@ class Usuario extends Authenticable implements JWTSubject
         return $this->belongsToMany(Equipo::class, 'usuario_equipos', 'id_usuario', 'id_equipo');
     }
 
+    public function historial()
+    {
+        return $this->hasOne(Historial::class, 'user_id');
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

@@ -23,53 +23,55 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array<int, string>
      */
-     protected $table = 'usuarios'; 
- 
-     protected $fillable = [
-         'ibm',
-         'nombre',
-         'departamento_id',
-         'area_id',
-         'locacion_id',
-         'rol_id',
-         'password',
-         'puntos'
-     ];
- 
-     public function rol()
-     {
-         return $this->belongsTo(Rol::class, 'rol_id');
-     }
- 
-     public function departamento()
-     {
-         return $this->belongsTo(Departamento::class, 'departamento_id');
-     }
- 
-     public function area()
-     {
-         return $this->belongsTo(Area::class, 'area_id');
-     }
- 
-     public function locacion()
-     {
-         return $this->belongsTo(Locacion::class, 'locacion_id');
-     }
+    protected $table = 'usuarios';
 
-     public function getJWTIdentifier()
-     {
-         return $this->getKey();
-     }
- 
-     public function getJWTCustomClaims()
-     {
-         return [];
-     }
-     
-     public function idea()
-     {
-        return $this->hasMany(Idea::class,'user_id');
-     }
+    protected $fillable = [
+        'ibm',
+        'nombre',
+        'departamento_id',
+        'area_id',
+        'locacion_id',
+        'rol_id',
+        'password',
+        'puntos',
+        'is_active',
+        'turno',
+    ];
+
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class, 'rol_id');
+    }
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class, 'departamento_id');
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class, 'area_id');
+    }
+
+    public function locacion()
+    {
+        return $this->belongsTo(Locacion::class, 'locacion_id');
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    public function idea()
+    {
+        return $this->hasMany(Idea::class, 'user_id');
+    }
 
 
 

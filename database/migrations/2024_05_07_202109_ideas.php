@@ -15,13 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->string('antecedente')->max(3000);
-            //$table->string('condiciones_actuales');
             $table->string('propuesta')->max(3000);
             $table->unsignedBigInteger('estatus')->default(1);
             $table->foreign('estatus')->references('id')->on('estado_ideas')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('usuarios')->onDelete('cascade');
-            //$table->string('equipo_id')->nullable();
+            $table->float('ahorro')->nullable()->default(0);
+            $table->boolean('contable')->default(null)->nullable();
+            $table->unsignedBigInteger('campos_id')->nullable();
+            $table->foreign('campos_id')->references('id')->on('campos')->onDelete('cascade');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin')->nullable();
             $table->timestamps();
         });
     }
