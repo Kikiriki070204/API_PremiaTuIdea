@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Historial;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HistorialController extends Controller
 {
@@ -14,7 +15,16 @@ class HistorialController extends Controller
      */
     public function index()
     {
-        $historial = Historial::all()->orderBy('puntos', 'desc')->where('is_active', true);
+        $historial = DB::table('historials')
+            ->join('usuarios', 'historials.user_id', '=', 'usuarios.id')
+            ->select('historials.*', 'usuarios.ibm', 'usuarios.nombre')
+            ->where('historials.is_active', true)
+            ->where('usuarios.is_active', true)
+            ->orderBy('historials.puntos', 'desc')
+            ->limit(10)
+            ->get();
+
+        //$historial = Historial::where('is_active', true)->orderBy('puntos', 'desc')->get();
         return response()->json(["historial" => $historial], 200);
     }
 

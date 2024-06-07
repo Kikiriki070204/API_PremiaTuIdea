@@ -18,6 +18,8 @@ use App\Http\Controllers\Users\UsersController;
 use App\Http\Controllers\EstadoUsuarioPremiosController;
 use App\Http\Controllers\UsuarioPremiosController;
 use App\Http\Controllers\Ideas\IdeasImagenesController;
+use App\Http\Controllers\Campos\CamposController;
+use App\Http\Controllers\Historial\HistorialController;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Response;
@@ -229,4 +231,20 @@ Route::prefix('estado')->group(function () {
     Route::get('show/{id}', [EstadoUsuarioPremiosController::class, 'show'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
     Route::put('update', [EstadoUsuarioPremiosController::class, 'update'])->middleware('active')->middleware('adminstrador');
     Route::delete('delete/{id}', [EstadoUsuarioPremiosController::class, 'destroy'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
+});
+
+Route::prefix('campos')->group(function () {
+    Route::get('list', [CamposController::class, 'index'])->middleware('roles');
+    Route::post('create', [CamposController::class, 'store'])->middleware('adminstradores');
+    Route::get('show/{id}', [CamposController::class, 'show'])->where('id', '[0-9]+')->middleware('roles');
+    Route::put('update', [CamposController::class, 'update'])->middleware('adminstradores');
+    Route::delete('delete/{id}', [CamposController::class, 'destroy'])->where('id', '[0-9]+')->middleware('adminstradores');
+});
+
+Route::prefix('historial')->group(function () {
+    Route::get('list', [HistorialController::class, 'index'])->middleware('roles');
+    Route::post('create', [HistorialController::class, 'store'])->middleware('roles');
+    Route::get('show/{id}', [HistorialController::class, 'show'])->where('id', '[0-9]+')->middleware('roles');
+    Route::put('update', [HistorialController::class, 'update'])->middleware('roles');
+    Route::delete('delete/{id}', [HistorialController::class, 'destroy'])->where('id', '[0-9]+')->middleware('administadores');
 });

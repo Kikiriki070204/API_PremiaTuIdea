@@ -22,6 +22,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('usuarios')->onDelete('cascade');
             $table->float('ahorro')->nullable()->default(0);
             $table->boolean('contable')->default(null)->nullable();
+            $table->unsignedBigInteger('area_id');
+            $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
             $table->unsignedBigInteger('campos_id')->nullable();
             $table->foreign('campos_id')->references('id')->on('campos')->onDelete('cascade');
             $table->date('fecha_inicio');

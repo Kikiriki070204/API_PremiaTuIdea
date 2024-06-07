@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Usuario_Equipo;
 
+use function PHPSTORM_META\map;
+
 class UsuarioEquipoController extends Controller
 {
     public function __construct()
@@ -42,7 +44,7 @@ class UsuarioEquipoController extends Controller
             [
                 'id_usuarios' => 'required|array',
                 'id_usuarios.*' => 'integer|exists:usuarios,id',
-                'id_equipo' => 'required|integer|exists:equipos,id',
+                'id' => 'required|integer|exists:ideas,id',
                 'nombre' => 'max:255|nullable|regex:/^[a-zA-Z0-9\s]+$/u',
             ]
         );
@@ -54,10 +56,18 @@ class UsuarioEquipoController extends Controller
             ], 422);
         }
 
+        $id_equipo = Equipo::where('id_idea', $request->id)->first();
+        if (!$id_equipo) {
+            $equipo = new Equipo();
+            $equipo->id_idea = $request->id;
+            $equipo->nombre = $request->nombre;
+            $equipo->save();
+        }
+
         foreach ($request->id_usuarios as $id_usuario) {
             $usuarioEquipo = new Usuario_Equipo();
             $usuarioEquipo->id_usuario = $id_usuario;
-            $usuarioEquipo->id_equipo = $request->id_equipo;
+            $usuarioEquipo->id_equipo = $id_equipo->id;
             $usuarioEquipo->save();
         }
         if ($request->nombre) {
@@ -122,18 +132,37 @@ class UsuarioEquipoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $usuarioEquipo = Usuario_Equipo::find($id);
-        if ($usuarioEquipo) {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|integer|exists:ideas,id',
+            'id_usuarios' => 'required|array',
+            'id_usuarios.*' => 'integer|exists:usuarios,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "errors" => $validator->errors(),
+                "msg" => "Errores de validación"
+            ], 422);
+        }
+
+        $equipo = Equipo::where('id', $request->id_idea)->first();
+
+        if (!$equipo) {
+            return response()->json([
+                "msg" => "No se encontro el equipo"
+            ], 404);
+        }
+
+        foreach ($request->id_usuarios as $id_usuario) {
+            $usuarioEquipo = Usuario_Equipo::where('id_usuario', $id_usuario)->where('id_equipo', $equipo->id)->first();
             $usuarioEquipo->is_active = false;
             $usuarioEquipo->save();
-            return response()->json([
-                "msg" => "Usuario eliminado del equipo correctamente"
-            ], 200);
         }
+
         return response()->json([
-            "msg" => "Usuario no encontrado"
-        ], 404);
+            "msg" => "Usuario eliminado del equipo correctamente"
+        ], 200);
     }
 }

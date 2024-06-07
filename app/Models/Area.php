@@ -15,12 +15,18 @@ class Area extends Model
         'nombre'
     ];
 
-    public function locacion(){
+    public function locacion()
+    {
         return $this->hasMany(Locacion::class, 'area_id');
     }
 
     public function user()
     {
         return $this->hasMany(User::class, 'area_id');
+    }
+
+    public function ideas()
+    {
+        return $this->hasMany(Idea::class, 'area_id');
     }
 }

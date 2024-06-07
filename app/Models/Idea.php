@@ -17,7 +17,12 @@ class Idea extends Model
         'propuesta',
         'estatus',
         'user_id',
-        //'equipo_id'
+        'ahorro',
+        'contable',
+        'area_id',
+        'campos_id',
+        'fecha_inicio',
+        'fecha_fin',
     ];
 
     public function estatus()
@@ -43,5 +48,15 @@ class Idea extends Model
     public function imagenes()
     {
         return $this->hasMany(IdeasImagenes::class, 'idea_id');
+    }
+
+    public function campos()
+    {
+        return $this->belongsToMany(Campos::class, 'campos_id');
+    }
+
+    public function area()
+    {
+        return $this->belongsToMany(Area::class, 'area_id');
     }
 }
