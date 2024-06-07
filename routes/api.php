@@ -112,6 +112,8 @@ Route::prefix('ideas')->group(function () {
     Route::delete('delete/{id}', [IdeasController::class, 'destroy'])->where('id', '[0-9]+')->middleware('active')->middleware('adminstradores');
     Route::put('puntos', [IdeasController::class, 'puntos'])->middleware('active')->middleware('adminstradores');
     Route::post('titulo', [IdeasController::class, 'titulo'])->middleware('active')->middleware('roles');
+    Route::get('ahorrocontable', [IdeasController::class, 'ahorroContable'])->middleware('active')->middleware('roles');
+    Route::get('ahorronocontable', [IdeasController::class, 'ahorronoContable'])->middleware('active')->middleware('roles');
 });
 
 Route::prefix('ideasimagenes')->group(function () {

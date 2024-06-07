@@ -155,6 +155,8 @@ class IdeasController extends Controller
         $user = auth('api')->user();
 
         if ($user) {
+            $request->merge(['area_id' => intval($request->area_id)]);
+
             $validate = Validator::make(
                 $request->all(),
                 [
@@ -192,7 +194,6 @@ class IdeasController extends Controller
                 $originalFilename = $request->file('condiciones')->getClientOriginalName();
                 $uniqueFilename = Str::uuid() . '.' . pathinfo($originalFilename, PATHINFO_EXTENSION);
                 $path = $file->storePubliclyAs('public/images', $uniqueFilename);
-
 
                 $imagen = new IdeasImagenes();
                 $imagen->idea_id = $idea->id;
@@ -352,26 +353,51 @@ class IdeasController extends Controller
 
     public function ahorrocontable()
     {
-        $ideasPorArea = DB::table('ideas')
+        $totalAhorros = DB::table('ideas')
+            ->where('contable', 1)
+            ->sum('ahorros');
+        $totalPuntos = DB::table('ideas')
+            ->where('contable', 1)
+            ->sum('puntos');
+        $ahorrosPorArea = DB::table('ideas')
             ->join('areas', 'ideas.area_id', '=', 'areas.id')
-            ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.ahorros) as total_ahorros'), DB::raw('SUM(ideas.puntos) as total_puntos'))
+            ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.ahorros) as total_ahorros'))
             ->where('ideas.contable', 1)
             ->groupBy('ideas.area_id')
             ->get();
+        $puntosPorArea = DB::table('ideas')
+            ->join('areas', 'ideas.area_id', '=', 'areas.id')
+            ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.puntos) as total_puntos'))
+            ->where('ideas.contable', 1)
+            ->groupBy('ideas.area_id')
+            ->get();
+        $respuesta = [
+            'total_ahorros' => $totalAhorros,
+            'total_puntos' => $totalPuntos,
+            'ahorros_por_area' => $ahorrosPorArea,
+            'puntos_por_area' => $puntosPorArea
+        ];
 
-        return response()->json(["msg" => $ideasPorArea, 200]);
+        return response()->json(["msg" => $respuesta, 200]);
     }
 
     public function ahorronocontable()
     {
-        $ideasPorArea = DB::table('ideas')
+        $totalPuntos = DB::table('ideas')
+            ->where('contable', 0)
+            ->sum('puntos');
+        $puntosPorArea = DB::table('ideas')
             ->join('areas', 'ideas.area_id', '=', 'areas.id')
-            ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.ahorros) as total_ahorros'), DB::raw('SUM(ideas.puntos) as total_puntos'))
+            ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.puntos) as total_puntos'))
             ->where('ideas.contable', 0)
             ->groupBy('ideas.area_id')
             ->get();
+        $respuesta = [
+            'total_puntos' => $totalPuntos,
+            'puntos_por_area' => $puntosPorArea
+        ];
 
-        return response()->json(["msg" => $ideasPorArea, 200]);
+        return response()->json(["msg" => $respuesta, 200]);
     }
 
     public function titulo(Request $request)
