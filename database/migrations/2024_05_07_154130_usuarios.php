@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('locacion_id')->nullable();
             $table->foreign('locacion_id')->references('id')->on('locaciones')->onDelete('cascade');
             $table->string('password')->nullable();
-            $table->unsignedBigInteger('rol_id')->default(3);
+            $table->unsignedBigInteger('rol_id')->default(4);
             $table->enum('turno', [
                 'TURNO 13 N1', 'TURNO 51', 'TURNO 8', 'TURNO 4D', 'TURNO 7H', 'TURNO 7T', 'TURNO 43', 'TURNO 35', 'TURNO T8',
                 'TURNO T9', 'TURNO 82', 'TURNO 93', 'TURNO 71', 'TURNO 92'

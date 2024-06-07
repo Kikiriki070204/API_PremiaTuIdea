@@ -15,7 +15,7 @@ class roles
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth('api')->user()->rol_id == 4) {
+        if (auth('api')->user()->rol_id == 5) {
             return response()->json(['error' => 'No tines permiso para esta acción'], 401);
         }
         return $next($request);

@@ -300,11 +300,13 @@ class IdeasController extends Controller
 
     public function puntos(Request $request)
     {
+        $puntosIdea = 0;
         $validate = Validator::make(
             $request->all(),
             [
-                'id' => 'required|array',
-                'id.*' => 'integer|exists:usuarios,id',
+                'id' => 'required|integer|exists:ideas,id',
+                'id_usuarios' => 'required|array',
+                'id_usuarios.*' => 'integer|exists:usuarios,id',
                 'puntos' => 'required|array',
                 'puntos.*' => 'integer',
             ]
@@ -317,27 +319,32 @@ class IdeasController extends Controller
             ], 422);
         }
 
-        if (count($request->id) != count($request->puntos)) {
+        if (count($request->id_usuarios) != count($request->puntos)) {
             return response()->json([
                 "msg" => "Los arrays de ID de usuarios y puntos deben tener la misma longitud"
             ], 422);
         }
 
         for ($i = 0; $i < count($request->id); $i++) {
-            $usuario = Usuario::find($request->id[$i]);
+            $usuario = Usuario::find($request->id_usuarios[$i]);
             $usuario->puntos += $request->puntos[$i];
             $usuario->save();
-            $historial = Historial::find($request->id[$i]);
+            $historial = Historial::find($request->id_usuarios[$i]);
             if ($historial) {
                 $historial->puntos += $request->puntos[$i];
                 $historial->save();
             } else {
                 $historial = new Historial();
-                $historial->user_id = $request->id[$i];
+                $historial->user_id = $request->id_usuarios[$i];
                 $historial->puntos = $request->puntos[$i];
                 $historial->save();
             }
+            $puntosIdea += $request->puntos[$i];
         }
+
+        $idea = Idea::find($request->id);
+        $idea->puntos = $puntosIdea;
+        $idea->save();
         return response()->json(["msg" => "Puntos asignados correctamente"], 200);
     }
 

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreign('campos_id')->references('id')->on('campos')->onDelete('cascade');
             $table->date('fecha_inicio');
             $table->date('fecha_fin')->nullable();
+            $table->integer('puntos')->default(0);
             $table->timestamps();
         });
     }

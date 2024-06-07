@@ -15,7 +15,7 @@ class administrador
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth('api')->user()->rol_id == 1) {
+        if (auth('api')->user()->rol_id == 1 || auth('api')->user()->rol_id == 2){
             return $next($request);
         }
         return response()->json(['error' => 'No tienes permiso para esta acción'], 401);
