@@ -381,10 +381,10 @@ class IdeasController extends Controller
     {
         $totalAhorros = DB::table('ideas')
             ->where('contable', true)
-            ->sum('ahorros');
+            ->sum('ahorro');
         $ahorrosPorArea = DB::table('ideas')
             ->join('areas', 'ideas.area_id', '=', 'areas.id')
-            ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.ahorros) as total_ahorros'), DB::raw('COUNT(ideas.id) as total_ideas'))
+            ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.ahorro) as total_ahorros'), DB::raw('COUNT(ideas.id) as total_ideas'))
             ->where('ideas.contable', true)
             ->groupBy('ideas.area_id', 'areas.nombre')
             ->get();
