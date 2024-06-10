@@ -351,30 +351,61 @@ class IdeasController extends Controller
         return response()->json(["msg" => "Puntos asignados correctamente"], 200);
     }
 
+    public function ideascontables()
+    {
+        $totalIdeas = DB::table('ideas')
+            ->where('contable', true)
+            ->count();
+
+        $totalideasPorArea = DB::table('ideas')
+            ->join('areas', 'ideas.area_id', '=', 'areas.id')
+            ->select('areas.nombre as nombre_area', DB::raw('COUNT(ideas.id) as total_ideas'))
+            ->where('ideas.contable', true)
+            ->groupBy('ideas.area_id')
+            ->get();
+
+        $respuesta = [
+            'total_ideas' => $totalIdeas,
+            'ideas_por_area' => $totalideasPorArea
+        ];
+
+        return response()->json(["msg" => $respuesta, 200]);
+    }
+
     public function ahorrocontable()
     {
         $totalAhorros = DB::table('ideas')
-            ->where('contable', 1)
+            ->where('contable', true)
             ->sum('ahorros');
-        $totalPuntos = DB::table('ideas')
-            ->where('contable', 1)
-            ->sum('puntos');
         $ahorrosPorArea = DB::table('ideas')
             ->join('areas', 'ideas.area_id', '=', 'areas.id')
-            ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.ahorros) as total_ahorros'))
-            ->where('ideas.contable', 1)
+            ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.ahorros) as total_ahorros'), DB::raw('COUNT(ideas.id) as total_ideas'))
+            ->where('ideas.contable', true)
             ->groupBy('ideas.area_id')
             ->get();
+
+        $respuesta = [
+            'total_ahorros' => $totalAhorros,
+            'ahorros_por_area' => $ahorrosPorArea,
+        ];
+
+        return response()->json(["msg" => $respuesta, 200]);
+    }
+
+    public function puntoscontables()
+    {
+        $totalPuntos = DB::table('ideas')
+            ->where('contable', true)
+            ->sum('puntos');
         $puntosPorArea = DB::table('ideas')
             ->join('areas', 'ideas.area_id', '=', 'areas.id')
             ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.puntos) as total_puntos'))
-            ->where('ideas.contable', 1)
+            ->where('ideas.contable', true)
             ->groupBy('ideas.area_id')
             ->get();
+
         $respuesta = [
-            'total_ahorros' => $totalAhorros,
             'total_puntos' => $totalPuntos,
-            'ahorros_por_area' => $ahorrosPorArea,
             'puntos_por_area' => $puntosPorArea
         ];
 
@@ -384,7 +415,7 @@ class IdeasController extends Controller
     public function ahorronocontable()
     {
         $totalPuntos = DB::table('ideas')
-            ->where('contable', 0)
+            ->where('contable', false)
             ->sum('puntos');
         $puntosPorArea = DB::table('ideas')
             ->join('areas', 'ideas.area_id', '=', 'areas.id')
@@ -395,6 +426,26 @@ class IdeasController extends Controller
         $respuesta = [
             'total_puntos' => $totalPuntos,
             'puntos_por_area' => $puntosPorArea
+        ];
+
+        return response()->json(["msg" => $respuesta, 200]);
+    }
+
+    public function ideasnocontable()
+    {
+        $totalIdeas = DB::table('ideas')
+            ->where('contable', false)
+            ->count();
+        $totalideasPorArea = DB::table('ideas')
+            ->join('areas', 'ideas.area_id', '=', 'areas.id')
+            ->select('areas.nombre as nombre_area', DB::raw('COUNT(ideas.id) as total_ideas'))
+            ->where('ideas.contable', false)
+            ->groupBy('ideas.area_id')
+            ->get();
+
+        $respuesta = [
+            'total_ideas' => $totalIdeas,
+            'ideas_por_area' => $totalideasPorArea
         ];
 
         return response()->json(["msg" => $respuesta, 200]);
