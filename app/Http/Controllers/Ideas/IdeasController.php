@@ -231,6 +231,11 @@ class IdeasController extends Controller
             ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
             ->where('ideas.id', $id)
             ->first();
+
+        if (!$idea) {
+            return response()->json(["msg" => "Idea no encontrada"], 404);
+        }
+
         $colaboradores = DB::table('usuarios_equipos')
             ->join('equipos', 'usuarios_equipos.id_equipo', '=', 'equipos.id')
             ->join('usuarios', 'usuarios_equipos.id_usuario', '=', 'usuarios.id')

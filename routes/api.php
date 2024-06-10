@@ -81,7 +81,7 @@ Route::prefix('users')->group(function () {
 });
 
 //Rutas de ideas
-Route::prefix('ideas')->group(function () {
+Route::prefix('ideass')->group(function () {
     Route::get('images/{id}', function ($filename) {
 
         $idea = IdeasImagenes::where('idea_id', $filename)->first();
