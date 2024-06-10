@@ -15,10 +15,11 @@ class AreasSeeder extends Seeder
     {
         $areas = [
             'Exhaust',
+            'SRA',
             'Ignicion',
             'EACV',
             'Otros',
-        ]; 
+        ];
 
         foreach ($areas as $area) {
             Area::create([
