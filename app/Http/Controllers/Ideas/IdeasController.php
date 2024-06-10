@@ -366,7 +366,7 @@ class IdeasController extends Controller
             ->join('areas', 'ideas.area_id', '=', 'areas.id')
             ->select('areas.nombre as nombre_area', DB::raw('COUNT(ideas.id) as total_ideas'))
             ->where('ideas.contable', true)
-            ->groupBy('ideas.area_id')
+            ->groupBy('ideas.area_id', 'areas.nombre') // Agregar 'areas.nombre' al GROUP BY
             ->get();
 
         $respuesta = [
@@ -386,7 +386,7 @@ class IdeasController extends Controller
             ->join('areas', 'ideas.area_id', '=', 'areas.id')
             ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.ahorros) as total_ahorros'), DB::raw('COUNT(ideas.id) as total_ideas'))
             ->where('ideas.contable', true)
-            ->groupBy('ideas.area_id')
+            ->groupBy('ideas.area_id', 'areas.nombre')
             ->get();
 
         $respuesta = [
@@ -406,7 +406,7 @@ class IdeasController extends Controller
             ->join('areas', 'ideas.area_id', '=', 'areas.id')
             ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.puntos) as total_puntos'))
             ->where('ideas.contable', true)
-            ->groupBy('ideas.area_id')
+            ->groupBy('ideas.area_id', 'areas.nombre')
             ->get();
 
         $respuesta = [
@@ -426,7 +426,7 @@ class IdeasController extends Controller
             ->join('areas', 'ideas.area_id', '=', 'areas.id')
             ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.puntos) as total_puntos'))
             ->where('ideas.contable', 0)
-            ->groupBy('ideas.area_id')
+            ->groupBy('ideas.area_id', 'areas.nombre')
             ->get();
         $respuesta = [
             'total_puntos' => $totalPuntos,
@@ -445,7 +445,7 @@ class IdeasController extends Controller
             ->join('areas', 'ideas.area_id', '=', 'areas.id')
             ->select('areas.nombre as nombre_area', DB::raw('COUNT(ideas.id) as total_ideas'))
             ->where('ideas.contable', false)
-            ->groupBy('ideas.area_id')
+            ->groupBy('ideas.area_id', 'areas.nombre')
             ->get();
 
         $respuesta = [
