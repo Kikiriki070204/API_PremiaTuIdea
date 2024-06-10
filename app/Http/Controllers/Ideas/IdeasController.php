@@ -436,7 +436,7 @@ class IdeasController extends Controller
         return response()->json(["msg" => $respuesta, 200]);
     }
 
-    public function ideasnocontable()
+    public function ideasnocontables()
     {
         $totalIdeas = DB::table('ideas')
             ->where('contable', false)
