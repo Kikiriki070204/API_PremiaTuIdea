@@ -15,9 +15,9 @@ class AreasSeeder extends Seeder
     {
         $areas = [
             'Exhaust',
-            'SRA',
             'Ignicion',
             'EACV',
+            'SRA',
             'Otros',
         ];
 

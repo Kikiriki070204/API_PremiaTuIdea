@@ -20,7 +20,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Fernando Jared Soria Davila',
@@ -28,7 +28,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'San Juanita Nava Rodriguez',
@@ -36,7 +36,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Laura Paola Camacho Palacios',
@@ -44,7 +44,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Gabriela Alejandra Ramirez Moreno',
@@ -52,7 +52,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Avimael Aispuro V',
@@ -60,7 +60,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Esmeralda Janett Valenzuela Becerra',
@@ -68,7 +68,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Anabel Salaises  Escobar',
@@ -76,7 +76,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
 
             [
@@ -85,7 +85,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Norma Nayelli Sandoval Vazquez',
@@ -93,7 +93,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Cesar Humberto Valenciana Hernadez',
@@ -101,7 +101,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Carmen Mayela Macias Aguilar',
@@ -109,7 +109,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Cecilia Isabel Tijerina Montoya',
@@ -117,7 +117,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Ma Soledad Aguilar Aguilar',
@@ -125,7 +125,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => 12,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             /*[
                 'nombre' => 'Juan Vidaña',
@@ -168,7 +168,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Elizabeth Janeth Tonche',
@@ -176,7 +176,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Martha Gallardo Morillon',
@@ -184,7 +184,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Omar Daniel Espinoza Rodriguez',
@@ -192,7 +192,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Bibian Fernanda de la Rosa Salazar ',
@@ -200,7 +200,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => 2,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4
+                'rol_id' => 5
             ],
             [
                 'nombre' => 'Ricardo Partezan Bianchini',
@@ -216,7 +216,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 2,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
             [
                 'nombre' => 'Jorge Christian Lopez Dominguez',
@@ -224,7 +224,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
             [
                 'nombre' => 'Mayela Del Carmen Flores Flores',
@@ -232,7 +232,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
             [
                 'nombre' => 'Genaro Perez Rodriguez',
@@ -240,7 +240,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 2,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
             [
                 'nombre' => 'Jorge Alberto Jimenez Frausto',
@@ -248,7 +248,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
             [
                 'nombre' => 'Naaman Villela Estrada',
@@ -256,7 +256,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 3,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -265,7 +265,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -274,16 +274,16 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+            //
             [
                 'nombre' => 'Javier Ulises Reyes Ruvalcaba',
                 'ibm' => 37402792,
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -292,7 +292,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -301,7 +301,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -310,7 +310,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -319,7 +319,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -328,7 +328,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -337,7 +337,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -346,7 +346,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -355,7 +355,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 2,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -364,7 +364,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 2,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -373,7 +373,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -391,7 +391,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -409,7 +409,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -418,7 +418,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -427,7 +427,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -436,7 +436,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -445,7 +445,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -454,7 +454,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -463,7 +463,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -472,7 +472,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -481,7 +481,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -490,18 +490,17 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 2,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+            //
             [
                 'nombre' => 'Myriam Jael De La Torre Villarreal',
                 'ibm' => 37400006,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
 
             [
                 'nombre' => 'Sandra Cecilia Maciel Muñoz',
@@ -509,7 +508,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -518,7 +517,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -527,7 +526,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 2,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -536,7 +535,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 3,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -545,7 +544,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -554,7 +553,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -563,7 +562,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -572,7 +571,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -581,7 +580,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -590,7 +589,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -608,7 +607,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -617,7 +616,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -626,7 +625,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -635,7 +634,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -646,15 +645,14 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
-
-
+            //
             [
                 'nombre' => 'Maria Valeria Sandoval Hernandez',
                 'ibm' => 81401874,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -663,7 +661,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -672,7 +670,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -681,7 +679,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -690,7 +688,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 3,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -699,7 +697,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 3,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -708,7 +706,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -717,7 +715,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -726,7 +724,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -735,7 +733,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -744,7 +742,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -753,7 +751,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -762,7 +760,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -771,7 +769,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -780,7 +778,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -791,13 +789,14 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 1,
             ],
+
             [
                 'nombre' => 'Bryan Francisco Canales Robledo',
                 'ibm' => 122612,
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -806,7 +805,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -815,15 +814,16 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
+
             [
                 'nombre' => 'Brenda Berenice Vielma Montiel',
                 'ibm' => 90777,
                 'departamento_id' => 4,
                 'area_id' => 3,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -832,7 +832,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -841,7 +841,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -850,7 +850,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -859,7 +859,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -868,7 +868,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => 53,
-                'rol_id' => 4,
+                'rol_id' => 3,
             ],
 
             [
@@ -877,7 +877,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -886,7 +886,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -895,7 +895,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -904,7 +904,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -913,7 +913,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -922,7 +922,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -931,7 +931,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 1,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -940,7 +940,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -949,7 +949,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 3,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -958,7 +958,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -967,7 +967,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -976,7 +976,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -985,7 +985,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -994,7 +994,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -1003,7 +1003,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
             [
@@ -1012,106 +1012,106 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+        
             [
                 'nombre' => 'Elena Jimenez Araluce',
                 'ibm' => 122558,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+        
             [
                 'nombre' => 'Tania Maria Hernandez Gonzalez',
                 'ibm' => 122610,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+        
             [
                 'nombre' => 'Luis Ramiro Eduardo Estrada Romo',
                 'ibm' => 128676,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+        
             [
                 'nombre' => 'Manuel Rene Treviño Aranda',
                 'ibm' => 128680,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+        
             [
                 'nombre' => 'Nathalia Mora Ochoa',
                 'ibm' => 129143,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+        
             [
                 'nombre' => 'Maria del Carmen Valdez Cordova',
                 'ibm' => 129218,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+        
             [
                 'nombre' => 'Adriana Alexandra Sanchez Ortiz',
                 'ibm' => 129219,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+        
             [
                 'nombre' => 'Jose Valadez Martinez',
                 'ibm' => 129220,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+        
             [
                 'nombre' => 'Francisco de Jesus Nuñez Rodriguez',
                 'ibm' => 129631,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+        
             [
                 'nombre' => 'Marco Esteban Estrada Montelongo',
                 'ibm' => 130349,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
-
+        
             [
                 'nombre' => 'Manuel Alejandro Del Rio Perez',
                 'ibm' => 133125,
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
-                'rol_id' => 4,
+                'rol_id' => 5,
             ],
 
         ];
