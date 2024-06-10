@@ -238,6 +238,7 @@ Route::prefix('estado')->group(function () {
     Route::delete('delete/{id}', [EstadoUsuarioPremiosController::class, 'destroy'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
 });
 
+//Rutas de campos
 Route::prefix('campos')->group(function () {
     Route::get('list', [CamposController::class, 'index'])->middleware('roles');
     Route::post('create', [CamposController::class, 'store'])->middleware('adminstradores');
@@ -246,6 +247,7 @@ Route::prefix('campos')->group(function () {
     Route::delete('delete/{id}', [CamposController::class, 'destroy'])->where('id', '[0-9]+')->middleware('adminstradores');
 });
 
+//Rutas de historial
 Route::prefix('historial')->group(function () {
     Route::get('list', [HistorialController::class, 'index'])->middleware('roles');
     Route::post('create', [HistorialController::class, 'store'])->middleware('roles');
