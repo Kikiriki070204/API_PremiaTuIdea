@@ -362,11 +362,14 @@ class IdeasController extends Controller
             ->where('contable', true)
             ->count();
 
-        $totalideasPorArea = DB::table('ideas')
-            ->join('areas', 'ideas.area_id', '=', 'areas.id')
-            ->select('areas.nombre as nombre_area', DB::raw('COUNT(ideas.id) as total_ideas'))
-            ->where('ideas.contable', true)
-            ->groupBy('ideas.area_id', 'areas.nombre') // Agregar 'areas.nombre' al GROUP BY
+        $totalideasPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) {
+                $join->on('areas.id', '=', 'ideas.area_id')
+                    ->where('ideas.contable', true);
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
+            ->groupBy('areas.id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
             ->get();
 
         $respuesta = [
@@ -382,11 +385,14 @@ class IdeasController extends Controller
         $totalAhorros = DB::table('ideas')
             ->where('contable', true)
             ->sum('ahorro');
-        $ahorrosPorArea = DB::table('ideas')
-            ->join('areas', 'ideas.area_id', '=', 'areas.id')
-            ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.ahorro) as total_ahorros'), DB::raw('COUNT(ideas.id) as total_ideas'))
-            ->where('ideas.contable', true)
+        $ahorrosPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) {
+                $join->on('areas.id', '=', 'ideas.area_id')
+                    ->where('ideas.contable', true);
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.ahorro),0) as total_ahorros'))
             ->groupBy('ideas.area_id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
             ->get();
 
         $respuesta = [
@@ -402,11 +408,15 @@ class IdeasController extends Controller
         $totalPuntos = DB::table('ideas')
             ->where('contable', true)
             ->sum('puntos');
-        $puntosPorArea = DB::table('ideas')
-            ->join('areas', 'ideas.area_id', '=', 'areas.id')
-            ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.puntos) as total_puntos'))
-            ->where('ideas.contable', true)
-            ->groupBy('ideas.area_id', 'areas.nombre')
+
+        $puntosPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) {
+                $join->on('areas.id', '=', 'ideas.area_id')
+                    ->where('ideas.contable', true);
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.puntos), 0) as total_puntos'))
+            ->groupBy('areas.id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
             ->get();
 
         $respuesta = [
@@ -422,12 +432,17 @@ class IdeasController extends Controller
         $totalPuntos = DB::table('ideas')
             ->where('contable', false)
             ->sum('puntos');
-        $puntosPorArea = DB::table('ideas')
-            ->join('areas', 'ideas.area_id', '=', 'areas.id')
-            ->select('areas.nombre as nombre_area', DB::raw('SUM(ideas.puntos) as total_puntos'))
-            ->where('ideas.contable', 0)
-            ->groupBy('ideas.area_id', 'areas.nombre')
+
+        $puntosPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) {
+                $join->on('areas.id', '=', 'ideas.area_id')
+                    ->where('ideas.contable', false);
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.puntos), 0) as total_puntos'))
+            ->groupBy('areas.id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
             ->get();
+
         $respuesta = [
             'total_puntos' => $totalPuntos,
             'puntos_por_area' => $puntosPorArea
@@ -441,11 +456,15 @@ class IdeasController extends Controller
         $totalIdeas = DB::table('ideas')
             ->where('contable', false)
             ->count();
-        $totalideasPorArea = DB::table('ideas')
-            ->join('areas', 'ideas.area_id', '=', 'areas.id')
-            ->select('areas.nombre as nombre_area', DB::raw('COUNT(ideas.id) as total_ideas'))
-            ->where('ideas.contable', false)
-            ->groupBy('ideas.area_id', 'areas.nombre')
+
+        $totalideasPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) {
+                $join->on('areas.id', '=', 'ideas.area_id')
+                    ->where('ideas.contable', false);
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
+            ->groupBy('areas.id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
             ->get();
 
         $respuesta = [
