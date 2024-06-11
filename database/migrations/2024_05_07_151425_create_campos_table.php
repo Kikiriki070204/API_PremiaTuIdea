@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->boolean('is_active')->default(true);
+            $table->enum('monetario', [1, 2, 3]);
             $table->timestamps();
         });
     }

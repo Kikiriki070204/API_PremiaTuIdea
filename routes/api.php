@@ -241,6 +241,7 @@ Route::prefix('estado')->group(function () {
 //Rutas de campos
 Route::prefix('campos')->group(function () {
     Route::get('list', [CamposController::class, 'index'])->middleware('roles');
+    Route::get('monetario/{num}', [CamposController::class, 'monetario'])->where('num', '[0-9]+')->middleware('roles');
     Route::post('create', [CamposController::class, 'store'])->middleware('adminstradores');
     Route::get('show/{id}', [CamposController::class, 'show'])->where('id', '[0-9]+')->middleware('roles');
     Route::put('update', [CamposController::class, 'update'])->middleware('adminstradores');

@@ -28,6 +28,18 @@ class CamposController extends Controller
         return response()->json(["campos" => $campos], 200);
     }
 
+    public function monetario($num)
+    {
+        if ($num == 1) {
+            $campos = Campos::where('monetario', '!=', 2)->get();
+            return response()->json(["campos" => $campos], 200);
+        } else {
+            $campos = Campos::where('monetario', '!=', 1)->get();
+            return response()->json(["campos" => $campos], 200);
+        }
+        return response()->json(["error" => "No se encontraron campos monetarios"], 404);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
