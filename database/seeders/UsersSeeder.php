@@ -315,7 +315,7 @@ class UsersSeeder extends Seeder
 
             [
                 'nombre' => 'Marcela Lizeth Palomo Castrellon',
-                'ibm' => 37403973,
+                'ibm' => 37403973, 
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => null,
@@ -383,6 +383,7 @@ class UsersSeeder extends Seeder
                 'area_id' => 4,
                 'locacion_id' => null,
                 'rol_id' => 2,
+                'turno' => 'TURNO 13 N1',
             ],
 
             [
@@ -401,6 +402,7 @@ class UsersSeeder extends Seeder
                 'area_id' => 1,
                 'locacion_id' => null,
                 'rol_id' => 2,
+                'turno' => 'TURNO 13 N1',
             ],
 
             [
@@ -599,6 +601,7 @@ class UsersSeeder extends Seeder
                 'area_id' => 4,
                 'locacion_id' => null,
                 'rol_id' => 2,
+                'turno' => 'TURNO 13 N1',
             ],
 
             [
@@ -644,6 +647,7 @@ class UsersSeeder extends Seeder
                 'area_id' => 2,
                 'locacion_id' => null,
                 'rol_id' => 1,
+                'turno' => 'TURNO 13 N1',
             ],
             //
             [
@@ -788,6 +792,7 @@ class UsersSeeder extends Seeder
                 'area_id' => 1,
                 'locacion_id' => null,
                 'rol_id' => 1,
+                'turno' => 'TURNO 13 N1',
             ],
 
             [
@@ -869,6 +874,7 @@ class UsersSeeder extends Seeder
                 'area_id' => 4,
                 'locacion_id' => 53,
                 'rol_id' => 3,
+                'turno' => 'TURNO 13 N1',
             ],
 
             [
@@ -1014,7 +1020,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 5,
             ],
-        
+
             [
                 'nombre' => 'Elena Jimenez Araluce',
                 'ibm' => 122558,
@@ -1023,7 +1029,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 5,
             ],
-        
+
             [
                 'nombre' => 'Tania Maria Hernandez Gonzalez',
                 'ibm' => 122610,
@@ -1032,7 +1038,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 5,
             ],
-        
+
             [
                 'nombre' => 'Luis Ramiro Eduardo Estrada Romo',
                 'ibm' => 128676,
@@ -1041,7 +1047,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 5,
             ],
-        
+
             [
                 'nombre' => 'Manuel Rene Treviño Aranda',
                 'ibm' => 128680,
@@ -1050,7 +1056,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 5,
             ],
-        
+
             [
                 'nombre' => 'Nathalia Mora Ochoa',
                 'ibm' => 129143,
@@ -1059,7 +1065,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 5,
             ],
-        
+
             [
                 'nombre' => 'Maria del Carmen Valdez Cordova',
                 'ibm' => 129218,
@@ -1068,7 +1074,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 5,
             ],
-        
+
             [
                 'nombre' => 'Adriana Alexandra Sanchez Ortiz',
                 'ibm' => 129219,
@@ -1077,7 +1083,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 5,
             ],
-        
+
             [
                 'nombre' => 'Jose Valadez Martinez',
                 'ibm' => 129220,
@@ -1086,7 +1092,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 5,
             ],
-        
+
             [
                 'nombre' => 'Francisco de Jesus Nuñez Rodriguez',
                 'ibm' => 129631,
@@ -1095,7 +1101,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 5,
             ],
-        
+
             [
                 'nombre' => 'Marco Esteban Estrada Montelongo',
                 'ibm' => 130349,
@@ -1104,7 +1110,7 @@ class UsersSeeder extends Seeder
                 'locacion_id' => null,
                 'rol_id' => 5,
             ],
-        
+
             [
                 'nombre' => 'Manuel Alejandro Del Rio Perez',
                 'ibm' => 133125,
@@ -1112,6 +1118,7 @@ class UsersSeeder extends Seeder
                 'area_id' => 4,
                 'locacion_id' => null,
                 'rol_id' => 5,
+                'turno' => 'TURNO 13 N1',
             ],
 
         ];
