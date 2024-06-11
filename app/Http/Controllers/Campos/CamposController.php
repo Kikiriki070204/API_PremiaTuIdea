@@ -53,8 +53,11 @@ class CamposController extends Controller
      */
     public function store(Request $request)
     {
+        // N. 1 = No Monetario, N. 2 = Monetario, N. 3 = Ambos(mixto)
+        $monetario = ['1', '2', '3'];
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:255',
+            'monetario' => 'required|in:' . implode(',', $monetario),
         ]);
 
         if ($validator->fails()) {
@@ -63,6 +66,7 @@ class CamposController extends Controller
 
         $campos = Campos::create([
             'nombre' => $request->nombre,
+            'monetario' => $request->monetario,
         ]);
 
         return response()->json(["msg" => "Se agrego el nuevo campo correctamente"], 201);
@@ -93,10 +97,13 @@ class CamposController extends Controller
      */
     public function update(Request $request)
     {
+        // N. 1 = No Monetario, N. 2 = Monetario, N. 3 = Ambos(mixto)
+        $monetario = ['1', '2', '3'];
         $validator = Validator::make($request->all(), [
             'id' => 'required|integer|exists:campos,id',
             'nombre' => 'required|string|max:255',
             'is_active' => 'required|boolean',
+            'monetario' => 'required|in:' . implode(',', $monetario),
         ]);
 
         if ($validator->fails()) {
@@ -110,6 +117,7 @@ class CamposController extends Controller
 
         $campos->nombre = $request->nombre;
         $campos->is_active = $request->is_active;
+        $campos->monetario = $request->monetario;
         $campos->save();
         return response()->json(["msg" => "Campo actualizado correctamente"], 200);
     }

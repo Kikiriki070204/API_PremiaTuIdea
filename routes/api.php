@@ -102,7 +102,7 @@ Route::prefix('ideass')->group(function () {
         return response($file, 200)->header('Content-Type', $idea->mime_type);
     });
     Route::get('list', [IdeasController::class, 'index'])->middleware('active')->middleware('adminstradores');
-    Route::post('create', [IdeasController::class, 'create'])->middleware('active')->middleware('roles');
+    Route::post('create', [IdeasController::class, 'create'])->middleware('roles');
     Route::get('userIdeas', [IdeasController::class, 'userIdeas'])->middleware('active')->middleware('roles');
     Route::get('userIdeasImplementadas/{id}', [IdeasController::class, 'userIdeasImplementadas'])->middleware('active')->middleware('roles');
     Route::get('userideasall/{estatus?}', [IdeasController::class, 'userIdeasAll'])->middleware('active')->middleware('roles')->where('estatus', '[0-9]+');
