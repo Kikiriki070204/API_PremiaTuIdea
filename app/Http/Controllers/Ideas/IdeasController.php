@@ -294,16 +294,16 @@ class IdeasController extends Controller
         $idea->save();
 
 
-        foreach ($request->campos_id as $campo) {
-            // Verifica si ya existe una relación entre idea_id y campo_id
-            if (Campos_Idea::where('idea_id', $idea->id)->where('campo_id', $campo)->first()) {
-                continue; // Si existe, continúa con el siguiente campo_id sin crear una nueva relación
+        if (!is_null($request->campos_id)) {
+            foreach ($request->campos_id as $campo) {
+                if (Campos_Idea::where('idea_id', $idea->id)->where('campo_id', $campo)->first()) {
+                    continue;
+                }
+                $campoidea = new Campos_Idea();
+                $campoidea->idea_id = $idea->id;
+                $campoidea->campo_id = $campo;
+                $campoidea->save();
             }
-            // Si no existe, crea una nueva relación
-            $campoidea = new Campos_Idea();
-            $campoidea->idea_id = $idea->id;
-            $campoidea->campo_id = $campo;
-            $campoidea->save();
         }
 
         return response()->json(["msg" => "Idea actualizada correctamente"], 200);
