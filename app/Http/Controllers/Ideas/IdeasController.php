@@ -247,8 +247,8 @@ class IdeasController extends Controller
             ->where('usuarios_equipos.is_active', true)
             ->get();
 
-        $campos = DB::table('campos_ideas')
-            ->join('campos', 'campos_ideas.campo_id', '=', 'campos.id')
+        $campos = DB::table('campos__ideas')
+            ->join('campos', 'campos__ideas.campo_id', '=', 'campos.id')
             ->select('campos.id', 'campos.nombre')
             ->where('campos_ideas.idea_id', $idea->id)
             ->get();
