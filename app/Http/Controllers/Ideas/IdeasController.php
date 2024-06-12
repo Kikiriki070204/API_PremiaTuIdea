@@ -247,8 +247,14 @@ class IdeasController extends Controller
             ->where('usuarios_equipos.is_active', true)
             ->get();
 
+        $campos = DB::table('campos_ideas')
+            ->join('campos', 'campos_ideas.campo_id', '=', 'campos.id')
+            ->select('campos.id', 'campos.nombre')
+            ->where('campos_ideas.idea_id', $idea->id)
+            ->get();
+
         if ($idea) {
-            return response()->json(["idea" => $idea, "colaboradores" => $colaboradores], 200);
+            return response()->json(["idea" => $idea, "colaboradores" => $colaboradores, "campos" => $campos], 200);
         }
         return response()->json(["msg" => "Idea no encontrada"], 404);
     }

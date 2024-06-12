@@ -8,6 +8,7 @@ use App\Models\Usuario;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use App\Models\Historial;
 
 
 class UsersController extends Controller
@@ -171,6 +172,7 @@ class UsersController extends Controller
                 'area_id' => 'required|integer|exists:areas,id',
                 'is_active' => 'required|boolean',
                 'locacion_id' => 'nullable|integer|exists:locaciones,id',
+                'puntos' => 'required|integer',
             ]
         );
 
@@ -184,6 +186,23 @@ class UsersController extends Controller
         $user = Usuario::where('id', $request->id)->first();
         if (!$user) {
             return response()->json(["msg" => "Usuario no encontrado"], 404);
+        }
+
+        $puntosA = $user->puntos;
+        $puntosN = $request->puntos;
+
+        if ($puntosA != $puntosN) {
+            $result = $puntosN - $puntosA;
+            $historial = Historial::where('usuario_id', $user->id)->first();
+            if ($historial) {
+                $historial->puntos = $historial->puntos + $result;
+                $historial->save();
+            } else {
+                $historial = new Historial();
+                $historial->usuario_id = $user->id;
+                $historial->puntos = $result;
+                $historial->save();
+            }
         }
 
         $user->ibm = $request->ibm;
