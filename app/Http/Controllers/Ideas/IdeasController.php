@@ -291,7 +291,6 @@ class IdeasController extends Controller
         $idea->fecha_fin = $request->fecha_fin;
         $idea->ahorro = $request->ahorro;
         $idea->contable = $request->contable;
-        $idea->campos_id = $request->campos_id;
         $idea->save();
 
         $campoidea = new Campos_Idea();
