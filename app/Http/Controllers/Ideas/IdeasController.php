@@ -372,15 +372,16 @@ class IdeasController extends Controller
     {
         $totalIdeas = DB::table('ideas')
             ->where('contable', true)
+            ->where('ideas.estatus', 3)
             ->count();
 
         $totalideasPorArea = DB::table('areas')
             ->leftJoin('ideas', function ($join) {
                 $join->on('areas.id', '=', 'ideas.area_id')
-                    ->where('ideas.contable', true);
+                    ->where('ideas.contable', true)
+                    ->where('ideas.estatus', 3);
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
-            ->where('ideas.estatus', 3)
             ->groupBy('areas.id', 'areas.nombre')
             ->orderBy('areas.nombre', 'asc')
             ->get();
@@ -397,11 +398,13 @@ class IdeasController extends Controller
     {
         $totalAhorros = DB::table('ideas')
             ->where('contable', true)
+            ->where('ideas.estatus', 3)
             ->sum('ahorro');
         $ahorrosPorArea = DB::table('areas')
             ->leftJoin('ideas', function ($join) {
                 $join->on('areas.id', '=', 'ideas.area_id')
-                    ->where('ideas.contable', true);
+                    ->where('ideas.contable', true)
+                    ->where('ideas.estatus', 3);
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.ahorro),0) as total_ahorros'))
             ->groupBy('ideas.area_id', 'areas.nombre')
@@ -420,12 +423,14 @@ class IdeasController extends Controller
     {
         $totalPuntos = DB::table('ideas')
             ->where('contable', true)
+            ->where('ideas.estatus', 3)
             ->sum('puntos');
 
         $puntosPorArea = DB::table('areas')
             ->leftJoin('ideas', function ($join) {
                 $join->on('areas.id', '=', 'ideas.area_id')
-                    ->where('ideas.contable', true);
+                    ->where('ideas.contable', true)
+                    ->where('ideas.estatus', 3);
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.puntos), 0) as total_puntos'))
             ->groupBy('areas.id', 'areas.nombre')
@@ -444,12 +449,14 @@ class IdeasController extends Controller
     {
         $totalPuntos = DB::table('ideas')
             ->where('contable', false)
+            ->where('ideas.estatus', 3)
             ->sum('puntos');
 
         $puntosPorArea = DB::table('areas')
             ->leftJoin('ideas', function ($join) {
                 $join->on('areas.id', '=', 'ideas.area_id')
-                    ->where('ideas.contable', false);
+                    ->where('ideas.contable', false)
+                    ->where('ideas.estatus', 3);
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.puntos), 0) as total_puntos'))
             ->groupBy('areas.id', 'areas.nombre')
@@ -468,12 +475,14 @@ class IdeasController extends Controller
     {
         $totalIdeas = DB::table('ideas')
             ->where('contable', false)
+            ->where('ideas.estatus', 3)
             ->count();
 
         $totalideasPorArea = DB::table('areas')
             ->leftJoin('ideas', function ($join) {
                 $join->on('areas.id', '=', 'ideas.area_id')
-                    ->where('ideas.contable', false);
+                    ->where('ideas.contable', false)
+                    ->where('ideas.estatus', 3);
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
             ->groupBy('areas.id', 'areas.nombre')
