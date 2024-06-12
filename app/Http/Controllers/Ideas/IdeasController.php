@@ -244,7 +244,7 @@ class IdeasController extends Controller
             ->join('ideas', 'equipos.id_idea', '=', 'ideas.id')
             ->select('usuarios.nombre', 'usuarios.id')
             ->where('ideas.id', $idea->id)
-            ->where('usarios_equipos.is_active', true)
+            ->where('usuarios_equipos.is_active', true)
             ->get();
 
         if ($idea) {
