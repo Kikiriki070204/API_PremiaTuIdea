@@ -12,8 +12,8 @@ class Campos extends Model
     protected $table = 'campos';
     protected $fillable = ['nombre', 'is_active'];
 
-    public function ideas()
+    public function camposideas()
     {
-        return $this->hasMany(Ideas::class, 'campos_id');
+        return $this->hasMany(Campos_Idea::class, 'campos_id');
     }
 }

@@ -59,4 +59,9 @@ class Idea extends Model
     {
         return $this->belongsToMany(Area::class, 'area_id');
     }
+
+    public function camposideas()
+    {
+        return $this->hasMany(Campos_Idea::class, 'idea_id');
+    }
 }

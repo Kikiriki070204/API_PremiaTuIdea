@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\IdeasImagenes;
 use Illuminate\Support\Str;
 use App\Models\Historial;
+use App\Models\Campos_Idea;
 use App\Http\Controllers\Ideas\IdeasImagenesController;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
 use Illuminate\Support\Facades\Mail;
@@ -243,6 +244,7 @@ class IdeasController extends Controller
             ->join('ideas', 'equipos.id_idea', '=', 'ideas.id')
             ->select('usuarios.nombre', 'usuarios.id')
             ->where('ideas.id', $idea->id)
+            ->where('usarios_equipos.is_active', true)
             ->get();
 
         if ($idea) {
@@ -264,7 +266,8 @@ class IdeasController extends Controller
                 'fecha_fin' => 'nullable|date',
                 'ahorro' => 'nullable|numeric',
                 'contable' => 'nullable|boolean',
-                'campos_id' => 'nullable|integer|exists:campos,id',
+                'campos_id' => 'nullable|array',
+                'campos_id.*' => 'integer|exists:campos,id'
             ]
         );
 
@@ -290,6 +293,14 @@ class IdeasController extends Controller
         $idea->contable = $request->contable;
         $idea->campos_id = $request->campos_id;
         $idea->save();
+
+        $campoidea = new Campos_Idea();
+
+        foreach ($request->campos_id as $campo) {
+            $campoidea->idea_id = $idea->id;
+            $campoidea->campo_id = $campo;
+            $campoidea->save();
+        }
 
         return response()->json(["msg" => "Idea actualizada correctamente"], 200);
     }
@@ -369,6 +380,7 @@ class IdeasController extends Controller
                     ->where('ideas.contable', true);
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
+            ->where('ideas.estatus', 3)
             ->groupBy('areas.id', 'areas.nombre')
             ->orderBy('areas.nombre', 'asc')
             ->get();

@@ -24,8 +24,6 @@ return new class extends Migration
             $table->boolean('contable')->default(null)->nullable();
             $table->unsignedBigInteger('area_id');
             $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
-            $table->unsignedBigInteger('campos_id')->nullable();
-            $table->foreign('campos_id')->references('id')->on('campos')->onDelete('cascade');
             $table->date('fecha_inicio');
             $table->date('fecha_fin')->nullable();
             $table->integer('puntos')->default(0);
