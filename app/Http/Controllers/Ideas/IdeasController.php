@@ -187,6 +187,7 @@ class IdeasController extends Controller
                 $idea->propuesta = $request->propuesta;
                 $idea->fecha_inicio = $request->fecha_inicio;
                 $idea->area_id = $request->area_id;
+                $idea->contable = 0;
                 $idea->save();
 
                 // Guardar la imagen en el sistema de archivos
