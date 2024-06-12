@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('campos__ideas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idea_id');
-            $table->foreignId('idea_id')->references('id')->on('ideas')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('campo_id');
-            $table->foreignId('campo_id')->references('id')->on('campos')->constrained()->onDelete('cascade');
+            $table->foreignId('idea_id')->references('id')->on('ideas')->onDelete('cascade');
+            $table->foreignId('campo_id')->references('id')->on('campos')->onDelete('cascade');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
