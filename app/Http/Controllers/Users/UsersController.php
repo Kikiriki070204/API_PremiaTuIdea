@@ -217,10 +217,12 @@ class UsersController extends Controller
 
         if ($puntosA != $puntosN) {
             $result = $puntosN - $puntosA;
-            $historial = Historial::where('user_id', $user->id)->first();
-            if ($historial) {
-                $historial->puntos = $historial->puntos + $result;
-                $historial->save();
+            if ($puntosN > 0) {
+                $historial = Historial::where('user_id', $user->id)->first();
+                if ($historial) {
+                    $historial->puntos = $historial->puntos + $result;
+                    $historial->save();
+                }
             }
         }
 
@@ -231,7 +233,11 @@ class UsersController extends Controller
         $user->area_id = $request->area_id;
         $user->is_active = $request->is_active;
         $user->locacion_id = $request->locacion_id;
-        $user->puntos = $request->puntos;
+        if ($request->puntos == 0) {
+            $user->puntos = $user->puntos;
+        } else {
+            $user->puntos = $request->puntos;
+        }
         $user->save();
         return response()->json([
             "msg" => "Usuario actualizado correctamente"
