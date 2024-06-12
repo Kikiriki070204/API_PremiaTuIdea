@@ -353,16 +353,15 @@ class IdeasController extends Controller
             $usuario = Usuario::find($request->id_usuarios[$i]);
             $usuario->puntos += $request->puntos[$i];
             $usuario->save();
-            $historial = Historial::find($request->id_usuarios[$i]);
+            $historial = Historial::where('user_id', $request->id_usuarios[$i])->first();
             if ($historial) {
                 $historial->puntos += $request->puntos[$i];
-                $historial->save();
             } else {
                 $historial = new Historial();
                 $historial->user_id = $request->id_usuarios[$i];
                 $historial->puntos = $request->puntos[$i];
-                $historial->save();
             }
+            $historial->save();
             $puntosIdea += $request->puntos[$i];
         }
 
