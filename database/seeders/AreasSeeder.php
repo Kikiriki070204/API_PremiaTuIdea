@@ -17,8 +17,8 @@ class AreasSeeder extends Seeder
             'Exhaust',
             'Ignicion',
             'EACV',
-            'SRA',
             'Otros',
+            'SRA',
         ];
 
         foreach ($areas as $area) {
