@@ -189,13 +189,13 @@ class UsersController extends Controller
             $request->all(),
             [
                 'id' => 'required|integer|exists:usuarios,id',
-                /*'ibm' => 'required|integer',
-                'nombre' => 'required|string|max:255|regex:/^[a-zA-Z\s]*$/',
+                'ibm' => 'required|integer',
+                'nombre' => 'required|string|max:255',
                 'rol_id' => 'required|integer|exists:roles,id',
                 'departamento_id' => 'nullable|integer|exists:departamentos,id',
                 'area_id' => 'required|integer|exists:areas,id',
                 'is_active' => 'required|boolean',
-                'locacion_id' => 'nullable|integer|exists:locaciones,id',*/
+                'locacion_id' => 'nullable|integer|exists:locaciones,id',
                 'puntos' => 'required|integer',
             ]
         );
@@ -224,13 +224,13 @@ class UsersController extends Controller
             }
         }
 
-        /*$user->ibm = $request->ibm;
+        $user->ibm = $request->ibm;
         $user->nombre = $request->nombre;
         $user->rol_id = $request->rol_id;
         $user->departamento_id = $request->departamento_id;
         $user->area_id = $request->area_id;
         $user->is_active = $request->is_active;
-        $user->locacion_id = $request->locacion_id;*/
+        $user->locacion_id = $request->locacion_id;
         $user->puntos = $request->puntos;
         $user->save();
         return response()->json([
