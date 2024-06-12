@@ -293,9 +293,9 @@ class IdeasController extends Controller
         $idea->contable = $request->contable;
         $idea->save();
 
-        $campoidea = new Campos_Idea();
 
         foreach ($request->campos_id as $campo) {
+            $campoidea = new Campos_Idea();
             $campoidea->idea_id = $idea->id;
             $campoidea->campo_id = $campo;
             $campoidea->save();
