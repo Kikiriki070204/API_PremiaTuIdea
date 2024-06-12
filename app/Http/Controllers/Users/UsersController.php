@@ -217,10 +217,12 @@ class UsersController extends Controller
 
         if ($puntosA != $puntosN) {
             $result = $puntosN - $puntosA;
-            if ($puntosN > 0) {
-                $historial = Historial::where('user_id', $user->id)->first();
-                if ($historial) {
-                    $historial->puntos = $historial->puntos + $result;
+            $historial = Historial::where('user_id', $user->id)->first();
+            if ($historial) {
+                if (($historial->puntos + $result) < 0) {
+                    return response()->json(["msg" => "No se pueden restar más puntos de los que tiene el usuario en el historial"], 400);
+                } else {
+                    $historial->puntos += $result;
                     $historial->save();
                 }
             }
