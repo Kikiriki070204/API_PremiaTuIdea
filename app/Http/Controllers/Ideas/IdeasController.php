@@ -250,7 +250,7 @@ class IdeasController extends Controller
         $campos = DB::table('campos__ideas')
             ->join('campos', 'campos__ideas.campo_id', '=', 'campos.id')
             ->select('campos.id', 'campos.nombre')
-            ->where('campos_ideas.idea_id', $idea->id)
+            ->where('campos__ideas.idea_id', $idea->id)
             ->get();
 
         if ($idea) {
