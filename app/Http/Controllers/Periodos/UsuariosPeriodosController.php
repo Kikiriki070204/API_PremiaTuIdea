@@ -7,6 +7,8 @@ use App\Models\UsuariosPeriodo;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUsuariosPeriodoRequest;
 use App\Http\Requests\UpdateUsuariosPeriodoRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class UsuariosPeriodosController extends Controller
 {

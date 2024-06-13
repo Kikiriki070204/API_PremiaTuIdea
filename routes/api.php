@@ -40,22 +40,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/ideas/{filename}', function ($filename) {
-    $path = storage_path('app/ideas/' . $filename);
-
-    if (!File::exists($path)) {
-        abort(404);
-    }
-
-    $file = File::get($path);
-    $type = File::mimeType($path);
-
-    $response = Response::make($file, 200);
-    $response = Response::make($file, 200);
-    $response->header("Content-Type", $type);
-    $response->header("Content-Type", $type);
-
-    return $response;
+Route::get('test', function () {
+    return response()->json(['message' => 'Funciona']);
 });
 
 //Rutas de autenticación y registro

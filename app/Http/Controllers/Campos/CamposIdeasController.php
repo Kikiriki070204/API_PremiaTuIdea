@@ -7,6 +7,8 @@ use App\Models\Campos_Idea;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCampos_IdeaRequest;
 use App\Http\Requests\UpdateCampos_IdeaRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CamposIdeasController extends Controller
 {
