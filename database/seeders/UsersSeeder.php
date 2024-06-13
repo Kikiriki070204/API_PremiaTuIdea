@@ -209,6 +209,7 @@ class UsersSeeder extends Seeder
                 'area_id' => 4,
                 'locacion_id' => null,
                 'rol_id' => 2,
+                'TURNO' => 'TURNO 13 N1',
             ],
             [
                 'nombre' => 'Gustavo Adolfo Portillo Favela',
@@ -1112,6 +1113,36 @@ class UsersSeeder extends Seeder
                 'area_id' => 4,
                 'locacion_id' => null,
                 'rol_id' => 4,
+            ],
+
+            [
+                'nombre' => 'Francisco Javier Fraire Perez',
+                'ibm' => 13472,
+                'departamento_id' => null,
+                'area_id' => 3,
+                'locacion_id' => null,
+                'rol_id' => 4,
+                'Turno' => 'TURNO 4D',
+            ],
+
+            [
+                'nombre' => 'Ma. Guadalupe Castañeda Martinez',
+                'ibm' => 14182,
+                'departamento_id' => null,
+                'area_id' => 4,
+                'locacion_id' => null,
+                'rol_id' => 4,
+                'Turno' => 'TURNO 4D',
+            ],
+
+            [
+                'nombre' => 'Francisco Javier Fraire Perez',
+                'ibm' => 14209,
+                'departamento_id' => null,
+                'area_id' => 5,
+                'locacion_id' => null,
+                'rol_id' => 4,
+                'Turno' => 'TURNO 13 N1',
             ],
 
         ];
