@@ -62,19 +62,21 @@ class UsuarioEquipoController extends Controller
             $equipo->id_idea = $request->id;
             $equipo->nombre = $request->nombre;
             $equipo->save();
+            $id_equipo = $equipo;
         }
 
         foreach ($request->id_usuarios as $id_usuario) {
-            $usuarioEquipo = new Usuario_Equipo();
-            $usuarioEquipo->id_usuario = $id_usuario;
-            $usuarioEquipo->id_equipo = $id_equipo->id;
-            $usuarioEquipo->save();
+            $existeUsuarioEnEquipo = Usuario_Equipo::where('id_usuario', $id_usuario)
+                ->where('id_equipo', $id_equipo->id)
+                ->exists();
+            if (!$existeUsuarioEnEquipo) {
+                $usuarioEquipo = new Usuario_Equipo();
+                $usuarioEquipo->id_usuario = $id_usuario;
+                $usuarioEquipo->id_equipo = $id_equipo->id;
+                $usuarioEquipo->save();
+            }
         }
-        if ($request->nombre) {
-            $equipo = Equipo::find($request->id_equipo);
-            $equipo->nombre = $request->nombre;
-            $equipo->save();
-        }
+
         return response()->json([
             "msg" => "Usuario asignado al equipo correctamente"
         ], 201);
