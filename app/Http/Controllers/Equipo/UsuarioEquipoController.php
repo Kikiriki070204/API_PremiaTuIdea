@@ -66,19 +66,28 @@ class UsuarioEquipoController extends Controller
         }
 
         foreach ($request->id_usuarios as $id_usuario) {
-            $existeUsuarioEnEquipo = Usuario_Equipo::where('id_usuario', $id_usuario)
-                ->where('id_equipo', $id_equipo->id)
-                ->exists();
-            if (!$existeUsuarioEnEquipo) {
-                $usuarioEquipo = new Usuario_Equipo();
-                $usuarioEquipo->id_usuario = $id_usuario;
-                $usuarioEquipo->id_equipo = $id_equipo->id;
+            $usuarioEquipo = Usuario_Equipo::firstOrNew([
+                'id_usuario' => $id_usuario,
+                'id_equipo' => $id_equipo->id
+            ]);
+
+            if (!$usuarioEquipo->exists || $usuarioEquipo->is_active == 0) {
+                $usuarioEquipo->is_active = true;
                 $usuarioEquipo->save();
             }
         }
 
+        $usuariosActuales = Usuario_Equipo::where('id_equipo', $id_equipo->id)->get();
+
+        foreach ($usuariosActuales as $usuarioActual) {
+            if (!in_array($usuarioActual->id_usuario, $request->id_usuarios)) {
+                $usuarioActual->is_active = false;
+                $usuarioActual->save();
+            }
+        }
+
         return response()->json([
-            "msg" => "Usuario asignado al equipo correctamente"
+            "msg" => "Usuarios actualizados correctamente en el equipo"
         ], 201);
     }
 
