@@ -868,7 +868,7 @@ class UsersSeeder extends Seeder
                 'departamento_id' => null,
                 'area_id' => 4,
                 'locacion_id' => 53,
-                'rol_id' => 4,
+                'rol_id' => 3,
             ],
 
             [
