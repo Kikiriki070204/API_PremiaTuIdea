@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Equipo;
 
 use App\Http\Controllers\Controller;
 use App\Models\Equipo;
+use App\Models\Idea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Usuario_Equipo;
@@ -65,6 +66,9 @@ class UsuarioEquipoController extends Controller
             $id_equipo = $equipo;
         }
 
+        // Obtener el id_user de la idea
+        $ideaOwnerId = Idea::where('id', $request->id)->value('user_id');
+
         foreach ($request->id_usuarios as $id_usuario) {
             $usuarioEquipo = Usuario_Equipo::firstOrNew([
                 'id_usuario' => $id_usuario,
@@ -80,7 +84,7 @@ class UsuarioEquipoController extends Controller
         $usuariosActuales = Usuario_Equipo::where('id_equipo', $id_equipo->id)->get();
 
         foreach ($usuariosActuales as $usuarioActual) {
-            if (!in_array($usuarioActual->id_usuario, $request->id_usuarios)) {
+            if (!in_array($usuarioActual->id_usuario, $request->id_usuarios) && $usuarioActual->id_usuario != $ideaOwnerId) {
                 $usuarioActual->is_active = false;
                 $usuarioActual->save();
             }
