@@ -14,6 +14,7 @@ use App\Models\IdeasImagenes;
 use Illuminate\Support\Str;
 use App\Models\Historial;
 use App\Models\Campos_Idea;
+use Illuminate\Support\Facades\Exception;
 use App\Http\Controllers\Ideas\IdeasImagenesController;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
 use Illuminate\Support\Facades\Mail;
@@ -52,6 +53,7 @@ class IdeasController extends Controller
                 ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
                 ->where('usuarios_equipos.id_usuario', $user->id)
                 ->where('ideas.estatus', 3)
+                ->where('usuarios_equipos.is_active', 1)
                 ->get();
 
             return response()->json(["ideas" => $ideas], 200);
@@ -72,6 +74,7 @@ class IdeasController extends Controller
                 ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
                 ->where('usuarios_equipos.id_usuario', $id)
                 ->where('ideas.estatus', 3)
+                ->where('usuarios_equipos.is_active', 1)
                 ->get();
 
             return response()->json(["ideas" => $ideas], 200);
@@ -106,6 +109,7 @@ class IdeasController extends Controller
                     ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
                     ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
                     ->where('usuarios_equipos.id_usuario', $user->id)
+                    ->where('usuarios_equipos.is_active', 1)
                     ->get();
 
                 return response()->json(["ideas" => $ideas], 200);
@@ -116,6 +120,7 @@ class IdeasController extends Controller
                 ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
                 ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
                 ->where('usuarios_equipos.id_usuario', $user->id)
+                ->where('usuarios_equipos.is_active', 1)
                 ->where('ideas.estatus', $estatus)
                 ->get();
 
@@ -268,6 +273,7 @@ class IdeasController extends Controller
                 'titulo' => 'required|min:5',
                 'antecedentes' => 'required| max: 2000',
                 'propuesta' => 'required|max: 2000',
+                'puntos' => 'required|integer',
                 'estatus' => 'required|integer|exists:estado_ideas,id',
                 'fecha_fin' => 'nullable|date',
                 'ahorro' => 'nullable|numeric',
@@ -294,6 +300,7 @@ class IdeasController extends Controller
         $idea->antecedente = $request->antecedentes;
         $idea->propuesta = $request->propuesta;
         $idea->estatus = $request->estatus;
+        $idea->puntos = $request->puntos;
         $idea->fecha_fin = $request->fecha_fin;
         $idea->ahorro = $request->ahorro;
         $idea->contable = $request->contable;
@@ -330,7 +337,6 @@ class IdeasController extends Controller
 
     public function puntos(Request $request)
     {
-        $puntosIdea = 0;
         $validate = Validator::make(
             $request->all(),
             [
@@ -355,26 +361,37 @@ class IdeasController extends Controller
             ], 422);
         }
 
-        for ($i = 0; $i < count($request->id_usuarios); $i++) {
-            $usuario = Usuario::find($request->id_usuarios[$i]);
-            $usuario->puntos += $request->puntos[$i];
-            $usuario->save();
-            $historial = Historial::where('user_id', $request->id_usuarios[$i])->first();
-            if ($historial) {
-                $historial->puntos += $request->puntos[$i];
-            } else {
-                $historial = new Historial();
-                $historial->user_id = $request->id_usuarios[$i];
-                $historial->puntos = $request->puntos[$i];
-            }
-            $historial->save();
-            $puntosIdea += $request->puntos[$i];
-        }
+        DB::beginTransaction();
+        try {
+            $puntosIdea = 0;
+            for ($i = 0; $i < count($request->id_usuarios); $i++) {
+                $usuario = Usuario::find($request->id_usuarios[$i]);
+                if (!$usuario) {
+                    throw new \Exception("Usuario no encontrado");
+                }
+                $usuario->puntos += $request->puntos[$i];
+                $usuario->save();
 
-        $idea = Idea::find($request->id);
-        $idea->puntos = $puntosIdea;
-        $idea->save();
-        return response()->json(["msg" => "Puntos asignados correctamente"], 200);
+                $historial = Historial::firstOrNew(['user_id' => $request->id_usuarios[$i]]);
+                $historial->puntos += $request->puntos[$i];
+                $historial->save();
+
+                $puntosIdea += $request->puntos[$i];
+            }
+
+            $idea = Idea::find($request->id);
+            if (!$idea) {
+                throw new \Exception("Idea no encontrada");
+            }
+            $idea->puntos += $puntosIdea;
+            $idea->save();
+
+            DB::commit();
+            return response()->json(["msg" => "Puntos asignados correctamente"], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(["msg" => "Error al asignar puntos", "error" => $e->getMessage()], 500);
+        }
     }
 
     public function ideascontables()

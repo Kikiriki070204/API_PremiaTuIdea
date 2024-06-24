@@ -227,6 +227,7 @@ class UsersController extends Controller
                 }
             }
         }
+        $user->puntos = $request->puntos;
 
         $user->ibm = $request->ibm;
         $user->nombre = $request->nombre;
@@ -235,12 +236,8 @@ class UsersController extends Controller
         $user->area_id = $request->area_id;
         $user->is_active = $request->is_active;
         $user->locacion_id = $request->locacion_id;
-        if ($request->puntos == 0) {
-            $user->puntos = $user->puntos;
-        } else {
-            $user->puntos = $request->puntos;
-        }
         $user->save();
+
         return response()->json([
             "msg" => "Usuario actualizado correctamente"
         ], 200);
