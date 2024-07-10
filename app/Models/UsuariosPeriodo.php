@@ -9,7 +9,7 @@ class UsuariosPeriodo extends Model
 {
     use HasFactory;
 
-    protected $table = 'usuarios_periodo';
+    protected $table = 'usuarios_periodos';
     protected $fillable = ['user_id', 'puntos', 'fecha', 'is_active'];
 
     public function usuario()

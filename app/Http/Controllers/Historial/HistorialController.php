@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Historial;
 
 use App\Http\Controllers\Controller;
 use App\Models\Historial;
+use App\Models\UsuariosPeriodo;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,18 +14,33 @@ class HistorialController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $historial = DB::table('historials')
-            ->join('usuarios', 'historials.user_id', '=', 'usuarios.id')
-            ->select('historials.*', 'usuarios.ibm', 'usuarios.nombre')
-            ->where('historials.is_active', true)
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'fecha_inicio' => 'required|date',
+                'fecha_fin' => 'required|date'
+            ]
+        );
+
+        if ($validate->fails()) {
+            return response()->json($validate->errors(), 400);
+        }
+
+        $fechaInicio = $request->fecha_inicio;
+        $fechaFin = $request->fecha_fin;
+
+        $historial = DB::table('usuarios_periodos')
+            ->join('usuarios', 'usuarios_periodos.user_id', '=', 'usuarios.id')
+            ->select('usuarios_periodos.user_id', 'usuarios.ibm', 'usuarios.nombre', DB::raw('SUM(usuarios_periodos.puntos) as total_puntos'))
+            ->where('usuarios_periodos.is_active', true)
             ->where('usuarios.is_active', true)
-            ->orderBy('historials.puntos', 'desc')
+            ->whereBetween('usuarios_periodos.fecha', [$fechaInicio, $fechaFin])
+            ->groupBy('usuarios_periodos.user_id', 'usuarios.ibm', 'usuarios.nombre')
+            ->orderBy('total_puntos', 'desc')
             ->limit(10)
             ->get();
-
-        //$historial = Historial::where('is_active', true)->orderBy('puntos', 'desc')->get();
         return response()->json(["historial" => $historial], 200);
     }
 

@@ -99,11 +99,11 @@ Route::prefix('ideass')->group(function () {
     Route::delete('delete/{id}', [IdeasController::class, 'destroy'])->where('id', '[0-9]+')->middleware('active')->middleware('adminstradores');
     Route::put('puntos', [IdeasController::class, 'puntos'])->middleware('active')->middleware('adminstradores');
     Route::post('titulo', [IdeasController::class, 'titulo'])->middleware('active')->middleware('roles');
-    Route::get('ideascontables', [IdeasController::class, 'ideascontables'])->middleware('active')->middleware('roles');
-    Route::get('ahorrocontable', [IdeasController::class, 'ahorrocontable'])->middleware('active')->middleware('roles');
-    Route::get('puntoscontalbes', [IdeasController::class, 'puntoscontables'])->middleware('active')->middleware('roles');
-    Route::get('ahorronocontable', [IdeasController::class, 'ahorronocontable'])->middleware('active')->middleware('roles');
-    Route::get('ideasnocontables', [IdeasController::class, 'ideasnocontables'])->middleware('active')->middleware('roles');
+    Route::post('ideascontables', [IdeasController::class, 'ideascontables'])->middleware('active')->middleware('roles');
+    Route::post('ahorrocontable', [IdeasController::class, 'ahorrocontable'])->middleware('active')->middleware('roles');
+    Route::post('puntoscontables', [IdeasController::class, 'puntoscontables'])->middleware('active')->middleware('roles');
+    Route::post('ahorronocontable', [IdeasController::class, 'ahorronocontable'])->middleware('active')->middleware('roles');
+    Route::post('ideasnocontables', [IdeasController::class, 'ideasnocontables'])->middleware('active')->middleware('roles');
 });
 
 Route::prefix('ideasimagenes')->group(function () {
@@ -237,7 +237,7 @@ Route::prefix('campos')->group(function () {
 
 //Rutas de historial
 Route::prefix('historial')->group(function () {
-    Route::get('list', [HistorialController::class, 'index'])->middleware('roles');
+    Route::post('list', [HistorialController::class, 'index'])->middleware('roles');
     Route::post('create', [HistorialController::class, 'store'])->middleware('roles');
     Route::get('show/{id}', [HistorialController::class, 'show'])->where('id', '[0-9]+')->middleware('roles');
     Route::put('update', [HistorialController::class, 'update'])->middleware('roles');
