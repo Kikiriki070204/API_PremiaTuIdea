@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Equipo;
 use App\Models\Usuario_Equipo;
 use App\Models\Usuario;
+use App\Models\Actividades;
 use Illuminate\Support\Facades\DB;
 use App\Models\IdeasImagenes;
 use Illuminate\Support\Str;
@@ -344,6 +345,11 @@ class IdeasController extends Controller
                 $imagen->delete();
             }
 
+            $actividades = Actividades::where('id_idea', $idea->id)->get();
+            foreach ($actividades as $actividad) {
+                $actividad->delete();
+            }
+
             $idea->delete();
 
             return response()->json(["msg" => "Idea y sus recursos asociados eliminados correctamente"], 200);
@@ -529,11 +535,11 @@ class IdeasController extends Controller
             ->sum('puntos');
 
         $puntosPorArea = DB::table('areas')
-            ->leftJoin('ideas', function ($join) use ($fechaInicio, $fechaFin) { 
+            ->leftJoin('ideas', function ($join) use ($fechaInicio, $fechaFin) {
                 $join->on('areas.id', '=', 'ideas.area_id')
                     ->where('ideas.contable', true)
                     ->where('ideas.estatus', 3)
-                    ->whereBetween('ideas.fecha_fin', [$fechaInicio, $fechaFin]); 
+                    ->whereBetween('ideas.fecha_fin', [$fechaInicio, $fechaFin]);
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.puntos), 0) as total_puntos'))
             ->groupBy('areas.id', 'areas.nombre')
@@ -572,7 +578,7 @@ class IdeasController extends Controller
             ->sum('puntos');
 
         $puntosPorArea = DB::table('areas')
-            ->leftJoin('ideas', function ($join) use ($fechaInicio, $fechaFin) { 
+            ->leftJoin('ideas', function ($join) use ($fechaInicio, $fechaFin) {
                 $join->on('areas.id', '=', 'ideas.area_id')
                     ->where('ideas.contable', false)
                     ->where('ideas.estatus', 3)

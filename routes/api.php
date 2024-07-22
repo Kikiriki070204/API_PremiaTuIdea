@@ -239,6 +239,7 @@ Route::prefix('campos')->group(function () {
 Route::prefix('historial')->group(function () {
     Route::post('list', [HistorialController::class, 'index'])->middleware('roles');
     Route::post('create', [HistorialController::class, 'store'])->middleware('roles');
+    Route::get('periodo', [HistorialController::class, 'create'])->middleware('roles');
     Route::get('show/{id}', [HistorialController::class, 'show'])->where('id', '[0-9]+')->middleware('roles');
     Route::put('update', [HistorialController::class, 'update'])->middleware('roles');
     Route::delete('delete/{id}', [HistorialController::class, 'destroy'])->where('id', '[0-9]+')->middleware('administadores');

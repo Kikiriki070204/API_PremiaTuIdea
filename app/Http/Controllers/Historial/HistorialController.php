@@ -49,7 +49,23 @@ class HistorialController extends Controller
      */
     public function create()
     {
-        //
+        $fecha = date('Y-m-d', strtotime('2024-06-01'));
+        $historiales = Historial::all();
+
+        foreach ($historiales as $historial) {
+            if (!is_null($historial->user_id)) {
+                UsuariosPeriodo::create([
+                    'user_id' => $historial->user_id,
+                    'puntos' => $historial->puntos,
+                    'fecha' => $fecha,
+                    'is_active' => true
+                ]);
+            } else {
+                return response()->json(["error" => "No se encontro el usuario"], 404);
+            }
+        }
+
+        return response()->json(["msg" => "Se crearon los historiales correctamente"], 201);
     }
 
     /**
