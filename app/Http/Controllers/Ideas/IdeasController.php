@@ -426,6 +426,68 @@ class IdeasController extends Controller
         }
     }
 
+    public function ideastotales(Request $request)
+    {
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'fecha_inicio' => 'required|date',
+                'fecha_fin' => 'required|date'
+            ]
+        );
+
+        if ($validate->fails()) {
+            return response()->json($validate->errors(), 400);
+        }
+
+        $fechaInicio = $request->fecha_inicio;
+        $fechaFin = $request->fecha_fin;
+
+        $totalIdeas = DB::table('ideas')
+            ->where('ideas.fecha_inicio', '>=', $fechaInicio)
+            ->count();
+
+        $totalideasPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) use ($fechaInicio, $fechaFin) {
+                $join->on('areas.id', '=', 'ideas.area_id')
+                    ->where('ideas.fecha_inicio', '>=', $fechaInicio);
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
+            ->groupBy('areas.id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
+            ->get();
+
+        $respuesta = [
+            'total_ideas' => $totalIdeas,
+            'ideas_por_area' => $totalideasPorArea
+        ];
+
+        return response()->json($respuesta, 200);
+    }
+
+    public function ideasTotalesHistoricas(Request $request)
+    {
+
+        $totalIdeas = DB::table('ideas')
+            ->count();
+
+        $totalideasPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) {
+                $join->on('areas.id', '=', 'ideas.area_id');
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
+            ->groupBy('areas.id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
+            ->get();
+
+        $respuesta = [
+            'total_ideas' => $totalIdeas,
+            'ideas_por_area' => $totalideasPorArea
+        ];
+
+        return response()->json($respuesta, 200);
+    }
+
     public function ideascontables(Request $request)
     {
         $validate = Validator::make(
@@ -446,7 +508,7 @@ class IdeasController extends Controller
         $totalIdeas = DB::table('ideas')
             ->where('contable', true)
             ->where('ideas.estatus', 3)
-            ->whereBetween('ideas.fecha_fin', [$fechaInicio, $fechaFin])
+            ->where('ideas.fecha_inicio', '>=', $fechaInicio)
             ->count();
 
         $totalideasPorArea = DB::table('areas')
@@ -454,7 +516,7 @@ class IdeasController extends Controller
                 $join->on('areas.id', '=', 'ideas.area_id')
                     ->where('ideas.contable', true)
                     ->where('ideas.estatus', 3)
-                    ->whereBetween('ideas.fecha_fin', [$fechaInicio, $fechaFin]);
+                    ->where('ideas.fecha_inicio', '>=', $fechaInicio);
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
             ->groupBy('areas.id', 'areas.nombre')
@@ -468,6 +530,105 @@ class IdeasController extends Controller
 
         return response()->json($respuesta, 200);
     }
+
+    public function ideasContablesHistoricas(Request $request)
+    {
+
+        $totalIdeas = DB::table('ideas')
+            ->where('contable', true)
+            ->where('ideas.estatus', 3)
+            ->count();
+
+        $totalideasPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) {
+                $join->on('areas.id', '=', 'ideas.area_id')
+                    ->where('ideas.contable', true)
+                    ->where('ideas.estatus', 3);
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
+            ->groupBy('areas.id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
+            ->get();
+
+        $respuesta = [
+            'total_ideas' => $totalIdeas,
+            'ideas_por_area' => $totalideasPorArea
+        ];
+
+        return response()->json($respuesta, 200);
+    }
+
+    public function ideasnocontables(Request $request)
+    {
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'fecha_inicio' => 'required|date',
+                'fecha_fin' => 'required|date'
+            ]
+        );
+
+        if ($validate->fails()) {
+            return response()->json($validate->errors(), 400);
+        }
+
+        $fechaInicio = $request->fecha_inicio;
+        $fechaFin = $request->fecha_fin;
+
+        $totalIdeas = DB::table('ideas')
+            ->where('contable', false)
+            ->where('ideas.estatus', 3)
+            ->where('ideas.fecha_inicio', '>=', $fechaInicio)
+            ->count();
+
+        $totalideasPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) use ($fechaInicio) {
+                $join->on('areas.id', '=', 'ideas.area_id')
+                    ->where('ideas.contable', false)
+                    ->where('ideas.estatus', 3)
+                    ->where('ideas.fecha_inicio', '>=', $fechaInicio);
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
+            ->groupBy('areas.id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
+            ->get();
+
+
+
+        $respuesta = [
+            'total_ideas' => $totalIdeas,
+            'ideas_por_area' => $totalideasPorArea
+        ];
+
+        return response()->json(["msg" => $respuesta, 200]);
+    }
+
+    public function ideasNoContablesHistoricas(Request $request)
+    {
+        $totalIdeas = DB::table('ideas')
+            ->where('contable', false)
+            ->where('ideas.estatus', 3)
+            ->count();
+
+        $totalideasPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) {
+                $join->on('areas.id', '=', 'ideas.area_id')
+                    ->where('ideas.contable', false)
+                    ->where('ideas.estatus', 3);
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
+            ->groupBy('areas.id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
+            ->get();
+
+        $respuesta = [
+            'total_ideas' => $totalIdeas,
+            'ideas_por_area' => $totalideasPorArea
+        ];
+
+        return response()->json(["msg" => $respuesta, 200]);
+    }
+
 
     public function ahorrocontable(Request $request)
     {
@@ -489,14 +650,14 @@ class IdeasController extends Controller
         $totalAhorros = DB::table('ideas')
             ->where('contable', true)
             ->where('ideas.estatus', 3)
-            ->whereBetween('ideas.fecha_fin', [$fechaInicio, $fechaFin])
+            ->whereBetween('ideas.fecha_inicio', [$fechaInicio, $fechaFin])
             ->sum('ahorro');
         $ahorrosPorArea = DB::table('areas')
             ->leftJoin('ideas', function ($join) use ($fechaInicio, $fechaFin) {
                 $join->on('areas.id', '=', 'ideas.area_id')
                     ->where('ideas.contable', true)
                     ->where('ideas.estatus', 3)
-                    ->whereBetween('ideas.fecha_fin', [$fechaInicio, $fechaFin]);
+                    ->whereBetween('ideas.fecha_inicio', [$fechaInicio, $fechaFin]);
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.ahorro),0) as total_ahorros'))
             ->groupBy('ideas.area_id', 'areas.nombre')
@@ -529,17 +690,17 @@ class IdeasController extends Controller
         $fechaFin = $request->fecha_fin;
 
         $totalPuntos = DB::table('ideas')
-            ->where('contable', true)
+            ->where('contable', 1)
             ->where('ideas.estatus', 3)
-            ->whereBetween('ideas.fecha_fin', [$fechaInicio, $fechaFin])
+            ->whereDate('ideas.fecha_inicio', '>=', $fechaInicio)
             ->sum('puntos');
 
         $puntosPorArea = DB::table('areas')
-            ->leftJoin('ideas', function ($join) use ($fechaInicio, $fechaFin) {
+            ->leftJoin('ideas', function ($join) use ($fechaInicio) {
                 $join->on('areas.id', '=', 'ideas.area_id')
                     ->where('ideas.contable', true)
                     ->where('ideas.estatus', 3)
-                    ->whereBetween('ideas.fecha_fin', [$fechaInicio, $fechaFin]);
+                    ->whereDate('ideas.fecha_inicio', '>=', $fechaInicio);
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.puntos), 0) as total_puntos'))
             ->groupBy('areas.id', 'areas.nombre')
@@ -554,7 +715,7 @@ class IdeasController extends Controller
         return response()->json(["msg" => $respuesta], 200);
     }
 
-    public function ahorronocontable(Request $request)
+    public function puntosnocontables(Request $request)
     {
         $validate = Validator::make(
             $request->all(),
@@ -574,7 +735,7 @@ class IdeasController extends Controller
         $totalPuntos = DB::table('ideas')
             ->where('contable', false)
             ->where('ideas.estatus', 3)
-            ->whereBetween('ideas.fecha_fin', [$fechaInicio, $fechaFin])
+            ->where('ideas.fecha_fin', '>=', $fechaInicio)
             ->sum('puntos');
 
         $puntosPorArea = DB::table('areas')
@@ -582,7 +743,7 @@ class IdeasController extends Controller
                 $join->on('areas.id', '=', 'ideas.area_id')
                     ->where('ideas.contable', false)
                     ->where('ideas.estatus', 3)
-                    ->whereBetween('ideas.fecha_fin', [$fechaInicio, $fechaFin]);
+                    ->where('ideas.fecha_fin', '>=', $fechaInicio);
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.puntos), 0) as total_puntos'))
             ->groupBy('areas.id', 'areas.nombre')
@@ -595,49 +756,6 @@ class IdeasController extends Controller
         ];
 
         return response()->json(["msg" => $respuesta], 200);
-    }
-
-    public function ideasnocontables(Request $request)
-    {
-        $validate = Validator::make(
-            $request->all(),
-            [
-                'fecha_inicio' => 'required|date',
-                'fecha_fin' => 'required|date'
-            ]
-        );
-
-        if ($validate->fails()) {
-            return response()->json($validate->errors(), 400);
-        }
-
-        $fechaInicio = $request->fecha_inicio;
-        $fechaFin = $request->fecha_fin;
-
-        $totalIdeas = DB::table('ideas')
-            ->where('contable', false)
-            ->where('ideas.estatus', 3)
-            ->whereBetween('ideas.fecha_fin', [$fechaInicio, $fechaFin])
-            ->count();
-
-        $totalideasPorArea = DB::table('areas')
-            ->leftJoin('ideas', function ($join) use ($fechaInicio, $fechaFin) {
-                $join->on('areas.id', '=', 'ideas.area_id')
-                    ->where('ideas.contable', false)
-                    ->where('ideas.estatus', 3)
-                    ->whereBetween('ideas.fecha_fin', [$fechaInicio, $fechaFin]);
-            })
-            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
-            ->groupBy('areas.id', 'areas.nombre')
-            ->orderBy('areas.nombre', 'asc')
-            ->get();
-
-        $respuesta = [
-            'total_ideas' => $totalIdeas,
-            'ideas_por_area' => $totalideasPorArea
-        ];
-
-        return response()->json(["msg" => $respuesta, 200]);
     }
 
     public function titulo(Request $request)
@@ -657,5 +775,99 @@ class IdeasController extends Controller
         $ideas = Idea::where('titulo', 'LIKE', "%{$titulo}%")->get();
 
         return response()->json($ideas, 200);
+    }
+
+    public function top10Usuarios()
+    {
+        $historial = DB::table('usuarios_periodos')
+            ->join('usuarios', 'usuarios_periodos.user_id', '=', 'usuarios.id')
+            ->select('usuarios_periodos.user_id', 'usuarios.ibm', 'usuarios.nombre', DB::raw('SUM(usuarios_periodos.puntos) as total_puntos'))
+            ->where('usuarios_periodos.is_active', true)
+            ->where('usuarios.is_active', true)
+            //->whereBetween('usuarios_periodos.fecha', [$fechaInicio, $fechaFin])
+            ->groupBy('usuarios_periodos.user_id', 'usuarios.ibm', 'usuarios.nombre')
+            ->orderBy('total_puntos', 'desc')
+            ->limit(10)
+            ->get();
+        return response()->json(["historial" => $historial], 200);
+    }
+
+    public function puntosContablesHistoricos()
+    {
+        $totalPuntos = DB::table('ideas')
+            ->where('contable', true)
+            ->where('ideas.estatus', 3)
+            ->sum('puntos');
+
+        $puntosPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) {
+                $join->on('areas.id', '=', 'ideas.area_id')
+                    ->where('ideas.contable', true)
+                    ->where('ideas.estatus', 3);
+
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.puntos), 0) as total_puntos'))
+            ->groupBy('areas.id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
+            ->get();
+
+        $respuesta = [
+            'total_puntos' => $totalPuntos,
+            'puntos_por_area' => $puntosPorArea
+        ];
+
+        return response()->json(["msg" => $respuesta], 200);
+    }
+
+
+    public function puntosNoContablesHistoricos()
+    {
+        $totalPuntos = DB::table('ideas')
+            ->where('contable', false)
+            ->where('ideas.estatus', 3)
+            ->sum('puntos');
+
+        $puntosPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) {
+                $join->on('areas.id', '=', 'ideas.area_id')
+                    ->where('ideas.contable', false)
+                    ->where('ideas.estatus', 3);
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.puntos), 0) as total_puntos'))
+            ->groupBy('areas.id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
+            ->get();
+
+        $respuesta = [
+            'total_puntos' => $totalPuntos,
+            'puntos_por_area' => $puntosPorArea
+        ];
+
+        return response()->json(["msg" => $respuesta], 200);
+    }
+
+    public function ahorroHistorico()
+    {
+        $totalAhorros = DB::table('ideas')
+            ->where('contable', true)
+            ->where('ideas.estatus', 3)
+            ->sum('ahorro');
+        $ahorrosPorArea = DB::table('areas')
+            ->leftJoin('ideas', function ($join) {
+                $join->on('areas.id', '=', 'ideas.area_id')
+                    ->where('ideas.contable', true)
+                    ->where('ideas.estatus', 3);
+            })
+            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.ahorro),0) as total_ahorros'))
+            ->groupBy('ideas.area_id', 'areas.nombre')
+            ->orderBy('areas.nombre', 'asc')
+            ->get();
+
+        $respuesta = [
+            'total_ahorros' => $totalAhorros,
+            'ahorros_por_area' => $ahorrosPorArea,
+        ];
+
+        return response()->json(["msg" => $respuesta, 200]);
     }
 }

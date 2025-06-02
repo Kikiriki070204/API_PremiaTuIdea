@@ -99,11 +99,22 @@ Route::prefix('ideass')->group(function () {
     Route::delete('delete/{id}', [IdeasController::class, 'destroy'])->where('id', '[0-9]+')->middleware('active')->middleware('adminstradores');
     Route::put('puntos', [IdeasController::class, 'puntos'])->middleware('active')->middleware('adminstradores');
     Route::post('titulo', [IdeasController::class, 'titulo'])->middleware('active')->middleware('roles');
-    Route::post('ideascontables', [IdeasController::class, 'ideascontables'])->middleware('active')->middleware('roles');
     Route::post('ahorrocontable', [IdeasController::class, 'ahorrocontable'])->middleware('active')->middleware('roles');
     Route::post('puntoscontables', [IdeasController::class, 'puntoscontables'])->middleware('active')->middleware('roles');
-    Route::post('ahorronocontable', [IdeasController::class, 'ahorronocontable'])->middleware('active')->middleware('roles');
+    Route::post('puntosnocontables', [IdeasController::class, 'puntosnocontables'])->middleware('active')->middleware('roles');
+    Route::post('ideastotales', [IdeasController::class, 'ideastotales'])->middleware('active')->middleware('roles');
+    Route::post('ideascontables', [IdeasController::class, 'ideascontables'])->middleware('active')->middleware('roles');
     Route::post('ideasnocontables', [IdeasController::class, 'ideasnocontables'])->middleware('active')->middleware('roles');
+    // datos históricos
+    Route::get('top10', [IdeasController::class, 'top10Usuarios'])->middleware('active')->middleware('roles');
+    Route::get('puntosContablesHistoricos', [IdeasController::class, 'puntosContablesHistoricos'])->middleware('active')->middleware('roles');
+    Route::get('puntosNoContablesHistoricos', [IdeasController::class, 'puntosNoContablesHistoricos'])->middleware('active')->middleware('roles');
+    Route::get('ideasTotalesHistoricas', [IdeasController::class, 'ideasTotalesHistoricas'])->middleware('active')->middleware('roles');
+    Route::get('ideasContablesHistoricas', [IdeasController::class, 'ideasContablesHistoricas'])->middleware('active')->middleware('roles');
+    Route::get('ideasNoContablesHistoricas', [IdeasController::class, 'ideasNoContablesHistoricas'])->middleware('active')->middleware('roles');
+    Route::get('ahorroHistorico', [IdeasController::class, 'ahorroHistorico'])->middleware('active')->middleware('roles');
+
+
 });
 
 Route::prefix('ideasimagenes')->group(function () {
