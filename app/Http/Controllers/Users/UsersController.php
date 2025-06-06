@@ -98,11 +98,12 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        /*
         $turnos = [
             'TURNO 13 N1', 'TURNO 51', 'TURNO 8', 'TURNO 4D',
             'TURNO 7H', 'TURNO 7T', 'TURNO 43', 'TURNO 35', 'TURNO T8', 'TURNO T9',
             'TURNO 82', 'TURNO 93', 'TURNO 71', 'TURNO 92'
-        ];
+        ]; */
 
         $validate = Validator::make(
             $request->all(),
@@ -113,7 +114,7 @@ class UsersController extends Controller
                 'departamento_id' => 'nullable|integer',
                 'area_id' => 'required|integer|exists:areas,id',
                 'locacion_id' => 'nullable|integer|exists:locaciones,id',
-                'turno' => ['required', Rule::in($turnos)],
+                // 'turno' => ['required', Rule::in(values: $turnos)],
             ]
         );
 

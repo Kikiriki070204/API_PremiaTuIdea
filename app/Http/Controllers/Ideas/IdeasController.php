@@ -644,6 +644,7 @@ class IdeasController extends Controller
             return response()->json($validate->errors(), 400);
         }
 
+        $tipoCambio = 19.24;
         $fechaInicio = $request->fecha_inicio;
         $fechaFin = $request->fecha_fin;
 
@@ -652,6 +653,9 @@ class IdeasController extends Controller
             ->where('ideas.estatus', 3)
             ->whereBetween('ideas.fecha_inicio', [$fechaInicio, $fechaFin])
             ->sum('ahorro');
+
+        $totalAhorrosDolares = round($totalAhorros / $tipoCambio, 2);
+
         $ahorrosPorArea = DB::table('areas')
             ->leftJoin('ideas', function ($join) use ($fechaInicio, $fechaFin) {
                 $join->on('areas.id', '=', 'ideas.area_id')
@@ -659,18 +663,24 @@ class IdeasController extends Controller
                     ->where('ideas.estatus', 3)
                     ->whereBetween('ideas.fecha_inicio', [$fechaInicio, $fechaFin]);
             })
-            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.ahorro),0) as total_ahorros'))
+            ->select(
+                'areas.nombre as nombre_area',
+                DB::raw('COALESCE(SUM(ideas.ahorro), 0) as total_ahorros'),
+                DB::raw('ROUND(COALESCE(SUM(ideas.ahorro), 0) / ' . $tipoCambio . ', 2) as total_ahorros_dolares')
+            )
             ->groupBy('ideas.area_id', 'areas.nombre')
             ->orderBy('areas.nombre', 'asc')
             ->get();
 
         $respuesta = [
             'total_ahorros' => $totalAhorros,
+            'total_ahorros_dolares' => $totalAhorrosDolares,
             'ahorros_por_area' => $ahorrosPorArea,
         ];
 
-        return response()->json(["msg" => $respuesta, 200]);
+        return response()->json(["msg" => $respuesta], 200);
     }
+
 
     public function puntoscontables(Request $request)
     {
@@ -848,26 +858,42 @@ class IdeasController extends Controller
 
     public function ahorroHistorico()
     {
+        $tipoCambio = 19.24;
+
         $totalAhorros = DB::table('ideas')
             ->where('contable', true)
             ->where('ideas.estatus', 3)
             ->sum('ahorro');
+
+        $totalAhorrosPesos = round($totalAhorros, 2);
+        $totalAhorrosDolares = round($totalAhorros / $tipoCambio, 2);
+
         $ahorrosPorArea = DB::table('areas')
             ->leftJoin('ideas', function ($join) {
                 $join->on('areas.id', '=', 'ideas.area_id')
                     ->where('ideas.contable', true)
                     ->where('ideas.estatus', 3);
             })
-            ->select('areas.nombre as nombre_area', DB::raw('COALESCE(SUM(ideas.ahorro),0) as total_ahorros'))
+            ->select(
+                'areas.nombre as nombre_area',
+                DB::raw('ROUND(COALESCE(SUM(ideas.ahorro), 0), 2) as total_ahorros')
+            )
             ->groupBy('ideas.area_id', 'areas.nombre')
             ->orderBy('areas.nombre', 'asc')
             ->get();
 
+        $ahorrosPorArea = $ahorrosPorArea->map(function ($item) use ($tipoCambio) {
+            $item->total_ahorros_dolares = round($item->total_ahorros / $tipoCambio, 2);
+            return $item;
+        });
+
         $respuesta = [
-            'total_ahorros' => $totalAhorros,
+            'total_ahorros' => $totalAhorrosPesos,
+            'total_ahorros_usd' => $totalAhorrosDolares,
             'ahorros_por_area' => $ahorrosPorArea,
         ];
 
         return response()->json(["msg" => $respuesta, 200]);
     }
+
 }
