@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Models\Historial;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class UsersController extends Controller
 {
@@ -40,6 +42,7 @@ class UsersController extends Controller
             ->where('usuarios.is_active', true)
             ->where('usuarios.id', '!=', $user->id)
             ->get();
+        //->paginate(10);
 
         return response()->json(["users" => $users], 200);
     }
@@ -80,7 +83,7 @@ class UsersController extends Controller
             ->leftJoin('locaciones', 'usuarios.locacion_id', '=', 'locaciones.id')
             ->select('usuarios.*', 'roles.nombre as rol', 'departamentos.nombre as departamento', 'areas.nombre as area', 'locaciones.nombre as locacion')
             ->where('usuarios.id', '!=', $user->id)
-            ->get();
+            ->paginate(20);
 
         return response()->json(["users" => $users], 200);
     }
@@ -291,7 +294,62 @@ class UsersController extends Controller
             )
             ->where('usuarios.nombre', 'like', '%' . $request->nombre . '%')
             ->where('usuarios.id', '!=', $user->id)
-            ->get();
+            ->paginate(20);
+
         return response()->json(["users" => $users], 200);
+    }
+
+    public function updatePassword(Request $request)
+    {
+
+        $request->validate([
+            'password' => 'required|string|min:8',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+
+        $user = $request->user();
+
+        if (!Hash::check($request->password, $user->getAuthPassword())) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Current password is incorrect',
+            ], 401);
+        }
+
+
+        $user->password = $request->new_password;
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Password updated successfully',
+        ], 200);
+    }
+
+    public function updatePasswordAdmin(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user' => ['required', 'integer'],
+            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validación fallida',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $user = Auth::user()->where('id', $request->user)->first();
+
+        $user->password = $request->new_password;
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Contraseña actualizada correctamente.',
+        ]);
     }
 }

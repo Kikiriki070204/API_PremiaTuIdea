@@ -16,12 +16,13 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\DB;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
+use App\Models\Usuario;
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'registro', 'password',]]);
+        $this->middleware('auth:api', ['except' => ['login', 'registro', 'password', 'register']]);
     }
 
     public function me()
@@ -126,6 +127,54 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
         return $user;
+    }
+
+    public function register(Request $request)
+    {
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'ibm' => 'required|integer',
+                'nombre' => 'required|string|max:255|regex:/^[a-zA-Z\s]*$/',
+                'password' => 'required|min:8',
+                'departamento_id' => 'nullable|integer',
+                'area_id' => 'required|integer|exists:areas,id',
+                'locacion_id' => 'nullable|integer|exists:locaciones,id',
+            ]
+        );
+
+        if ($validate->fails()) {
+            return response()->json([
+                "errors" => $validate->errors(),
+                "msg" => "Errores de validación"
+            ], 422);
+        }
+
+        if ($request->departamento_id == 0 || $request->departamento_id == null) {
+            $user = new Usuario();
+            $user->ibm = $request->ibm;
+            $user->nombre = $request->nombre;
+            $user->password = $request->password;
+            $user->rol_id = 4;
+            $user->departamento_id = null;
+            $user->area_id = $request->area_id;
+            $user->locacion_id = $request->locacion_id;
+            $user->save();
+        } else {
+            $user = new Usuario();
+            $user->ibm = $request->ibm;
+            $user->nombre = $request->nombre;
+            $user->password = $request->password;
+            $user->rol_id = 4;
+            $user->departamento_id = $request->departamento_id;
+            $user->area_id = $request->area_id;
+            $user->locacion_id = $request->locacion_id;
+            $user->turno = $request->turno;
+            $user->save();
+        }
+        return response()->json([
+            "msg" => "Usuario creado correctamente"
+        ], 201);
     }
 
     public function logout()

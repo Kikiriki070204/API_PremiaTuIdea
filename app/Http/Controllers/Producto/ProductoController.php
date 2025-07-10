@@ -39,6 +39,48 @@ class ProductoController extends Controller
         }
     }
 
+    public function indexAsc()
+    {
+
+        $user = auth('api')->user();
+
+        if (!$user) {
+            return response()->json(["msg" => "No estás autorizado"], 401);
+        }
+
+        if ($user->rol->id == 1) {
+            $productos = Producto::orderBy('valor', 'asc')->paginate(10);
+            return response()->json(["productos" => $productos], 200);
+        } else {
+            $productos = Producto::where('is_active', true)
+                ->orderBy('valor', 'asc')
+                ->paginate(10);
+            return response()->json(["productos" => $productos], 200);
+
+        }
+    }
+
+    public function indexDsc()
+    {
+
+        $user = auth('api')->user();
+
+        if (!$user) {
+            return response()->json(["msg" => "No estás autorizado"], 401);
+        }
+
+        if ($user->rol->id == 1) {
+            $productos = Producto::orderBy('valor', 'desc')->paginate(10);
+            return response()->json(["productos" => $productos], 200);
+        } else {
+            $productos = Producto::where('is_active', true)
+                ->orderBy('valor', 'desc')
+                ->paginate(10);
+            return response()->json(["productos" => $productos], 200);
+
+        }
+    }
+
     public function canjear(Request $request)
     {
         $user = auth()->user();

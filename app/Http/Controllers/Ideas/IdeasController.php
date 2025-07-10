@@ -113,7 +113,7 @@ class IdeasController extends Controller
                     ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
                     ->where('usuarios_equipos.id_usuario', $user->id)
                     ->where('usuarios_equipos.is_active', 1)
-                    ->get();
+                    ->paginate(10);
 
                 return response()->json(["ideas" => $ideas], 200);
             }
@@ -125,7 +125,7 @@ class IdeasController extends Controller
                 ->where('usuarios_equipos.id_usuario', $user->id)
                 ->where('usuarios_equipos.is_active', 1)
                 ->where('ideas.estatus', $estatus)
-                ->get();
+                ->paginate(10);
 
             return response()->json(["ideas" => $ideas], 200);
         }
@@ -154,7 +154,7 @@ class IdeasController extends Controller
             return response()->json(["ideas" => $ideas], 200);
         }
 
-        $ideas = Idea::where('estatus', $estatus)->get();
+        $ideas = Idea::where('estatus', $estatus)->paginate(10);
 
         return response()->json(["ideas" => $ideas], 200);
     }

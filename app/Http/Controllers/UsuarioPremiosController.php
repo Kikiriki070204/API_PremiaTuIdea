@@ -22,6 +22,7 @@ class UsuarioPremiosController extends Controller
         $user = auth('api')->user();
 
         if ($user) {
+            /*
             if ($user->rol->id == 1) {
                 $premios = DB::table('usuario_premios')
                     ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
@@ -37,7 +38,35 @@ class UsuarioPremiosController extends Controller
                     ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'productos.url as url', 'estado_usuario_premios.estado as estado')
                     ->where('usuario_premios.id_usuario', $user->id)
                     ->get();
+            } */
+            $premios = DB::table('usuario_premios')
+                ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
+                ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
+                ->join('estado_usuario_premios', 'usuario_premios.id_estado', '=', 'estado_usuario_premios.id')
+                ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'productos.url as url', 'estado_usuario_premios.estado as estado')
+                ->where('usuario_premios.id_usuario', $user->id)
+                ->get();
+
+            return response()->json(["premios" => $premios], 200);
+        }
+        return response()->json(["msg" => "No estás autorizado"], 401);
+    }
+
+    public function indexAdmin()
+    {
+        $user = auth('api')->user();
+
+        if ($user) {
+
+            if ($user->rol->id == 1) {
+                $premios = DB::table('usuario_premios')
+                    ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
+                    ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
+                    ->join('estado_usuario_premios', 'usuario_premios.id_estado', '=', 'estado_usuario_premios.id')
+                    ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'productos.url as url', 'estado_usuario_premios.estado as estado')
+                    ->paginate(10);
             }
+
             return response()->json(["premios" => $premios], 200);
         }
         return response()->json(["msg" => "No estás autorizado"], 401);

@@ -13,7 +13,6 @@ use App\Http\Controllers\Equipo\UsuarioEquipoController;
 use App\Http\Controllers\Ideas\EstadosIdeasController;
 use App\Http\Controllers\Ideas\IdeasController;
 use App\Http\Controllers\Locancion\LocacionController;
-use App\Http\Controllers\Producto\ProductoController;
 use App\Http\Controllers\Users\UsersController;
 use App\Http\Controllers\EstadoUsuarioPremiosController;
 use App\Http\Controllers\UsuarioPremiosController;
@@ -24,6 +23,7 @@ use Symfony\Component\CssSelector\Node\FunctionNode;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Response;
 use App\Models\IdeasImagenes;
+use App\Http\Controllers\Producto\ProductoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +47,8 @@ Route::get('test', function () {
 //Rutas de autenticación y registro
 Route::prefix('auth')->group(function () {
     Route::put('register', [AuthController::class, 'registro'])->name('register');
+    Route::put('register', [AuthController::class, 'registro'])->name('register');
+    Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::put('password', [AuthController::class, 'password'])->name('password');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
@@ -65,6 +67,9 @@ Route::prefix('users')->group(function () {
     Route::put('update', [UsersController::class, 'update'])->middleware('active')->middleware('adminstradores');
     Route::delete('delete/{id}', [UsersController::class, 'destroy'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
     Route::post('nombre', [UsersController::class, 'nombre'])->middleware('active')->middleware('adminstradores');
+    Route::post('updatePassword', [UsersController::class, 'updatePassword'])->middleware('active')->middleware('roles');
+    Route::post('updatePasswordAdmin', [UsersController::class, 'updatePasswordAdmin'])->middleware('active')->middleware('adminstradores');
+
 });
 
 //Rutas de ideas
@@ -146,7 +151,7 @@ Route::prefix('actividades')->group(function () {
 
 //Rutas Roles
 Route::prefix('roles')->group(function () {
-    Route::get('list', [RolesController::class, 'index'])->middleware('active')->middleware('roles');
+    Route::get('list', [RolesController::class, 'index']);
     Route::post('create', [RolesController::class, 'store'])->middleware('active')->middleware('adminstrador');
     Route::get('show/{id}', [RolesController::class, 'show'])->middleware('active')->middleware('adminstrador');
     Route::put('update', [RolesController::class, 'update'])->middleware('active')->middleware('adminstrador');
@@ -155,7 +160,7 @@ Route::prefix('roles')->group(function () {
 
 //Rutas Areas
 Route::prefix('areas')->group(function () {
-    Route::get('list', [AreaController::class, 'index'])->middleware('active')->middleware('roles');
+    Route::get('list', [AreaController::class, 'index']);
     Route::post('create', [AreaController::class, 'store'])->middleware('active')->middleware('adminstrador');
     Route::get('show/{id}', [AreaController::class, 'show'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
     Route::put('update', [AreaController::class, 'update'])->middleware('active')->middleware('adminstrador');
@@ -163,8 +168,10 @@ Route::prefix('areas')->group(function () {
 });
 
 //Rutas Departamentos
+Route::get('list', [DepartamentoController::class, 'index']);
+
 Route::prefix('departamentos')->group(function () {
-    Route::get('list', [DepartamentoController::class, 'index'])->middleware('active')->middleware('roles');
+    Route::get('list', [DepartamentoController::class, 'index']);
     Route::post('create', [DepartamentoController::class, 'store'])->middleware('active')->middleware('adminstradores');
     Route::get('show/{id}', [DepartamentoController::class, 'show'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
     Route::put('update', [DepartamentoController::class, 'update'])->middleware('active')->middleware('adminstradores');
@@ -174,6 +181,9 @@ Route::prefix('departamentos')->group(function () {
 //Rutas Productos
 Route::prefix('productos')->group(function () {
     Route::get('list', [ProductoController::class, 'index'])->middleware('active')->middleware('roles');
+    Route::get('list/asc', [ProductoController::class, 'indexAsc'])->middleware('active')->middleware('roles');
+    Route::get('list/dsc', [ProductoController::class, 'indexDsc'])->middleware('active')->middleware('roles');
+
     Route::post('create', [ProductoController::class, 'store'])->middleware('active')->middleware('adminstradores');
     Route::get('show/{id}', [ProductoController::class, 'show'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
     Route::put('update', [ProductoController::class, 'update'])->middleware('active')->middleware('adminstradores');
@@ -202,7 +212,7 @@ Route::prefix('estadoideas')->group(function () {
 //Rutas de locaciones
 Route::prefix('locaciones')->group(function () {
     Route::get('list', [LocacionController::class, 'index'])->middleware('active')->middleware('roles');
-    Route::post('area', [LocacionController::class, 'area'])->middleware('active')->middleware('roles');
+    Route::post('area', [LocacionController::class, 'area']);
     Route::post('create', [LocacionController::class, 'store'])->middleware('active')->middleware('adminstrador');
     Route::get('show/{id}', [LocacionController::class, 'show'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
     Route::put('update', [LocacionController::class, 'update'])->middleware('active')->middleware('adminstrador');
@@ -221,6 +231,7 @@ Route::prefix('estadoactividades')->group(function () {
 //Rutas Usuario Premios
 Route::prefix('usuariopremios')->group(function () {
     Route::get('list', [UsuarioPremiosController::class, 'index'])->middleware('active')->middleware('roles');
+    Route::get('list/admin', [UsuarioPremiosController::class, 'indexAdmin'])->middleware('active')->middleware('roles');
     Route::post('create', [UsuarioPremiosController::class, 'store'])->middleware('active')->middleware('roles');
     Route::get('show/{id}', [UsuarioPremiosController::class, 'show'])->middleware('active')->middleware('roles')->where('id', '[0-9]+');
     Route::put('update', [UsuarioPremiosController::class, 'update'])->middleware('active')->middleware('roles');
