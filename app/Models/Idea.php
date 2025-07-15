@@ -64,4 +64,9 @@ class Idea extends Model
     {
         return $this->hasMany(Campos_Idea::class, 'idea_id');
     }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
+    }
 }

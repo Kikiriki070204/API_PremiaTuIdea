@@ -170,7 +170,8 @@ class IdeasController extends Controller
                 $request->all(),
                 [
                     'titulo' => 'required|min:5',
-                    'antecedentes' => 'required| max:2000',
+                    'categoria_id' => 'nullable|integer|exists:categorias,id',
+                    'antecedentes' => 'nullable| max:2000',
                     'condiciones' => 'required|file|image|mimes:jpeg,png,jpg|max:4900',
                     'propuesta' => 'required|max:2000',
                     'fecha_inicio' => 'required|date',
@@ -185,6 +186,8 @@ class IdeasController extends Controller
                 ], 422);
             }
 
+
+
             DB::beginTransaction();
 
             try {
@@ -192,7 +195,8 @@ class IdeasController extends Controller
 
                 $idea->user_id = $user->id;
                 $idea->titulo = $request->titulo;
-                $idea->antecedente = $request->antecedentes;
+                $idea->categoria_id = $request->filled('categoria_id') ? $request->categoria_id : null;
+                $idea->antecedente = $request->filled('antecedentes') ? $request->antecedentes : 'No aplica';
                 $idea->propuesta = $request->propuesta;
                 $idea->fecha_inicio = $request->fecha_inicio;
                 $idea->area_id = $request->area_id;
@@ -445,12 +449,15 @@ class IdeasController extends Controller
 
         $totalIdeas = DB::table('ideas')
             ->where('ideas.fecha_inicio', '>=', $fechaInicio)
+
             ->count();
 
         $totalideasPorArea = DB::table('areas')
             ->leftJoin('ideas', function ($join) use ($fechaInicio, $fechaFin) {
                 $join->on('areas.id', '=', 'ideas.area_id')
-                    ->where('ideas.fecha_inicio', '>=', $fechaInicio);
+                    ->where('ideas.fecha_inicio', '>=', $fechaInicio)
+                    ->where('areas.is_active', '=', 1);
+
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
             ->groupBy('areas.id', 'areas.nombre')
@@ -476,6 +483,8 @@ class IdeasController extends Controller
                 $join->on('areas.id', '=', 'ideas.area_id');
             })
             ->select('areas.nombre as nombre_area', DB::raw('COALESCE(COUNT(ideas.id), 0) as total_ideas'))
+            ->where('areas.is_active', 1)
+
             ->groupBy('areas.id', 'areas.nombre')
             ->orderBy('areas.nombre', 'asc')
             ->get();

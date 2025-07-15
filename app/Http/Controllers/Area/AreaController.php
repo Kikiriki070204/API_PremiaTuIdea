@@ -18,7 +18,9 @@ class AreaController extends Controller
      */
     public function index()
     {
-        $areas = Area::all();
+        $areas = Area::where('is_active', true)
+            ->get(['id', 'nombre']);
+
         return response()->json(["areas" => $areas], 200);
     }
 

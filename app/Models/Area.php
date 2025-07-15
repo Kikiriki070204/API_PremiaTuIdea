@@ -12,7 +12,8 @@ class Area extends Model
     use HasFactory;
     protected $table = "areas";
     protected $fillable = [
-        'nombre'
+        'nombre',
+        'is_active'
     ];
 
     public function locacion()
