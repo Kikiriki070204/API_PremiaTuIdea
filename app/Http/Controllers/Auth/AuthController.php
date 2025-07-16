@@ -150,6 +150,12 @@ class AuthController extends Controller
             ], 422);
         }
 
+        if (Usuario::where('ibm', $request->ibm)->exists()) {
+            return response()->json([
+                "msg" => "El IBM ya está registrado por otro usuario"
+            ], 409);
+        }
+
         if ($request->departamento_id == 0 || $request->departamento_id == null) {
             $user = new Usuario();
             $user->ibm = $request->ibm;
