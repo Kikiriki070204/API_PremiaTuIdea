@@ -99,25 +99,49 @@ Route::prefix('ideass')->group(function () {
     Route::get('userIdeasImplementadas/{id}', [IdeasController::class, 'userIdeasImplementadas'])->middleware('active')->middleware('roles');
     Route::get('userideasall/{estatus?}', [IdeasController::class, 'userIdeasAll'])->middleware('active')->middleware('roles')->where('estatus', '[0-9]+');
     Route::get('ideasAll/{estatus?}', [IdeasController::class, 'ideasAll'])->middleware('active')->middleware('adminstradores')->where('estatus', '[0-9]+');
+    Route::get('ideasAllCategoria/{estatus}/{categoria}', [IdeasController::class, 'ideasAllCategoria'])->middleware('active')->middleware('adminstradores')->where('estatus', '[0-9]+');
     Route::get('show/{id}', [IdeasController::class, 'show'])->where('id', '[0-9]+')->middleware('active')->middleware('roles');
     Route::put('update', [IdeasController::class, 'update'])->middleware('active')->middleware('adminstradores');
     Route::delete('delete/{id}', [IdeasController::class, 'destroy'])->where('id', '[0-9]+')->middleware('active')->middleware('adminstradores');
     Route::put('puntos', [IdeasController::class, 'puntos'])->middleware('active')->middleware('adminstradores');
+    Route::put('bonos', [IdeasController::class, 'asignarBonos'])->middleware('active')->middleware('adminstradores');
     Route::post('titulo', [IdeasController::class, 'titulo'])->middleware('active')->middleware('roles');
-    Route::post('ahorrocontable', [IdeasController::class, 'ahorrocontable'])->middleware('active')->middleware('roles');
+
+    // Reportes
+
+    // Actualizar tipo de cambio a USD
+    Route::put('tipoCambio', [IdeasController::class, 'actualizarTipoCambio'])->middleware('active')->middleware('adminstradores');
+    Route::get('tipoCambio', [IdeasController::class, 'obtenerTipoCambio'])->middleware('active')->middleware('adminstradores');
+
+    // Reportes trimestrales y mensuales
+    Route::post('reporteTrimestral', [IdeasController::class, 'reporteIdeasVsUsuarios'])->middleware('active')->middleware('roles');
+    Route::post('reporteMensual', [IdeasController::class, 'reporteParticipacionEmpleados'])->middleware('active')->middleware('roles');
+    // Puntos
     Route::post('puntoscontables', [IdeasController::class, 'puntoscontables'])->middleware('active')->middleware('roles');
     Route::post('puntosnocontables', [IdeasController::class, 'puntosnocontables'])->middleware('active')->middleware('roles');
+    Route::get('top10', [IdeasController::class, 'top10Usuarios'])->middleware('active')->middleware('roles');
+    Route::get('puntosContablesHistoricos', [IdeasController::class, 'puntosContablesHistoricos'])->middleware('active')->middleware('roles');
+    Route::get('puntosNoContablesHistoricos', [IdeasController::class, 'puntosNoContablesHistoricos'])->middleware('active')->middleware('roles');
+
+    // ideas 
     Route::post('ideastotales', [IdeasController::class, 'ideastotales'])->middleware('active')->middleware('roles');
     Route::post('ideascontables', [IdeasController::class, 'ideascontables'])->middleware('active')->middleware('roles');
     Route::post('ideasnocontables', [IdeasController::class, 'ideasnocontables'])->middleware('active')->middleware('roles');
     // datos históricos
-    Route::get('top10', [IdeasController::class, 'top10Usuarios'])->middleware('active')->middleware('roles');
-    Route::get('puntosContablesHistoricos', [IdeasController::class, 'puntosContablesHistoricos'])->middleware('active')->middleware('roles');
-    Route::get('puntosNoContablesHistoricos', [IdeasController::class, 'puntosNoContablesHistoricos'])->middleware('active')->middleware('roles');
     Route::get('ideasTotalesHistoricas', [IdeasController::class, 'ideasTotalesHistoricas'])->middleware('active')->middleware('roles');
     Route::get('ideasContablesHistoricas', [IdeasController::class, 'ideasContablesHistoricas'])->middleware('active')->middleware('roles');
     Route::get('ideasNoContablesHistoricas', [IdeasController::class, 'ideasNoContablesHistoricas'])->middleware('active')->middleware('roles');
+    // datos historicos por area y estatus
+    Route::get('ideasHistoricasEstatusArea', [IdeasController::class, 'ideasHistoricasEstatusArea'])->middleware('active')->middleware('roles');
+    Route::post('ideasHistoricasEstatusArea', [IdeasController::class, 'ideasHistoricasEstatusAreaFiltradas'])->middleware('active')->middleware('roles');
+    // datos historicos por categoria y estatus
+    Route::get('ideasHistoricasEstatusCategoria', [IdeasController::class, 'ideasHistoricasEstatusCategoria'])->middleware('active')->middleware('roles');
+    Route::post('ideasHistoricasEstatusCategoria', [IdeasController::class, 'ideasHistoricasEstatusCategoriaFiltradas'])->middleware('active')->middleware('roles');
+    // reporte ahorros
     Route::get('ahorroHistorico', [IdeasController::class, 'ahorroHistorico'])->middleware('active')->middleware('roles');
+    Route::post('ahorrocontable', [IdeasController::class, 'ahorrocontable'])->middleware('active')->middleware('roles');
+    Route::get('ahorroHistoricoCategoria', [IdeasController::class, 'ahorrosHistoricosPorCategoria'])->middleware('active')->middleware('roles');
+    Route::post('ahorroHistoricoCategoriaFechas', [IdeasController::class, 'ahorrosHistoricosPorCategoriaFechas'])->middleware('active')->middleware('roles');
 
 
 });

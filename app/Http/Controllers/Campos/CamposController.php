@@ -33,7 +33,9 @@ class CamposController extends Controller
         if ($num == 1) {
             $campos = Campos::where('monetario', '!=', 2)->get();
             return response()->json(["campos" => $campos], 200);
-        } else {
+        }
+
+        if ($num == 2) {
             $campos = Campos::where('monetario', '!=', 1)->get();
             return response()->json(["campos" => $campos], 200);
         }
