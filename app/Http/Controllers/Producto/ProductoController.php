@@ -287,6 +287,8 @@ class ProductoController extends Controller
             ], 404);
         }
 
+
+        $producto->id = $request->id;
         $producto->nombre = $request->nombre;
         $producto->valor = $request->valor;
         $producto->precio = $request->precio;
@@ -312,8 +314,12 @@ class ProductoController extends Controller
             $ruta = 'public/' . $path;
 
             ProductosImagenes::updateOrCreate(
-                ['producto_id' => $producto->id],
-                ['imagen' => $ruta, 'mime_type' => $mimeType]
+                ['producto_id' => $request->id],
+                [
+                    'producto_id' => $request->id,
+                    'imagen' => $ruta,
+                    'mime_type' => $mimeType
+                ]
             );
         }
 

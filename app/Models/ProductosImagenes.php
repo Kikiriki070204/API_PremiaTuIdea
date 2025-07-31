@@ -11,7 +11,7 @@ class ProductosImagenes extends Model
 
     protected $table = 'productos_imagenes';
     protected $fillable = [
-        'produto_id',
+        'producto_id',
         'imagen',
         'mime_type',
         'is_active',
