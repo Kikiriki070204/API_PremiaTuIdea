@@ -185,4 +185,64 @@ class UsuarioPremiosController extends Controller
         }
         return response()->json(["msg" => "Premio no encontrado"], 404);
     }
+
+    public function usuariosBonos(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'fecha_inicio' => 'nullable|date',
+            'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $fechaInicio = $request->fecha_inicio;
+        $fechaFin = $request->fecha_fin;
+
+        $tipoCambioUSD = DB::table('tipo_de_cambio')
+            ->where('moneda_origen', 'USD')
+            ->orderByDesc('created_at')
+            ->value('valor');
+
+        if (!$tipoCambioUSD) {
+            return response()->json(['error' => 'Tipo de cambio USD no encontrado'], 400);
+        }
+
+        $bonosQuery = DB::table('usuarios_bonos')
+            ->join('usuarios', 'usuarios.id', '=', 'usuarios_bonos.usuario_id');
+
+        if ($fechaInicio && $fechaFin) {
+            $bonosQuery->whereBetween('usuarios_bonos.created_at', [$fechaInicio, $fechaFin]);
+        }
+
+        $topUsuarios = $bonosQuery
+            ->select(
+                'usuarios.id as usuario_id',
+                'usuarios.nombre',
+                DB::raw('SUM(usuarios_bonos.bono) as bono_mxn'),
+                DB::raw('ROUND(SUM(usuarios_bonos.bono) / ' . $tipoCambioUSD . ', 2) as bono_usd')
+            )
+            ->groupBy('usuarios.id', 'usuarios.nombre')
+            ->orderByDesc('bono_mxn')
+            ->limit(10)
+            ->get();
+
+        $totalBonosQuery = DB::table('usuarios_bonos');
+        if ($fechaInicio && $fechaFin) {
+            $totalBonosQuery->whereBetween('created_at', [$fechaInicio, $fechaFin]);
+        }
+
+        $bonoTotalMXN = $totalBonosQuery->sum('bono');
+        $bonoTotalUSD = round($bonoTotalMXN / $tipoCambioUSD, 2);
+
+        return response()->json([
+            'tipo_cambio_usd' => $tipoCambioUSD,
+            'bono_total_mxn' => $bonoTotalMXN,
+            'bono_total_usd' => $bonoTotalUSD,
+            'top_usuarios' => $topUsuarios
+        ]);
+    }
+
+
 }

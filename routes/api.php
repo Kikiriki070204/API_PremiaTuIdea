@@ -3,6 +3,7 @@
 use App\Http\Controllers\Actividades\ActividadesController;
 use App\Http\Controllers\Actividades\EstadoActividadesController;
 use App\Http\Controllers\Area\AreaController;
+use App\Models\ProductosImagenes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
@@ -204,13 +205,32 @@ Route::prefix('departamentos')->group(function () {
 
 //Rutas Productos
 Route::prefix('productos')->group(function () {
+    Route::get('images/{id}', function ($filename) {
+
+        $producto = ProductosImagenes::where('producto_id', $filename)->first();
+
+        if (!$producto) {
+            return response()->json(['message' => 'Imagen no encontrada'], 404);
+        }
+
+        $filename = $producto->imagen;
+
+
+        $file = \Illuminate\Support\Facades\Storage::get($filename);
+
+        if (!$file) {
+            return response()->json(['message' => 'Imagen no encontrada', 'filename' => $filename], 404);
+        }
+
+        return response($file, 200)->header('Content-Type', $producto->mime_type);
+    });
     Route::get('list', [ProductoController::class, 'index'])->middleware('active')->middleware('roles');
     Route::get('list/asc', [ProductoController::class, 'indexAsc'])->middleware('active')->middleware('roles');
     Route::get('list/dsc', [ProductoController::class, 'indexDsc'])->middleware('active')->middleware('roles');
 
     Route::post('create', [ProductoController::class, 'store'])->middleware('active')->middleware('adminstradores');
     Route::get('show/{id}', [ProductoController::class, 'show'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
-    Route::put('update', [ProductoController::class, 'update'])->middleware('active')->middleware('adminstradores');
+    Route::post('update', [ProductoController::class, 'update'])->middleware('active')->middleware('adminstradores');
     Route::delete('delete/{id}', [ProductoController::class, 'destroy'])->middleware('active')->middleware('adminstradores')->where('id', '[0-9]+');
     Route::post('canjear', [ProductoController::class, 'canjear'])->middleware('active')->middleware('roles');
 });
@@ -269,6 +289,8 @@ Route::prefix('estado')->group(function () {
     Route::get('show/{id}', [EstadoUsuarioPremiosController::class, 'show'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
     Route::put('update', [EstadoUsuarioPremiosController::class, 'update'])->middleware('active')->middleware('adminstrador');
     Route::delete('delete/{id}', [EstadoUsuarioPremiosController::class, 'destroy'])->middleware('active')->middleware('adminstrador')->where('id', '[0-9]+');
+    Route::get('resumenPremios', [EstadoUsuarioPremiosController::class, 'resumenPremios'])->middleware('active')->middleware('roles');
+    Route::get('top10ProductosEntregados', [EstadoUsuarioPremiosController::class, 'top10ProductosEntregados'])->middleware('active')->middleware('roles');
 });
 
 //Rutas de campos
@@ -290,3 +312,6 @@ Route::prefix('historial')->group(function () {
     Route::put('update', [HistorialController::class, 'update'])->middleware('roles');
     Route::delete('delete/{id}', [HistorialController::class, 'destroy'])->where('id', '[0-9]+')->middleware('administadores');
 });
+
+// Rutas de bonos 
+Route::get('usuariosBonos', [UsuarioPremiosController::class, 'usuariosBonos'])->middleware('active')->middleware('roles');

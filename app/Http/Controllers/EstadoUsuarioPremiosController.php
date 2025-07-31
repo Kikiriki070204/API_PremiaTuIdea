@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\EstadoUsuarioPremios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 
 class EstadoUsuarioPremiosController extends Controller
 {
@@ -125,4 +127,55 @@ class EstadoUsuarioPremiosController extends Controller
             return response()->json(["msg" => "Estado no encontrado"], 404);
         }
     }
+
+    public function resumenPremios()
+    {
+        $tabla = DB::table('usuario_premios');
+
+        $premiosEntregados = (clone $tabla)
+            ->where('id_estado', 2)
+            ->count();
+
+        $premiosEnProceso = (clone $tabla)
+            ->where('id_estado', 1)
+            ->count();
+
+        $usuariosCanjeadores = (clone $tabla)
+            ->distinct('id_usuario')
+            ->count('id_usuario');
+
+        $valorTotalCanjeado = DB::table('usuario_premios as up')
+            ->join('productos as p', 'up.id_producto', '=', 'p.id')
+            ->where('up.id_estado', 2)
+            ->sum('p.precio');
+
+
+        return response()->json([
+            'premios_entregados' => $premiosEntregados,
+            'premios_en_proceso' => $premiosEnProceso,
+            'usuarios_canjeadores' => $usuariosCanjeadores,
+            'valor_total_canjeado' => $valorTotalCanjeado
+        ]);
+    }
+
+    public function top10ProductosEntregados()
+    {
+        $topProductos = DB::table('usuario_premios as up')
+            ->join('productos as p', 'up.id_producto', '=', 'p.id')
+            ->select(
+                'p.nombre as nombre_producto',
+                DB::raw('COUNT(up.id) as cantidad_entregada')
+            )
+            ->where('up.id_estado', 2)
+            ->groupBy('p.id', 'p.nombre')
+            ->orderByDesc('cantidad_entregada')
+            ->limit(10)
+            ->get();
+
+        return response()->json([
+            'top_productos_entregados' => $topProductos
+        ]);
+    }
+
+
 }

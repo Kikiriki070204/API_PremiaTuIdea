@@ -1100,6 +1100,10 @@ class IdeasController extends Controller
             ->where('contable', true)
             ->where('ideas.estatus', 3)
             ->whereBetween('ideas.fecha_inicio', [$fechaInicio, $fechaFin])
+            ->where(function ($query) {
+                $query->where('categoria_id', 1)
+                    ->orWhereNull('categoria_id');
+            })
             ->sum('ahorro');
 
         $totalAhorrosDolares = round($totalAhorros / $tipoCambio, 2);
@@ -1463,6 +1467,7 @@ class IdeasController extends Controller
         $validator = Validator::make($request->all(), [
             'fecha_inicio' => 'nullable|date',
             'fecha_fin' => 'nullable|date',
+            'empleados' => 'required|numeric|min:0'
         ]);
 
         if ($validator->fails()) {
@@ -1471,6 +1476,7 @@ class IdeasController extends Controller
 
         $fechaInicio = $request->fecha_inicio;
         $fechaFin = $request->fecha_fin;
+        $empleados = $request->empleados;
 
         $ideasQuery = DB::table('ideas');
 
@@ -1480,15 +1486,14 @@ class IdeasController extends Controller
 
         $totalIdeas = $ideasQuery->count();
 
-        $totalUsuarios = DB::table('usuarios')->count();
 
-        $porcentaje = $totalUsuarios > 0
-            ? round(($totalIdeas / $totalUsuarios) * 100, 2)
+        $porcentaje = $empleados > 0
+            ? round(($totalIdeas / $empleados) * 100, 2)
             : 0;
 
         return response()->json([
             'total_ideas' => $totalIdeas,
-            'total_usuarios' => $totalUsuarios,
+            'total_usuarios' => $empleados,
             'porcentaje_por_usuario' => $porcentaje,
         ]);
     }
@@ -1499,8 +1504,9 @@ class IdeasController extends Controller
     public function reporteParticipacionEmpleados(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'fecha_inicio' => 'nullable|date',
-            'fecha_fin' => 'nullable|date',
+            'fecha_inicio' => 'required|date',
+            'fecha_fin' => 'required|date',
+            'empleados' => 'required|numeric|min:0'
         ]);
 
         if ($validator->fails()) {
@@ -1509,6 +1515,7 @@ class IdeasController extends Controller
 
         $f0 = $request->fecha_inicio;
         $f1 = $request->fecha_fin;
+        $empleados = $request->empleados;
 
         $ideasQuery = DB::table('ideas');
         $colabQuery = DB::table('ideas as i')
@@ -1524,16 +1531,15 @@ class IdeasController extends Controller
 
         $totalColaboradores = $colabQuery->distinct('ue.id_usuario')->count('ue.id_usuario');
 
-        $totalEmpleados = DB::table('usuarios')->count();
 
-        $porcentajeParticipacion = $totalEmpleados > 0
-            ? round(($totalColaboradores / $totalEmpleados) * 100, 2)
+        $porcentajeParticipacion = $empleados > 0
+            ? round(($totalColaboradores / $empleados) * 100, 2)
             : 0;
 
         return response()->json([
             'total_ideas' => $totalIdeas,
             'total_colaboradores' => $totalColaboradores,
-            'total_empleados' => $totalEmpleados,
+            'total_empleados' => $empleados,
             'porcentaje_participacion' => $porcentajeParticipacion,
         ]);
     }

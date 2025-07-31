@@ -12,11 +12,18 @@ class Producto extends Model
     protected $fillable = [
         'nombre',
         'valor',
-        'url',
+        'precio',
+        'url'
     ];
 
     public function usuarioPremios()
     {
         return $this->hasMany(UsuarioPremios::class, 'id_producto');
     }
+
+    public function imagen()
+    {
+        return $this->hasOne(ProductosImagenes::class, 'producto_id');
+    }
+
 }
