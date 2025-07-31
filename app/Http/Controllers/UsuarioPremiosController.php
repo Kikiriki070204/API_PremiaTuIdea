@@ -17,40 +17,57 @@ class UsuarioPremiosController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    /*
+   public function index()
+   {
+       $user = auth('api')->user();
+
+       if ($user) {
+           $premios = DB::table('usuario_premios')
+               ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
+               ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
+               ->join('estado_usuario_premios', 'usuario_premios.id_estado', '=', 'estado_usuario_premios.id')
+               ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'productos.url as url', 'estado_usuario_premios.estado as estado')
+               ->where('usuario_premios.id_usuario', $user->id)
+               ->get();
+
+           return response()->json(["premios" => $premios], 200);
+       }
+       return response()->json(["msg" => "No estás autorizado"], 401);
+   }
+   */
+
     public function index()
     {
         $user = auth('api')->user();
 
-        if ($user) {
-            /*
-            if ($user->rol->id == 1) {
-                $premios = DB::table('usuario_premios')
-                    ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
-                    ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
-                    ->join('estado_usuario_premios', 'usuario_premios.id_estado', '=', 'estado_usuario_premios.id')
-                    ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'productos.url as url', 'estado_usuario_premios.estado as estado')
-                    ->get();
-            } else {
-                $premios = DB::table('usuario_premios')
-                    ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
-                    ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
-                    ->join('estado_usuario_premios', 'usuario_premios.id_estado', '=', 'estado_usuario_premios.id')
-                    ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'productos.url as url', 'estado_usuario_premios.estado as estado')
-                    ->where('usuario_premios.id_usuario', $user->id)
-                    ->get();
-            } */
-            $premios = DB::table('usuario_premios')
-                ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
-                ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
-                ->join('estado_usuario_premios', 'usuario_premios.id_estado', '=', 'estado_usuario_premios.id')
-                ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'productos.url as url', 'estado_usuario_premios.estado as estado')
-                ->where('usuario_premios.id_usuario', $user->id)
-                ->get();
-
-            return response()->json(["premios" => $premios], 200);
+        if (!$user) {
+            return response()->json(["msg" => "No estás autorizado"], 401);
         }
-        return response()->json(["msg" => "No estás autorizado"], 401);
+
+        $premios = DB::table('usuario_premios')
+            ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
+            ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
+            ->leftJoin('productos_imagenes', 'productos.id', '=', 'productos_imagenes.producto_id')
+            ->join('estado_usuario_premios', 'usuario_premios.id_estado', '=', 'estado_usuario_premios.id')
+            ->select(
+                'usuario_premios.*',
+                'usuarios.nombre as usuario',
+                'productos.nombre as producto',
+                'productos.url as url',
+                'productos_imagenes.imagen as imagen',
+                'estado_usuario_premios.estado as estado'
+            )
+            ->where('usuario_premios.id_usuario', $user->id)
+            ->get();
+
+        return response()->json(["premios" => $premios], 200);
+
+
     }
+
+
 
     public function indexAdmin()
     {
