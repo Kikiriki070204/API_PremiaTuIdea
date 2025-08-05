@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ideas;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notificacion;
 use App\Models\Tipo_cambio;
 use Illuminate\Http\Request;
 use App\Models\Idea;
@@ -376,6 +377,30 @@ class IdeasController extends Controller
                 $campoidea->save();
             }
         }
+
+        $colaboradores = DB::table('usuarios_equipos')
+            ->join('equipos', 'usuarios_equipos.id_equipo', '=', 'equipos.id')
+            ->join('usuarios', 'usuarios_equipos.id_usuario', '=', 'usuarios.id')
+            ->join('ideas', 'equipos.id_idea', '=', 'ideas.id')
+            ->select('usuarios.nombre', 'usuarios.id')
+            ->where('ideas.id', $idea->id)
+            ->where('usuarios_equipos.is_active', true)
+            ->get();
+
+        $nombreEstatus = DB::table('estado_ideas')
+            ->where('id', $idea->estatus)
+            ->value('nombre');
+
+        foreach ($colaboradores as $colaborador) {
+            Notificacion::create([
+                'usuario_id' => $colaborador->id,
+                'mensaje' => 'La idea "' . $idea->titulo . '" ha sido puesta en ' . strtolower($nombreEstatus) . '.',
+            ]);
+        }
+
+
+
+
 
         return response()->json(["msg" => "Idea actualizada correctamente"], 200);
     }

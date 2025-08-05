@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notificacion;
 use App\Models\UsuarioPremios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -73,21 +74,30 @@ class UsuarioPremiosController extends Controller
     {
         $user = auth('api')->user();
 
-        if ($user) {
-
-            if ($user->rol->id == 1) {
-                $premios = DB::table('usuario_premios')
-                    ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
-                    ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
-                    ->join('estado_usuario_premios', 'usuario_premios.id_estado', '=', 'estado_usuario_premios.id')
-                    ->select('usuario_premios.*', 'usuarios.nombre as usuario', 'productos.nombre as producto', 'productos.url as url', 'estado_usuario_premios.estado as estado')
-                    ->paginate(10);
-            }
-
-            return response()->json(["premios" => $premios], 200);
+        if (!$user) {
+            return response()->json(["msg" => "No estás autorizado"], 401);
         }
-        return response()->json(["msg" => "No estás autorizado"], 401);
+
+        if ($user->rol->id == 1) {
+            $premios = DB::table('usuario_premios')
+                ->join('usuarios', 'usuario_premios.id_usuario', '=', 'usuarios.id')
+                ->join('productos', 'usuario_premios.id_producto', '=', 'productos.id')
+                ->leftJoin('productos_imagenes', 'productos.id', '=', 'productos_imagenes.producto_id')
+                ->join('estado_usuario_premios', 'usuario_premios.id_estado', '=', 'estado_usuario_premios.id')
+                ->select(
+                    'usuario_premios.*',
+                    'usuarios.nombre as usuario',
+                    'productos.nombre as producto',
+                    'productos.url as url',
+                    'productos_imagenes.imagen as imagen',
+                    'estado_usuario_premios.estado as estado'
+                )
+                ->paginate(10);
+        }
+
+        return response()->json(["premios" => $premios], 200);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -178,6 +188,9 @@ class UsuarioPremiosController extends Controller
         }
 
         $premio = UsuarioPremios::where('id', $request->id)->first();
+        $usuario = $request->id_usuario;
+        $producto = $request->id_producto;
+        $estado = $request->id_estado;
 
         if (!$premio) {
             return response()->json(["msg" => "Premio no encontrado"], 404);
@@ -185,6 +198,22 @@ class UsuarioPremiosController extends Controller
 
         $premio->id_estado = $request->id_estado;
         $premio->save();
+
+        $nombreEstado = DB::table('estado_usuario_premios')
+            ->where('id', $estado)
+            ->value('estado');
+
+        $nombreProducto = DB::table('productos')
+            ->where('id', $producto)
+            ->value('nombre');
+
+
+        Notificacion::create([
+            'usuario_id' => $usuario,
+            'mensaje' => 'El estado de tu premio con folio ' . $premio->folio .
+                ' (' . $nombreProducto . ') ha sido actualizado a "' .
+                ucfirst(strtolower($nombreEstado)) . '".',
+        ]);
 
         return response()->json(["msg" => "Premio actualizado correctamente"], 200);
     }

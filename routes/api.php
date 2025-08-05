@@ -3,6 +3,7 @@
 use App\Http\Controllers\Actividades\ActividadesController;
 use App\Http\Controllers\Actividades\EstadoActividadesController;
 use App\Http\Controllers\Area\AreaController;
+use App\Models\Notificacion;
 use App\Models\ProductosImagenes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -315,3 +316,31 @@ Route::prefix('historial')->group(function () {
 
 // Rutas de bonos 
 Route::get('usuariosBonos', [UsuarioPremiosController::class, 'usuariosBonos'])->middleware('active')->middleware('roles');
+
+// Rutas de notificaciones
+
+// verlas
+Route::middleware('auth:api')->get('/notificaciones', function () {
+    $user = auth('api')->user();
+
+    $notificaciones = Notificacion::where('usuario_id', $user->id)
+        ->where('leida', false)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return response()->json(['notificaciones' => $notificaciones], 200);
+});
+
+// marcar como leidas
+Route::middleware('auth:api')->post('/notificaciones/leidas', function (Request $request) {
+    $user = auth('api')->user();
+
+    Notificacion::where('usuario_id', $user->id)
+        ->where('leida', false)
+        ->update(['leida' => true]);
+
+    return response()->json(['msg' => 'Notificaciones marcadas como leídas']);
+});
+
+
+
