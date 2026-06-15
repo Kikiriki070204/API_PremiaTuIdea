@@ -16,6 +16,7 @@ class Idea extends Model
         'antecedentes',
         'propuesta',
         'estatus',
+        'razon_rechazo',
         'user_id',
         'ahorro',
         'contable',

@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tipo_Cambio extends Model
+class CarruselImagen extends Model
 {
     use HasFactory;
 
-    protected $table = 'tipo_de_cambio';
+    protected $table = 'carrusel_imagenes';
 
     protected $fillable = [
-        'moneda_origen',
-        'valor',
+        'imagen',
+        'mime_type',
+        'orden',
+        'is_active',
     ];
-
-
 }

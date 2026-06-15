@@ -8,16 +8,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class administradores
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth('api')->user()->rol_id == 1 || auth('api')->user()->rol_id == 2 || auth('api')->user()->rol_id == 3) {
+        try {
+            $user = \PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No tienes permiso para esta acción'], 401);
+        }
+
+        if ($user && ($user->rol_id == 1 || $user->rol_id == 2 || $user->rol_id == 3)) {
             return $next($request);
         }
+
         return response()->json(['error' => 'No tienes permiso para esta acción'], 401);
     }
 }

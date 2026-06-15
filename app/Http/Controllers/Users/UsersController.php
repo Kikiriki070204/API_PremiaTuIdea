@@ -88,6 +88,32 @@ class UsersController extends Controller
         return response()->json(["users" => $users], 200);
     }
 
+    public function resetAllPuntos()
+    {
+        DB::table('usuarios')->update(['puntos' => 0]);
+        return response()->json(['msg' => 'Puntos de todos los usuarios restablecidos a 0'], 200);
+    }
+
+    public function allUsersExport()
+    {
+        $users = DB::table('usuarios')
+            ->leftJoin('departamentos', 'usuarios.departamento_id', '=', 'departamentos.id')
+            ->join('areas', 'usuarios.area_id', '=', 'areas.id')
+            ->leftJoin('locaciones', 'usuarios.locacion_id', '=', 'locaciones.id')
+            ->select(
+                'usuarios.ibm',
+                'usuarios.nombre',
+                'departamentos.nombre as departamento',
+                'areas.nombre as area',
+                'locaciones.nombre as locacion',
+                'usuarios.puntos'
+            )
+            ->orderBy('usuarios.nombre')
+            ->get();
+
+        return response()->json(["users" => $users], 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

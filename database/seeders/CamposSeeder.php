@@ -65,6 +65,11 @@ class CamposSeeder extends Seeder
                 'is_active' => true,
                 'monetario' => 2,
             ],
+            [
+                'nombre' => 'Energia',
+                'is_active' => true,
+                'monetario' => 3,
+            ],
         ];
 
         foreach ($campos as $campo) {

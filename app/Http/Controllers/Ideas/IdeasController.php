@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Ideas;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notificacion;
-use App\Models\Tipo_cambio;
+use App\Models\Tipo_Cambio;
 use Illuminate\Http\Request;
 use App\Models\Idea;
 use Illuminate\Support\Facades\Validator;
@@ -19,7 +19,6 @@ use App\Models\Historial;
 use App\Models\Campos_Idea;
 use App\Models\UsuariosPeriodo;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Exception;
 use App\Http\Controllers\Ideas\IdeasImagenesController;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
 use Illuminate\Support\Facades\Mail;
@@ -86,6 +85,27 @@ class IdeasController extends Controller
             return response()->json(["ideas" => $ideas], 200);
         }
         return response()->json(["msg" => "Usuario no Encontrado"], 401);
+    }
+
+    public function userIdeasTodas($id)
+    {
+        $user = Usuario::find($id);
+
+        if (!$user) {
+            return response()->json(["msg" => "Usuario no Encontrado"], 401);
+        }
+
+        $ideas = DB::table('ideas')
+            ->join('estado_ideas', 'ideas.estatus', '=', 'estado_ideas.id')
+            ->join('equipos', 'ideas.id', '=', 'equipos.id_idea')
+            ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
+            ->select('ideas.*', 'estado_ideas.nombre as estatus_idea')
+            ->where('usuarios_equipos.id_usuario', $id)
+            ->where('usuarios_equipos.is_active', 1)
+            ->orderBy('ideas.created_at', 'desc')
+            ->get();
+
+        return response()->json(["ideas" => $ideas], 200);
     }
 
     public function userIdeasAll($estatus = null)
@@ -171,8 +191,8 @@ class IdeasController extends Controller
                 'area_id' => $request->area_id
             ],
             [
-                'estatus' => 'nullable|exists:estado_ideas,id',
-                'categoria' => 'required|integer|min:1',
+                'estatus' => 'nullable|integer|min:0',
+                'categoria' => 'required|integer|min:0',
                 'area_id' => 'nullable|exists:areas,id'
             ]
         );
@@ -190,7 +210,9 @@ class IdeasController extends Controller
             $query->where('estatus', $estatus);
         }
 
-        if ($categoria == 1) {
+        if ($categoria == 0) {
+            // sin filtro de categoría: devuelve todos los orígenes
+        } elseif ($categoria == 1) {
             $query->where(function ($q) {
                 $q->where('categoria_id', 1)
                     ->orWhereNull('categoria_id');
@@ -203,7 +225,20 @@ class IdeasController extends Controller
             $query->where('area_id', $request->area_id);
         }
 
-        $ideas = $query->paginate(10);
+        if ($request->has('search')) {
+            $query->where('titulo', 'LIKE', '%' . $request->search . '%');
+        }
+
+        if ($request->has('fecha')) {
+            $query->whereDate('created_at', $request->fecha);
+        }
+
+        if ($request->has('search') || $request->has('fecha')) {
+            // Return effectively all records for a global search without pagination limits
+            $ideas = $query->paginate(100000);
+        } else {
+            $ideas = $query->paginate(10);
+        }
 
         return response()->json(["ideas" => $ideas], 200);
     }
@@ -223,7 +258,7 @@ class IdeasController extends Controller
                     'titulo' => 'required|min:5',
                     'categoria_id' => 'nullable|integer|exists:categorias,id',
                     'antecedentes' => 'nullable| max:2000',
-                    'condiciones' => 'required|file|image|mimes:jpeg,png,jpg|max:4900',
+                    'condiciones' => 'nullable|file|image|mimes:jpeg,png,jpg|max:4900',
                     'propuesta' => 'required|max:2000',
                     'fecha_inicio' => 'required|date',
                     'area_id' => 'required|integer|exists:areas,id',
@@ -255,17 +290,18 @@ class IdeasController extends Controller
                 $idea->contable = $request->filled('contable') ? $request->contable : 0;
                 $idea->save();
 
-                // Guardar la imagen en el sistema de archivos
-                $file = $request->file('condiciones');
-                $originalFilename = $request->file('condiciones')->getClientOriginalName();
-                $uniqueFilename = Str::uuid() . '.' . pathinfo($originalFilename, PATHINFO_EXTENSION);
-                $path = $file->storePubliclyAs('public/images', $uniqueFilename);
+                if ($request->hasFile('condiciones')) {
+                    $file = $request->file('condiciones');
+                    $originalFilename = $file->getClientOriginalName();
+                    $uniqueFilename = Str::uuid() . '.' . pathinfo($originalFilename, PATHINFO_EXTENSION);
+                    $path = $file->storePubliclyAs('public/images', $uniqueFilename);
 
-                $imagen = new IdeasImagenes();
-                $imagen->idea_id = $idea->id;
-                $imagen->imagen = $path;
-                $imagen->mime_type = $request->file('condiciones')->getMimeType();
-                $imagen->save();
+                    $imagen = new IdeasImagenes();
+                    $imagen->idea_id = $idea->id;
+                    $imagen->imagen = $path;
+                    $imagen->mime_type = $file->getMimeType();
+                    $imagen->save();
+                }
 
                 $Equipo = new Equipo();
                 $Equipo->id_idea = $idea->id;
@@ -278,7 +314,7 @@ class IdeasController extends Controller
 
                 DB::commit();
 
-                return $idea;
+                return response()->json(["idea" => $idea], 201);
             } catch (\Exception $e) {
                 DB::rollback();
 
@@ -306,7 +342,7 @@ class IdeasController extends Controller
             ->join('equipos', 'usuarios_equipos.id_equipo', '=', 'equipos.id')
             ->join('usuarios', 'usuarios_equipos.id_usuario', '=', 'usuarios.id')
             ->join('ideas', 'equipos.id_idea', '=', 'ideas.id')
-            ->select('usuarios.nombre', 'usuarios.id')
+            ->select('usuarios.nombre', 'usuarios.id', DB::raw('COALESCE(usuarios_equipos.puntos, 0) as puntos'))
             ->where('ideas.id', $idea->id)
             ->where('usuarios_equipos.is_active', true)
             ->get();
@@ -330,15 +366,16 @@ class IdeasController extends Controller
             [
                 'id' => 'required|integer|exists:ideas,id',
                 'titulo' => 'required|min:5',
-                'antecedentes' => 'required| max: 2000',
-                'propuesta' => 'required|max: 2000',
-                'puntos' => 'required|integer',
+                'antecedentes' => 'required|max:2000',
+                'propuesta' => 'required|max:2000',
+                'puntos' => 'nullable|integer',
                 'estatus' => 'required|integer|exists:estado_ideas,id',
                 'fecha_fin' => 'nullable|date',
                 'ahorro' => 'nullable|numeric',
                 'contable' => 'nullable|boolean',
                 'campos_id' => 'nullable|array',
-                'campos_id.*' => 'integer|exists:campos,id'
+                'campos_id.*' => 'integer|exists:campos,id',
+                'razon_rechazo' => 'required_if:estatus,4|nullable|string|max:1000'
             ]
         );
 
@@ -363,6 +400,11 @@ class IdeasController extends Controller
         $idea->fecha_fin = $request->fecha_fin;
         $idea->ahorro = $request->ahorro;
         $idea->contable = $request->contable;
+        if ($request->estatus == 4) {
+            $idea->razon_rechazo = $request->razon_rechazo;
+        } else {
+            $idea->razon_rechazo = null;
+        }
         $idea->save();
 
 
@@ -378,24 +420,28 @@ class IdeasController extends Controller
             }
         }
 
-        $colaboradores = DB::table('usuarios_equipos')
-            ->join('equipos', 'usuarios_equipos.id_equipo', '=', 'equipos.id')
-            ->join('usuarios', 'usuarios_equipos.id_usuario', '=', 'usuarios.id')
-            ->join('ideas', 'equipos.id_idea', '=', 'ideas.id')
-            ->select('usuarios.nombre', 'usuarios.id')
-            ->where('ideas.id', $idea->id)
-            ->where('usuarios_equipos.is_active', true)
-            ->get();
+        try {
+            $colaboradores = DB::table('usuarios_equipos')
+                ->join('equipos', 'usuarios_equipos.id_equipo', '=', 'equipos.id')
+                ->join('usuarios', 'usuarios_equipos.id_usuario', '=', 'usuarios.id')
+                ->join('ideas', 'equipos.id_idea', '=', 'ideas.id')
+                ->select('usuarios.nombre', 'usuarios.id')
+                ->where('ideas.id', $idea->id)
+                ->where('usuarios_equipos.is_active', true)
+                ->get();
 
-        $nombreEstatus = DB::table('estado_ideas')
-            ->where('id', $idea->estatus)
-            ->value('nombre');
+            $nombreEstatus = DB::table('estado_ideas')
+                ->where('id', $idea->estatus)
+                ->value('nombre');
 
-        foreach ($colaboradores as $colaborador) {
-            Notificacion::create([
-                'usuario_id' => $colaborador->id,
-                'mensaje' => 'La idea "' . $idea->titulo . '" ha sido puesta en ' . strtolower($nombreEstatus) . '.',
-            ]);
+            foreach ($colaboradores as $colaborador) {
+                Notificacion::create([
+                    'usuario_id' => $colaborador->id,
+                    'mensaje' => 'La idea "' . $idea->titulo . '" ha sido puesta en ' . strtolower($nombreEstatus ?? '') . '.',
+                ]);
+            }
+        } catch (\Exception $e) {
+            // Las notificaciones no deben bloquear la actualización
         }
 
 
@@ -489,6 +535,15 @@ class IdeasController extends Controller
                 $userperiodo->puntos = $request->puntos[$i];
                 $userperiodo->fecha = $request->fecha;
                 $userperiodo->save();
+
+                // Guardar puntos por idea en usuarios_equipos
+                $equipo = DB::table('equipos')->where('id_idea', $request->id)->first();
+                if ($equipo) {
+                    DB::table('usuarios_equipos')
+                        ->where('id_equipo', $equipo->id)
+                        ->where('id_usuario', $request->id_usuarios[$i])
+                        ->update(['puntos' => $request->puntos[$i]]);
+                }
             }
 
             $idea = Idea::find($request->id);
@@ -1063,7 +1118,7 @@ class IdeasController extends Controller
             'ideas_por_area' => $totalideasPorArea
         ];
 
-        return response()->json(["msg" => $respuesta, 200]);
+        return response()->json(["msg" => $respuesta], 200);
     }
 
     public function ideasNoContablesHistoricas(Request $request)
@@ -1093,7 +1148,7 @@ class IdeasController extends Controller
             'ideas_por_area' => $totalideasPorArea
         ];
 
-        return response()->json(["msg" => $respuesta, 200]);
+        return response()->json(["msg" => $respuesta], 200);
     }
 
 
@@ -1603,6 +1658,132 @@ class IdeasController extends Controller
         return response()->json([
             'moneda_origen' => 'USD',
             'valor' => $tipoCambio
+        ], 200);
+    }
+
+    public function uploadResultado(Request $request)
+    {
+        $user = auth('api')->user();
+        if (!$user) {
+            return response()->json(["msg" => "No estás autorizado"], 401);
+        }
+
+        $validate = Validator::make($request->all(), [
+            'idea_id' => 'required|integer|exists:ideas,id',
+            'resultado' => 'required|file|image|mimes:jpeg,png,jpg|max:4900',
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json(["errors" => $validate->errors(), "msg" => "Errores de validación"], 422);
+        }
+
+        $idea = \App\Models\Idea::find($request->idea_id);
+        if (!$idea || $idea->estatus != 3) {
+            return response()->json(["msg" => "La idea no está implementada"], 403);
+        }
+
+        $isAdmin = DB::table('usuarios')->where('id', $user->id)->where('rol_id', 1)->exists();
+
+        if (!$isAdmin) {
+            $perteneceAlEquipo = DB::table('equipos')
+                ->join('usuarios_equipos', 'equipos.id', '=', 'usuarios_equipos.id_equipo')
+                ->where('equipos.id_idea', $request->idea_id)
+                ->where('usuarios_equipos.id_usuario', $user->id)
+                ->where('usuarios_equipos.is_active', 1)
+                ->first();
+
+            if (!$perteneceAlEquipo) {
+                return response()->json(["msg" => "No autorizado"], 403);
+            }
+        }
+
+        try {
+            $file = $request->file('resultado');
+            $uniqueFilename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storePubliclyAs('public/images', $uniqueFilename);
+
+            $existing = \App\Models\IdeasResultados::where('idea_id', $request->idea_id)->first();
+            if ($existing) {
+                Storage::delete($existing->imagen);
+                $existing->delete();
+            }
+
+            $resultado = new \App\Models\IdeasResultados();
+            $resultado->idea_id = $request->idea_id;
+            $resultado->imagen = $path;
+            $resultado->mime_type = $file->getMimeType();
+            $resultado->save();
+
+            return response()->json(["msg" => "Imagen de resultados guardada correctamente"], 201);
+        } catch (\Exception $e) {
+            return response()->json(["msg" => "Error al guardar la imagen de resultados"], 500);
+        }
+    }
+
+    public function ideasMensualesPorAnio(Request $request)
+    {
+        $year = $request->input('year', date('Y'));
+        $nombres = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+        $meses = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $inicio = sprintf('%d-%02d-01', $year, $m);
+            $fin    = date('Y-m-t', strtotime($inicio));
+
+            $total = DB::table('ideas')
+                ->whereBetween(DB::raw('DATE(created_at)'), [$inicio, $fin])
+                ->count();
+
+            $meses[] = [
+                'mes'         => $m,
+                'nombre_mes'  => $nombres[$m - 1],
+                'total_ideas' => $total,
+            ];
+        }
+
+        return response()->json(['year' => (int) $year, 'meses' => $meses], 200);
+    }
+
+    public function ideasMensualesPorAnioYArea(Request $request)
+    {
+        $year = $request->input('year', date('Y'));
+        $nombres = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+        $rows = DB::table('ideas')
+            ->join('areas', 'ideas.area_id', '=', 'areas.id')
+            ->select(
+                DB::raw('MONTH(ideas.created_at) as mes'),
+                'areas.nombre as nombre_area',
+                DB::raw('COUNT(ideas.id) as total')
+            )
+            ->whereYear('ideas.created_at', $year)
+            ->where('areas.is_active', 1)
+            ->groupBy(DB::raw('MONTH(ideas.created_at)'), 'areas.id', 'areas.nombre')
+            ->orderBy('areas.nombre')
+            ->get();
+
+        $areaNames = $rows->pluck('nombre_area')->unique()->sort()->values()->toArray();
+
+        $meses = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $monthRows = $rows->filter(fn($r) => $r->mes == $m);
+            $areaData = [];
+            foreach ($areaNames as $area) {
+                $match = $monthRows->firstWhere('nombre_area', $area);
+                $areaData[$area] = $match ? (int)$match->total : 0;
+            }
+            $meses[] = [
+                'mes'         => $m,
+                'nombre_mes'  => $nombres[$m - 1],
+                'total_ideas' => (int)$monthRows->sum('total'),
+                'areas'       => $areaData,
+            ];
+        }
+
+        return response()->json([
+            'year'  => (int) $year,
+            'areas' => $areaNames,
+            'meses' => $meses,
         ], 200);
     }
 

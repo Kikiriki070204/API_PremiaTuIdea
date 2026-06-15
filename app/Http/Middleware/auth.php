@@ -8,17 +8,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class auth
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = auth('api')->user();
+        try {
+            $user = \PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No autorizado'], 401);
+        }
 
         if (!$user) {
-            return response()->json(['error' => 'Usuario no encontrado'], 404);
+            return response()->json(['error' => 'No autorizado'], 401);
         }
 
         if ($user->password == null) {

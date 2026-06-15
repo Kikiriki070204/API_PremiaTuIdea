@@ -8,16 +8,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class roles
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth('api')->user()->rol_id == 5) {
-            return response()->json(['error' => 'No tines permiso para esta acción'], 401);
+        try {
+            $user = \PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No autorizado'], 401);
         }
+
+        if (!$user) {
+            return response()->json(['error' => 'No autorizado'], 401);
+        }
+
+        if ($user->rol_id == 5) {
+            return response()->json(['error' => 'No tienes permiso para esta acción'], 401);
+        }
+
         return $next($request);
     }
 }
